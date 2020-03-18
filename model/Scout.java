@@ -183,6 +183,7 @@ public class Scout extends EntityBase {
         v.addElement(persistentState.getProperty("phoneNumber"));
         v.addElement(persistentState.getProperty("email"));
         v.addElement(persistentState.getProperty("status"));
+        v.addElement(persistentState.getProperty("dateStatusUpdated"));
         v.addElement(persistentState.getProperty("troopId"));
 
 
@@ -199,6 +200,7 @@ public class Scout extends EntityBase {
                 "Phone Number: " + persistentState.getProperty("phoneNumber") +
                 "Email: " + persistentState.getProperty("email") +
                 "Status: " + persistentState.getProperty("status") +
+                "Date Status Updated: " + persistentState.getProperty("dateStatusUpdated") +
                 "TroopID: " + persistentState.getProperty("troopId"));
 
     }

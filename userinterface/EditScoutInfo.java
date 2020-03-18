@@ -219,6 +219,7 @@ public class EditScoutInfo extends View {
         phoneNumberTF.setText((String) myModel.getState("phoneNumber"));
         emailTF.setText((String) myModel.getState("email"));
         status.setPromptText((String) myModel.getState("status"));
+        status.setValue((String) myModel.getState("status"));
         dateStatusUpdatedTF.setText((String) myModel.getState("dateStatusUpdated"));
         troopIdTF.setText((String) myModel.getState("troopId"));
 
@@ -241,9 +242,11 @@ public class EditScoutInfo extends View {
             LocalDateTime today = LocalDateTime.now();
             String formattedDate = today.format(formatter);
             String oldStatus = (String) myModel.getState("status");
+            //If the status is updated change the dateStatusUpdated Field
             if(!oldStatus.equals(status.getValue().toString())){
                 scout.setProperty("dateStatusUpdated", formattedDate);
             }
+            //If status is unchanged keep original dateStatusUpdatedField
             else{
                 scout.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
             }
@@ -255,7 +258,6 @@ public class EditScoutInfo extends View {
             scout.setProperty("phoneNumber", phoneNumberTF.getText());
             scout.setProperty("email", emailTF.getText());
             scout.setProperty("status", status.getValue().toString());
-           // scout.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
             scout.setProperty("troopId", troopIdTF.getText());
             displayMessage("Scout Successfully Updated");
              myModel.stateChangeRequest("EditScout", scout);

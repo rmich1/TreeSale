@@ -28,7 +28,10 @@ public class TransactionFactory {
 
             case "ScoutSelected":
                 return new ScoutEditTransaction((Scout) resource);
+            case "NewTree":
+                return new TreeTransaction((Tree) resource) {
 
+                };
             // case "SearchPatrons":
             //    return new PatronCollectionDelegate();
             // case "NewBook":
