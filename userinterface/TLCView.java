@@ -33,7 +33,7 @@ public class TLCView extends View {
     //private PasswordField password;
     private Button insertScout;
     private Button updateScout;
-    private Button deleteScout;
+    private Button insertTree;
     private Button submitButton;
 
     // For showing error message
@@ -111,6 +111,8 @@ public class TLCView extends View {
         insertScout.setOnAction(e -> myModel.stateChangeRequest("NewScout", null));
         updateScout = new Button("Search All Scouts");
         updateScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
+        insertTree = new Button("Add Tree");
+        insertTree.setOnAction(e -> myModel.stateChangeRequest("NewTree", null));
 
 
 

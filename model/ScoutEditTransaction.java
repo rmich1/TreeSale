@@ -16,7 +16,8 @@ import java.util.Vector;
 public class ScoutEditTransaction extends Transaction {
     private Scout scout;
     private ScoutCollection scoutCol;
-    private String submissionResponse = "";
+    private String EditResponse = "";
+    private String DeleteResponse= "";
     private Boolean error = false;
 
 
@@ -31,7 +32,7 @@ public class ScoutEditTransaction extends Transaction {
 
     protected void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("EditScout", "SubmissionResponse");
+        dependencies.setProperty("EditScout", "EditResponse");
         dependencies.setProperty("DeleteScout", "DeleteResponse");
 
         myRegistry.setDependencies(dependencies);
@@ -51,9 +52,12 @@ public class ScoutEditTransaction extends Transaction {
             case "dateStatusUpdated":
             case "troopId":
                 return scout.getState(key);
-            case "SubmissionResponse":
+            case "EditResponse":
                 return new Pair<>((String) scout.getState("scoutId"),
-                        new Pair<>(submissionResponse, error));
+                        new Pair<>(EditResponse, error));
+            case "DeleteResponse":
+                return new Pair<>((String) scout.getState("scoutId"),
+                        new Pair<>(DeleteResponse, error));
             default:
                 return null;
         }
@@ -65,7 +69,7 @@ public class ScoutEditTransaction extends Transaction {
             scout = new Scout((Properties) value);
             scout.save();
             error = false;
-            submissionResponse = "Scout Updated successfully!";
+            EditResponse = "Scout Updated successfully!";
 
 
 
@@ -74,7 +78,7 @@ public class ScoutEditTransaction extends Transaction {
             scout = new Scout((Properties) value);
             scout.save();
             error = false;
-            submissionResponse = "Scout Deleted";
+            DeleteResponse = "Scout Deleted";
         }
 
         myRegistry.updateSubscribers(key, this);
