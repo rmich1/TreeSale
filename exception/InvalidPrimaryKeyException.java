@@ -41,7 +41,7 @@ public class InvalidPrimaryKeyException
 	/**
 	 * Constructor with message
 	 *
-	 * @param  The message associated with the exception
+	 * @param message associated with the exception
 	 */
 	//--------------------------------------------------------
 	public InvalidPrimaryKeyException(String message)
