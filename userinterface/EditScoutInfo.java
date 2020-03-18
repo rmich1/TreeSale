@@ -219,6 +219,7 @@ public class EditScoutInfo extends View {
         phoneNumberTF.setText((String) myModel.getState("phoneNumber"));
         emailTF.setText((String) myModel.getState("email"));
         status.setPromptText((String) myModel.getState("status"));
+        status.setValue((String) myModel.getState("status"));
         dateStatusUpdatedTF.setText((String) myModel.getState("dateStatusUpdated"));
         troopIdTF.setText((String) myModel.getState("troopId"));
 
