@@ -162,7 +162,7 @@ public class Tree extends EntityBase {
         v.addElement(persistentState.getProperty("treeType"));
         v.addElement(persistentState.getProperty("status"));
         v.addElement(persistentState.getProperty("dateStatusUpdated"));
-        v.addElement(persistentState.getProperty("notes"));
+        v.addElement(persistentState.getProperty("Notes"));
 
 
         return v;

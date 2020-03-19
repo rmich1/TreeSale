@@ -24,6 +24,12 @@ public class ViewFactory {
         else if(viewName.equals("AddTree") == true){
             return new AddTree(model);
         }
+        else if(viewName.equals("SearchTree") == true){
+            return new SearchTree(model);
+        }
+        else if(viewName.equals("TreeCollectionView") == true){
+            return new TreeCollectionView(model);
+        }
 
 
         else

@@ -41,9 +41,10 @@ public class TreeCollection extends EntityBase {
         trees.insertElementAt(a, index);
     }
     //----------------------------------------------------------------------------------
-    public void findTreePrefixLike(String barcode){
-            String query = "SELECT * FROM " + myTableName + " WHERE barcode LIKE '" + barcode + "%'";
+    public void findTreeBarcode(String barcode){
+            String query = "SELECT * FROM " + myTableName + " WHERE barcode = \"" + barcode + "\"";
             treeHelper(query);
+
 
         }
     //----------------------------------------------------------------------------------

@@ -38,7 +38,7 @@ public class TreeTransaction extends Transaction {
             case "treeType":
             case "status":
             case "dateStatusUpdated":
-            case "notes":
+            case "Notes":
                 return tree.getState(key);
             case "SubmissionResponse":
                 return new Pair<>((String) tree.getState("barcode"),

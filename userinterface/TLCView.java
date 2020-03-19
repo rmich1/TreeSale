@@ -34,6 +34,7 @@ public class TLCView extends View {
     private Button insertScout;
     private Button updateScout;
     private Button insertTree;
+    private Button updateTree;
     private Button submitButton;
 
     // For showing error message
@@ -109,10 +110,12 @@ public class TLCView extends View {
         //Buttons
         insertScout = new Button("Add New Scout");
         insertScout.setOnAction(e -> myModel.stateChangeRequest("NewScout", null));
-        updateScout = new Button("Search All Scouts");
+        updateScout = new Button("Search Scouts");
         updateScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
         insertTree = new Button("Add Tree");
         insertTree.setOnAction(e -> myModel.stateChangeRequest("NewTree", null));
+        updateTree = new Button("Search Trees");
+        updateTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
 
 
 
@@ -122,6 +125,7 @@ public class TLCView extends View {
         grid.add(insertScout, 0, 0);
         grid.add(updateScout, 0, 1);
         grid.add(insertTree, 0, 2);
+       grid.add(updateTree, 0, 3);
         grid.add(submitButton, 0, 4);
 
         return grid;
