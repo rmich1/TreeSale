@@ -1,7 +1,7 @@
 // specify the package
 package userinterface;
 
-// system imports
+
 
 import javafx.event.Event;
 import javafx.event.ActionEvent;
