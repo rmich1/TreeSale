@@ -132,14 +132,13 @@ public class Tree extends EntityBase {
                 Properties whereClause = new Properties();
                 whereClause.setProperty("barcode",
                         persistentState.getProperty("barcode"));
-                updatePersistentState(mySchema, persistentState, whereClause);
+                whereClause.setProperty("treeType", persistentState.getProperty("treeType"));
+                whereClause.setProperty("status", persistentState.getProperty("status"));
+                whereClause.setProperty("dateStatusUpdated", persistentState.getProperty("dateStatusUpdated"));
+                whereClause.setProperty("Notes", persistentState.getProperty("Notes"));
+                System.out.println(insertPersistentState(mySchema,whereClause));
+
                 updateStatusMessage = "Tree information for barcode: " + persistentState.getProperty("barcode") + " updated successfully in database!";
-            } else {
-                Integer barcode =
-                        insertAutoIncrementalPersistentState(mySchema, persistentState);
-                persistentState.setProperty("barcode", "" + barcode.intValue());
-                updateStatusMessage = "Tree data for new Tree: " + persistentState.getProperty("barcode")
-                        + " added successfully to database!";
             }
         } catch (SQLException ex) {
             updateStatusMessage = "Error in adding tree data to database!";

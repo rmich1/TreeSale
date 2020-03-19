@@ -76,7 +76,7 @@ abstract public class Persistable
      * 'schema' of a table - namely, the column names and the types
      * of the columns
      *
-     * @param   Table name to get schema information for
+     * @param   tableName name to get schema information for
      *
      * @return Properties object indicating column names as keys and column
      *         types as values
@@ -582,11 +582,13 @@ abstract public class Persistable
 
 		try
 		{
+			System.out.println("Connecting to database");
 			// connect to the database
 			theDBConnection = myBroker.getConnection();
 			// verify the connection
 			if (theDBConnection == null)
 			{
+				System.out.println("Can't connect");
 				System.err.println("Persistable.updatePersistentState - Could not connect to database!");
 				return null;
 			}
@@ -598,6 +600,7 @@ abstract public class Persistable
 			// verify the construction (should be exception?)
 			if(theSQLStatement == null)
 			{
+				System.out.println("Sql statement null");
 				System.err.println("Persistable.updatePersistentState - Could not create SQL Statement!");
 				return null;
 			}

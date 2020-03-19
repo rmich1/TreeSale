@@ -114,9 +114,11 @@ public class AddTree extends View
 
         //TextFields
         barcodeTF = new TextField();
+        barcodeTF.setEditable(true);
         dateStatusUpdatedTF = new TextField();
-        dateStatusUpdatedTF.setStyle("-fx-focus-color: darkgray");
+        dateStatusUpdatedTF.setEditable(true);
         notesTA = new TextArea();
+        notesTA.setEditable(true);
         //Labels
         Text prompt =new Text("Tree Information");
         Label barcode = new Label("Barcode: ");
@@ -140,7 +142,8 @@ public class AddTree extends View
         grid.add(notesTA, 1, 4);
 
         // status.setValue("Active");
-
+        LocalDate date = LocalDate.now();
+        dateStatusUpdatedTF.setText(date.toString());
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
 
@@ -187,17 +190,18 @@ public class AddTree extends View
 
 
         else{
-
-            Properties tree = new Properties();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
             LocalDateTime today = LocalDateTime.now();
             String formattedDate = today.format(formatter);
-            tree.setProperty("barcode", barcodeTF.getText());
-            tree.setProperty("status", status.getValue().toString());
-            tree.setProperty("dateStatusUpdated", formattedDate);
+           Properties tree = new Properties();
+           tree.setProperty("barcode", barcodeTF.getText());
+           tree.setProperty("treeType", barcodeTF.getText().substring(0,3));
+           tree.setProperty("status", status.getValue().toString());
+           tree.setProperty("dateStatusUpdated", formattedDate);
+           tree.setProperty("Notes", notesTA.getText());
 
-            //SubmitNewScout goes to ScoutTransaction State Change Request
+
+            //SubmitNewScout goes to TreeTransaction State Change Request
             myModel.stateChangeRequest("SubmitNewTree", tree);
 
         }

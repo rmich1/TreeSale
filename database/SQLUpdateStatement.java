@@ -49,7 +49,6 @@ public class SQLUpdateStatement extends SQLStatement
 							Properties whereValues) 	// condition update values
     {
     	super();	// implicit, doesn't do anything, but what the hell
-    	
 		// Begin construction of the actual SQL statement
 		theSQLStatement = "UPDATE " + schema.getProperty("TableName");
 		
@@ -119,6 +118,7 @@ public class SQLUpdateStatement extends SQLStatement
 				// if the type is numeric, do NOT include quotes
 				if (whereType.equals("numeric") == true)
 				{
+
 					theWhereString += theColumnName + " = " + theColumnValue;
 				}
 				else
