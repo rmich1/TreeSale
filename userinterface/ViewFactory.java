@@ -21,6 +21,9 @@ public class ViewFactory {
         else if(viewName.equals("EditScoutInfo") == true){
             return new EditScoutInfo(model);
         }
+        else if(viewName.equals("AddTree") == true){
+            return new AddTree(model);
+        }
 
 
         else

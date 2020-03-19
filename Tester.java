@@ -7,6 +7,7 @@
 
 import exception.InvalidPrimaryKeyException;
 import model.Scout;
+import model.Tree;
 
 import java.util.Properties;
 import java.util.Scanner;
@@ -16,12 +17,17 @@ public class Tester {
     public static void main(String[] args) throws InvalidPrimaryKeyException {
         Scanner myObj = new Scanner(System.in);
         String cont = "Y";
+        Tree tree = new Tree("FIR123456");
+        System.out.println(tree.toString());
         Properties prop = new Properties();
-        prop.setProperty("scoutId", "1");
-        prop.setProperty("firstName", "Becky");
-        Scout scout1 = new Scout(prop);
+        prop.setProperty("barcode", "DOU123456");
+        prop.setProperty("status", "Active");
+        prop.setProperty("Notes", "Good");
+        Tree tree2 = new Tree(prop);
+        tree2.save();
 
-       System.out.println(scout1.toString());
+
+
         //--------------------------------------------------------------------------------------------
         // Insert a patron into the database
         //----------------------------------------------------------------------------------------------

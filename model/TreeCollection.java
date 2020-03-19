@@ -41,6 +41,36 @@ public class TreeCollection extends EntityBase {
         trees.insertElementAt(a, index);
     }
     //----------------------------------------------------------------------------------
+    public void findTreePrefixLike(String barcode){
+            String query = "SELECT * FROM " + myTableName + " WHERE barcode LIKE '" + barcode + "%'";
+            treeHelper(query);
+
+        }
+    //----------------------------------------------------------------------------------
+
+    private void treeHelper(String query){
+        Vector allDataRetrieved = getSelectQueryResult(query);
+
+        if (allDataRetrieved != null) {
+            trees = new Vector<Tree>();
+            //populates the books vector
+            for (int count = 0; count < allDataRetrieved.size(); count++) {
+                Properties nextTreeData = (Properties) allDataRetrieved.elementAt(count);
+
+                Tree tree = new Tree(nextTreeData);
+                //Adding each account to a collection(accounts vector)
+                //Have a seperate method to add account because the method will build up a sorted account collection
+                if (tree != null) {
+                    addTree(tree);
+                }
+
+
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------
+
+
     //Find where to put new tree into Tree Vector
     private int findIndexToAdd(Tree a) {
         //users.add(u);
@@ -66,6 +96,7 @@ public class TreeCollection extends EntityBase {
         return low;
     }
 
+    //----------------------------------------------------------------------------------
 
     //Populates the Scout Vector
     private void TreeHelper(String query){

@@ -31,7 +31,7 @@ public class Tree extends EntityBase {
         super(myTableName);
         setDependencies();
         //SQL Query to get all trees with barcodes's
-        String query = "SELECT * FROM " + myTableName + " WHERE (barcode = " + barcode + ")";
+        String query = "SELECT * FROM " + myTableName + " WHERE (barcode = \"" + barcode + "\")";
 
         //creates a vector of all objects where the information from the table is related to the primary key
         Vector<Properties> allDataRetrieved = getSelectQueryResult(query);

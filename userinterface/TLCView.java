@@ -121,6 +121,7 @@ public class TLCView extends View {
 
         grid.add(insertScout, 0, 0);
         grid.add(updateScout, 0, 1);
+        grid.add(insertTree, 0, 2);
         grid.add(submitButton, 0, 4);
 
         return grid;

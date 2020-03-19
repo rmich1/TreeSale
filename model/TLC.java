@@ -64,6 +64,10 @@ public class TLC implements IView, IModel {
             case "Return":
                 createAndShowView("TLCView");
                 break;
+            case "TreeSelected":
+            case "NewTree":
+                initiateTransaction(key, value);
+                break;
 
 
 
