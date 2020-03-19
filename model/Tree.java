@@ -9,7 +9,7 @@ import java.util.Properties;
 import java.util.Vector;
 
 public class Tree extends EntityBase {
-    //Table Name Scout
+
     private static final String myTableName = "Tree";
 
     // GUI Components
@@ -30,7 +30,7 @@ public class Tree extends EntityBase {
         //calling the constructor to the EntityBase by passing in the name of the table
         super(myTableName);
         setDependencies();
-        //SQL Query to get all scouts with scoutID's
+        //SQL Query to get all trees with barcodes's
         String query = "SELECT * FROM " + myTableName + " WHERE (barcode = " + barcode + ")";
 
         //creates a vector of all objects where the information from the table is related to the primary key
@@ -40,7 +40,7 @@ public class Tree extends EntityBase {
         if (allDataRetrieved != null) {
             int size = allDataRetrieved.size();
 
-            // There should be EXACTLY one scout
+            // There should be EXACTLY one barcode
             if (size != 1) {
                 throw new InvalidPrimaryKeyException("Multiple trees matching barcode : "
                         + barcode + " found.");
@@ -148,7 +148,7 @@ public class Tree extends EntityBase {
     }
 
     //-----------------------------------------------------------------------------------
-    //Compare two scouts in the database by scoutID
+    //Compare two trees in the database by barcode
     public static int compare(Tree a, Tree b) {
         String aNum = (String) a.getState("barcode");
         String bNum = (String) b.getState("barcode");
