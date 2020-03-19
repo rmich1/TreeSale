@@ -159,6 +159,11 @@ public class Tree extends EntityBase {
     //-----------------------------------------------------------------------------------
     public Vector<String> getEntryListView() {
         Vector<String> v = new Vector<String>();
+        v.addElement(persistentState.getProperty("barcode"));
+        v.addElement(persistentState.getProperty("treeType"));
+        v.addElement(persistentState.getProperty("status"));
+        v.addElement(persistentState.getProperty("dateStatusUpdated"));
+        v.addElement(persistentState.getProperty("notes"));
 
 
         return v;
@@ -166,7 +171,10 @@ public class Tree extends EntityBase {
 
     //-----------------------------------------------------------------------------------
     public String toString() {
-        return "";
+        return("Barcode: " + persistentState.getProperty("barcode") +
+                "Tree Type: " + persistentState.getProperty("treeType") +
+                "Status: " + persistentState.getProperty("status") +
+                "Notes: " + persistentState.getProperty("notes"));
 
 
     }
