@@ -127,9 +127,9 @@ public class AddTree extends View
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Active", "Inactive");
-        status.setValue("Active");
-        status.setPromptText("Active");
+        status.getItems().addAll("Available", "Sold");
+        status.setValue("Available");
+        status.setPromptText("Available");
 
         grid.add(prompt, 0, 0);
         grid.add(barcode, 0, 1);

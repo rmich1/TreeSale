@@ -11,20 +11,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Popup;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Vector;
 
@@ -62,6 +59,7 @@ public class EditTreeInfo extends View {
     private Button updateButton;
     private Button deleteButton;
     private Button cancelButton;
+    private Stage primary = new Stage();
 
 
 
@@ -134,7 +132,7 @@ public class EditTreeInfo extends View {
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Active", "Inactive");
+        status.getItems().addAll("Available", "Sold");
 
         grid.add(prompt, 0, 0);
        grid.add(barcode, 0, 1);
@@ -160,7 +158,7 @@ public class EditTreeInfo extends View {
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("Return", null));
 
         deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> processDelete(e));
+        deleteButton.setOnAction(e -> processDelete());
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
@@ -265,16 +263,40 @@ public class EditTreeInfo extends View {
 
         }
     }
-    public void processDelete(Event e){
+    private void processDelete() {
+        Alert alert;
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete tree?");
+
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeYes){
+            alert.close();
+            deleteTree();
+        } else {
+            alert.close();
+            myModel.stateChangeRequest("Return", null);
+        }
+    }
+
+
+
+
+    public void deleteTree(){
+
         try {
             Tree treeDelete = new Tree((String) myModel.getState("barcode"));
             treeDelete.deleteInDatabase();
+            myModel.stateChangeRequest("DeleteTree", null);
+            displayMessage("Tree Successfully Deleted!");
         }
         catch (InvalidPrimaryKeyException ex) {
             ex.printStackTrace();
         }
-        displayMessage("Tree Deleted Successfully!");
-        myModel.stateChangeRequest("DeleteTree", null);
 
     }
 
