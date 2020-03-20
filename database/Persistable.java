@@ -582,13 +582,14 @@ abstract public class Persistable
 
 		try
 		{
-			System.out.println("Connecting to database");
+
+
 			// connect to the database
 			theDBConnection = myBroker.getConnection();
 			// verify the connection
 			if (theDBConnection == null)
 			{
-				System.out.println("Can't connect");
+
 				System.err.println("Persistable.updatePersistentState - Could not connect to database!");
 				return null;
 			}

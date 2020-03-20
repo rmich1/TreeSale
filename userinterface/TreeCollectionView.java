@@ -64,7 +64,6 @@ public class TreeCollectionView extends View
     public TreeCollectionView(IModel tCollection)
     {
         super(tCollection, "TreeCollectionView");
-        System.out.println("TreeCollectionView");
 
 
         // create a container for showing the contents
@@ -190,7 +189,7 @@ public class TreeCollectionView extends View
 
         tableOfTrees.getColumns().addAll(barcodeColumn, treeTypeColumn, statusColumn, dateStatusUpdatedColumn, NotesColumn);
 
-        tableOfTrees.setOnMousePressed(e -> processAccountSelected());
+       // tableOfTrees.setOnMousePressed(e -> processAccountSelected());
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(115, 150);
         scrollPane.setContent(tableOfTrees);

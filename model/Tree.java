@@ -1,5 +1,6 @@
 package model;
 
+import database.Persistable;
 import exception.InvalidPrimaryKeyException;
 import model.EntityBase;
 
@@ -17,6 +18,7 @@ public class Tree extends EntityBase {
     private String updateStatusMessage = "";
 
     protected Properties dependencies;
+
 
     //Empty Constructor
     public Tree() {
@@ -122,11 +124,11 @@ public class Tree extends EntityBase {
     //Save the Scout into the database
     public void save() {
 
-        updateStateInDatabase();
+        insertStateInDatabase();
     }
 
     //-----------------------------------------------------------------------------------
-    private void updateStateInDatabase() {
+    private void insertStateInDatabase() {
         try {
             if (persistentState.getProperty("barcode") != null) {
                 Properties whereClause = new Properties();
@@ -136,7 +138,7 @@ public class Tree extends EntityBase {
                 whereClause.setProperty("status", persistentState.getProperty("status"));
                 whereClause.setProperty("dateStatusUpdated", persistentState.getProperty("dateStatusUpdated"));
                 whereClause.setProperty("Notes", persistentState.getProperty("Notes"));
-                System.out.println(insertPersistentState(mySchema,whereClause));
+                insertPersistentState(mySchema,whereClause);
 
                 updateStatusMessage = "Tree information for barcode: " + persistentState.getProperty("barcode") + " updated successfully in database!";
             }
@@ -144,6 +146,41 @@ public class Tree extends EntityBase {
             updateStatusMessage = "Error in adding tree data to database!";
         }
         System.out.println(updateStatusMessage + "\n");
+    }
+    public void updateStateInDatabase(){
+        try{
+            if(persistentState.getProperty("barcode") != null){
+                Properties whereClause = new Properties();
+                Properties updateValues = new Properties();
+                Properties whereValues = new Properties();
+                whereValues.setProperty("barcode", persistentState.getProperty("barcode"));
+
+                updateValues.setProperty("treeType", persistentState.getProperty("treeType"));
+                updateValues.setProperty("status", persistentState.getProperty("status"));
+                updateValues.setProperty("Notes", persistentState.getProperty("Notes"));
+                updatePersistentState(mySchema, updateValues, whereValues);
+
+
+            }
+        } catch (SQLException e) {
+            updateStatusMessage = "Error in updating tree data to database!";
+        }
+    }
+
+    public void deleteInDatabase(){
+        try{
+            if(persistentState.getProperty("barcode") != null){
+                Properties whereValues = new Properties();
+                whereValues.setProperty("barcode", persistentState.getProperty("barcode"));
+
+                deletePersistentState(mySchema, whereValues);
+
+
+            }
+        } catch (SQLException e) {
+            updateStatusMessage = "Error in updating tree data to database!";
+        }
+
     }
 
     //-----------------------------------------------------------------------------------

@@ -40,26 +40,22 @@ import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
 import model.ScoutCollection;
+import model.Tree;
+import model.TreeCollection;
 
 /** The View to edit the Scout info*/
 //==============================================================
-public class EditScoutInfo extends View {
+public class EditTreeInfo extends View {
 
     // Model
 
     // GUI components
-    private TextField firstNameTF;
-    private TextField middleNameTF;
-    private TextField lastNameTF;
-    private TextField dateOfBirthTF;
-    private TextField phoneNumberTF;
-    private TextField emailTF;
-    private TextField statusTF;
-    private TextField troopIdTF;
-    private TextField scoutIdTF;
+    private TextField barcodeTF;
+    private TextField treeTypeTF;
     private TextField dateStatusUpdatedTF;
-    private Scout scoutEdit = new Scout();
-    private ScoutCollection scoutColl = new ScoutCollection();
+    private TextField notesTF;
+    private Tree treeEdit = new Tree();
+    private TreeCollection treeColl = new TreeCollection();
 
     private ComboBox status;
 
@@ -75,8 +71,8 @@ public class EditScoutInfo extends View {
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public EditScoutInfo(IModel editScout) {
-        super(editScout, "EditScoutInfo");
+    public EditTreeInfo(IModel editTree) {
+        super(editTree, "EditTreeInfo");
 
 
         // create a container for showing the contents
@@ -123,59 +119,39 @@ public class EditScoutInfo extends View {
 
 
         //TextFields
-        scoutIdTF = new TextField();
-        scoutIdTF.setStyle("-fx-focus-color: transparent");
-        scoutIdTF.setEditable(false);
-        firstNameTF = new TextField();
-        middleNameTF = new TextField();
-        lastNameTF = new TextField();
-        dateOfBirthTF = new TextField();
-        phoneNumberTF = new TextField();
-        emailTF = new TextField();
-        troopIdTF = new TextField();
-        scoutIdTF = new TextField();
+        barcodeTF = new TextField();
+        barcodeTF.setEditable(true);
+        treeTypeTF = new TextField();
         dateStatusUpdatedTF = new TextField();
         dateStatusUpdatedTF.setEditable(false);
+        notesTF = new TextField();
         //Labels
-        Text prompt = new Text("Edit Scout Information");
-        Label scoutIdLabel = new Label("Scout ID: ");
-        Label firstNameLabel = new Label("First Name: ");
-        Label middleNameLabel = new Label("Middle Name: ");
-        Label lastNameLabel = new Label("Last Name: ");
-        Label DOBLabel = new Label("Date Of Birth YYYY-MM-DD");
-        Label phoneNumberLabel = new Label("Phone Number: ");
-        Label emailLabel = new Label("E-Mail: ");
+        Text prompt = new Text("Edit Tree Information");
+        Label barcode = new Label("Barcode: ");
+        Label treeType = new Label("Tree Type: ");
         Label statusLabel = new Label("Status: ");
-        Label troopIdLabel = new Label("Troop ID: ");
         Label dateStatusUpdatedLabel = new Label("Date Status Updated");
+        Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
         status.getItems().addAll("Active", "Inactive");
 
         grid.add(prompt, 0, 0);
-        grid.add(scoutIdLabel, 0, 1);
-        grid.add(scoutIdTF, 1, 1);
-        grid.add(firstNameLabel, 0, 2);
-        grid.add(firstNameTF, 1, 2);
-        grid.add(middleNameLabel, 0, 3);
-        grid.add(middleNameTF, 1, 3);
-        grid.add(lastNameLabel, 0, 4);
-        grid.add(lastNameTF, 1, 4);
-        grid.add(DOBLabel, 0, 5);
-        grid.add(dateOfBirthTF, 1, 5);
-        grid.add(phoneNumberLabel, 0, 6);
-        grid.add(phoneNumberTF, 1, 6);
-        grid.add(emailLabel, 0, 7);
-        grid.add(emailTF, 1, 7);
-        grid.add(statusLabel, 0, 8);
-        grid.add(status, 1, 8);
-        grid.add(troopIdLabel, 0, 9);
-        grid.add(troopIdTF, 1, 9);
-        grid.add(dateStatusUpdatedLabel, 0, 10);
-        grid.add(dateStatusUpdatedTF, 1, 10);
+       grid.add(barcode, 0, 1);
+       grid.add(barcodeTF, 1, 1);
+       grid.add(treeType, 0, 2);
+       grid.add(treeTypeTF, 1, 2);
+       grid.add(statusLabel, 0, 3);
+       grid.add(status, 1, 3);
+       grid.add(dateStatusUpdatedLabel, 0, 4);
+       grid.add(dateStatusUpdatedTF, 1, 4);
+       grid.add(notes, 0, 5);
+       grid.add(notesTF, 1, 5);
 
 
-        // status.setValue("Active");
+
+
+
 
         updateButton = new Button("Update");
         updateButton.setOnAction(e -> processAction(e));
@@ -211,32 +187,26 @@ public class EditScoutInfo extends View {
     //-------------------------------------------------------------
     public void populateFields() {
         //Populates the fields into the edit Scout screen
-        scoutIdTF.setText((String) myModel.getState("scoutId"));
-        firstNameTF.setText((String) myModel.getState("firstName"));
-        middleNameTF.setText((String) myModel.getState("middleName"));
-        lastNameTF.setText((String) myModel.getState("lastName"));
-        dateOfBirthTF.setText((String) myModel.getState("dateOfBirth"));
-        phoneNumberTF.setText((String) myModel.getState("phoneNumber"));
-        emailTF.setText((String) myModel.getState("email"));
+        barcodeTF.setText((String) myModel.getState("barcode"));
+        treeTypeTF.setText((String) myModel.getState("treeType"));
+        dateStatusUpdatedTF.setText((String) myModel.getState("dateStatusUpdated"));
+        notesTF.setText((String) myModel.getState("Notes"));
         status.setPromptText((String) myModel.getState("status"));
         status.setValue((String) myModel.getState("status"));
-        dateStatusUpdatedTF.setText((String) myModel.getState("dateStatusUpdated"));
-        troopIdTF.setText((String) myModel.getState("troopId"));
-
-
     }
 
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
-        Properties scout = new Properties();
+        Properties tree = new Properties();
+        String oldBarcode = (String) myModel.getState("barcode");
 
         clearErrorMessage();
-        if ((firstNameTF.getText().length() == 0) && (lastNameTF.getText().length() == 0)
-                && (dateOfBirthTF.getText().length() == 0) && (phoneNumberTF.getText().length() == 0)
-                && (emailTF.getText().length() == 0) && (troopIdTF.getText().length() == 0)) {
+        if ((barcodeTF.getText().length()==0) && (treeTypeTF.getText().length() == 0) &&
+                (dateStatusUpdatedTF.getText().length()==0) && (notesTF.getText().length()==0)){
             displayErrorMessage("Enter Required Fields");
-        } else {
+        }
+        if(!oldBarcode.equals(barcodeTF.getText())) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
             LocalDateTime today = LocalDateTime.now();
@@ -244,24 +214,50 @@ public class EditScoutInfo extends View {
             String oldStatus = (String) myModel.getState("status");
             //If the status is updated change the dateStatusUpdated Field
             if(!oldStatus.equals(status.getValue().toString())){
-                scout.setProperty("dateStatusUpdated", formattedDate);
+                tree.setProperty("dateStatusUpdated", formattedDate);
             }
             //If status is unchanged keep original dateStatusUpdatedField
             else{
-                scout.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
+                tree.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
             }
-            scout.setProperty("scoutId", scoutIdTF.getText());
-            scout.setProperty("firstName", firstNameTF.getText());
-            scout.setProperty("middleName", middleNameTF.getText());
-            scout.setProperty("lastName", lastNameTF.getText());
-            scout.setProperty("dateOfBirth", dateOfBirthTF.getText());
-            scout.setProperty("phoneNumber", phoneNumberTF.getText());
-            scout.setProperty("email", emailTF.getText());
-            scout.setProperty("status", status.getValue().toString());
-            scout.setProperty("troopId", troopIdTF.getText());
-            displayMessage("Scout Successfully Updated");
-             myModel.stateChangeRequest("EditScout", scout);
+            tree.setProperty("barcode", barcodeTF.getText());
+            tree.setProperty("treeType", treeTypeTF.getText());
+            tree.setProperty("status", status.getValue().toString());
+            tree.setProperty("Notes", notesTF.getText());
+            try {
+                Tree treeDelete = new Tree((String) myModel.getState("barcode"));
+                treeDelete.deleteInDatabase();
+            }
+            catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            }
+            displayMessage("Tree Updated Sucessfully!");
+            myModel.stateChangeRequest("EditBarcode", tree);
 
+
+        }
+        else{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+            LocalDateTime today = LocalDateTime.now();
+            String formattedDate = today.format(formatter);
+            String oldStatus = (String) myModel.getState("status");
+            //If the status is updated change the dateStatusUpdated Field
+            if(!oldStatus.equals(status.getValue().toString())){
+                tree.setProperty("dateStatusUpdated", formattedDate);
+            }
+            //If status is unchanged keep original dateStatusUpdatedField
+            else{
+                tree.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
+            }
+
+
+
+            tree.setProperty("barcode", barcodeTF.getText());
+            tree.setProperty("treeType", treeTypeTF.getText());
+            tree.setProperty("status", status.getValue().toString());
+            tree.setProperty("Notes", notesTF.getText());
+            myModel.stateChangeRequest("EditTree", tree);
 
 
 
@@ -270,24 +266,15 @@ public class EditScoutInfo extends View {
         }
     }
     public void processDelete(Event e){
-        Properties scout = new Properties();
-        status.setValue("Inactive");
-        LocalDateTime today = LocalDateTime.now();
-        String dateUpdated = today.toString();
-
-        scout.setProperty("scoutId", scoutIdTF.getText());
-        scout.setProperty("firstName", firstNameTF.getText());
-        scout.setProperty("middleName", middleNameTF.getText());
-        scout.setProperty("lastName", lastNameTF.getText());
-        scout.setProperty("dateOfBirth", dateOfBirthTF.getText());
-        scout.setProperty("phoneNumber", phoneNumberTF.getText());
-        scout.setProperty("email", emailTF.getText());
-        scout.setProperty("status", status.getValue().toString());
-        scout.setProperty("dateStatusUpdated", dateUpdated);
-        scout.setProperty("troopId", troopIdTF.getText());
-        displayMessage("Scout was deleted");
-        myModel.stateChangeRequest("DeleteScout", scout);
-
+        try {
+            Tree treeDelete = new Tree((String) myModel.getState("barcode"));
+            treeDelete.deleteInDatabase();
+        }
+        catch (InvalidPrimaryKeyException ex) {
+            ex.printStackTrace();
+        }
+        displayMessage("Tree Deleted Successfully!");
+        myModel.stateChangeRequest("DeleteTree", null);
 
     }
 
@@ -306,8 +293,37 @@ public class EditScoutInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (scoutIdTF.getText() == null || scoutIdTF.getText().trim().isEmpty()) {
-                    scoutIdTF.setText(response.getKey());
+                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
+                    barcodeTF.setText(response.getKey());
+                }
+            }
+        }
+        if (key.equals("EditBarcode")) {
+            if (value instanceof Pair) {
+                Pair<String, Pair<String, Boolean>> response = (Pair) value;
+                if (response.getValue().getValue()) {
+                    displayErrorMessage(response.getValue().getKey());
+                } else {
+                    displayMessage(response.getValue().getKey());
+                }
+
+                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
+                    barcodeTF.setText(response.getKey());
+                }
+            }
+
+        }
+        if (key.equals("DeleteResponse")) {
+            if (value instanceof Pair) {
+                Pair<String, Pair<String, Boolean>> response = (Pair) value;
+                if (response.getValue().getValue()) {
+                    displayErrorMessage(response.getValue().getKey());
+                } else {
+                    displayMessage(response.getValue().getKey());
+                }
+
+                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
+                    barcodeTF.setText(response.getKey());
                 }
             }
         }

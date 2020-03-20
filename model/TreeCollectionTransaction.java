@@ -50,8 +50,16 @@ public class TreeCollectionTransaction extends Transaction {
                 noTreeError = "";
             }
             else{
-                noTreeError = "No Scouts";
+                noTreeError = "No Trees";
             }
+        }
+        if(key.equals("TreeSelected")){
+            try{
+                selectedTree = new Tree((String) value);
+            }catch (InvalidPrimaryKeyException ex){
+                ex.printStackTrace();
+            }
+
         }
 
         myRegistry.updateSubscribers(key, this);

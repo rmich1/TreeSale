@@ -30,6 +30,9 @@ public class ViewFactory {
         else if(viewName.equals("TreeCollectionView") == true){
             return new TreeCollectionView(model);
         }
+        else if(viewName.equals("EditTreeInfo") == true){
+            return new EditTreeInfo(model);
+        }
 
 
         else
