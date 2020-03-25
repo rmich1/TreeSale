@@ -33,8 +33,10 @@ public class TLCView extends View {
     //private PasswordField password;
     private Button insertScout;
     private Button updateScout;
+    private Button deleteScout;
     private Button insertTree;
     private Button updateTree;
+    private Button deleteTree;
     private Button submitButton;
 
     // For showing error message
@@ -110,12 +112,16 @@ public class TLCView extends View {
         //Buttons
         insertScout = new Button("Add New Scout");
         insertScout.setOnAction(e -> myModel.stateChangeRequest("NewScout", null));
-        updateScout = new Button("Update/Delete Scout");
+        updateScout = new Button("Update Scout");
         updateScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
+        deleteScout = new Button("Delete Scout");
+        deleteScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
         insertTree = new Button("Add Tree");
         insertTree.setOnAction(e -> myModel.stateChangeRequest("NewTree", null));
-        updateTree = new Button("Update/Delete Tree");
+        updateTree = new Button("Update Delete Tree");
         updateTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
+        deleteTree = new Button("Delete Tree");
+        deleteTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
 
 
 
@@ -124,9 +130,11 @@ public class TLCView extends View {
 
         grid.add(insertScout, 0, 0);
         grid.add(updateScout, 0, 1);
-        grid.add(insertTree, 0, 2);
-       grid.add(updateTree, 0, 3);
-        grid.add(submitButton, 0, 4);
+        grid.add(deleteScout, 0, 2);
+        grid.add(insertTree, 0, 3);
+       grid.add(updateTree, 0, 4);
+       grid.add(deleteTree, 0, 5);
+        grid.add(submitButton, 0, 6);
 
         return grid;
     }
