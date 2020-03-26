@@ -201,12 +201,15 @@ public class ScoutCollectionView extends View
         troopIdColumn.setMinWidth(100);
         troopIdColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("troopId"));
 
+        TableColumn<ScoutTableModel, String> dateStatusUpdatedColumn = new TableColumn("Date Status Updated");
+        dateStatusUpdatedColumn.setMinWidth(100);
+        dateStatusUpdatedColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("dateStatusUpdated"));
 
 
 
 
         tableOfScouts.getColumns().addAll(scoutIdColumn, firstNameColumn, middleNameColumn, lastNameColumn,
-                dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn);
+                dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn, dateStatusUpdatedColumn);
 
         tableOfScouts.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
