@@ -36,13 +36,10 @@ public class TransactionFactory {
                 return new TreeCollectionTransaction();
             case "TreeSelected":
                 return new TreeEditTransaction((Tree) resource);
-            // case "SearchPatrons":
-            //    return new PatronCollectionDelegate();
-            // case "NewBook":
-            //case "BookSelected":
-            //  return new BookDelegate((Book) resource);
-            //case "SearchBooks":
-            //  return new BookCollectionDelegate();
+            case "NewTreeType":
+                return new TreeTypeTransaction((TreeType) resource){
+
+                };
 
             default:
                 return null;

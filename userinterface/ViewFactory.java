@@ -33,6 +33,9 @@ public class ViewFactory {
         else if(viewName.equals("EditTreeInfo") == true){
             return new EditTreeInfo(model);
         }
+        else if(viewName.equals("AddTreeType")==true){
+            return new AddTreeType(model);
+        }
 
 
         else
