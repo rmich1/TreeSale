@@ -175,8 +175,11 @@ public class AddTreeType extends View
         if(barcodePrefixTF.getText().length() == 0){
             displayErrorMessage("Enter Barcode Prefix");
         }
-        if(collection.isDuplicate(barcodePrefixTF.getText().toString())){
-            displayErrorMessage("Barcode already exists in system");
+        else if(collection.isDuplicate(barcodePrefixTF.getText().toString())){
+            displayErrorMessage("Barcode Prefix already exists in system");
+        }
+        else if(costTF.getText().length()==0){
+            displayErrorMessage("Enter Cost");
         }
 
         else {

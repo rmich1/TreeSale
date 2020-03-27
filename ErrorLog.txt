@@ -14,3 +14,4 @@
 [3/27/20 11:31 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
 [3/27/20 11:33 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
 [3/27/20 11:34 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 2:34 PM]|TreeType|insertPersistentState|Error|NOTAG|null<SQL Exception: 1366: Incorrect decimal value: '' for column 'cost' at row 1>
