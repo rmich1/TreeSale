@@ -59,15 +59,14 @@ public class TLC implements IView, IModel {
             case "ScoutSelected":
             case "NewScout":
             case "SearchScout":
-                initiateTransaction(key, value);
-                break;
-            case "Return":
-                createAndShowView("TLCView");
-                break;
+            case "NewTreeType":
             case "TreeSelected":
             case "NewTree":
             case "SearchTree":
                 initiateTransaction(key, value);
+                break;
+            case "Return":
+                createAndShowView("TLCView");
                 break;
 
 
@@ -91,6 +90,7 @@ public class TLC implements IView, IModel {
             delegate.subscribe("SearchScout", this);
             delegate.subscribe("TreeSelected", this);
             delegate.subscribe("SearchTree", this);
+            delegate.subscribe("NewTreeType", this);
             delegate.doYourJob();
         }
     }

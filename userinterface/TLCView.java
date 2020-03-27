@@ -36,6 +36,7 @@ public class TLCView extends View {
     private Button deleteScout;
     private Button insertTree;
     private Button updateTree;
+    private Button insertTreeType;
     private Button deleteTree;
     private Button submitButton;
 
@@ -122,6 +123,8 @@ public class TLCView extends View {
         updateTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
         deleteTree = new Button("Delete Tree");
         deleteTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
+        insertTreeType = new Button("Add Tree Type");
+        insertTreeType.setOnAction(e -> myModel.stateChangeRequest("NewTreeType", null));
 
 
 
@@ -134,7 +137,8 @@ public class TLCView extends View {
         grid.add(insertTree, 0, 3);
        grid.add(updateTree, 0, 4);
        grid.add(deleteTree, 0, 5);
-        grid.add(submitButton, 0, 6);
+       grid.add(insertTreeType, 0, 6);
+        grid.add(submitButton, 0, 7);
 
         return grid;
     }
@@ -172,12 +176,7 @@ public class TLCView extends View {
 
     //---------------------------------------------------------
     public void updateState(String key, Object value) {
-        // STEP 6: Be sure to finish the end of the 'perturbation'
-        // by indicating how the view state gets updated.
-        if (key.equals("LoginError") == true) {
-            // display the passed text
-            displayErrorMessage((String) value);
-        }
+
 
     }
 
