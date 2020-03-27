@@ -33,6 +33,9 @@ import java.util.Vector;
 import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
+import model.Tree;
+import model.TreeCollection;
+
 import java.text.SimpleDateFormat;
 
 /** The view to add a tree into the system*/
@@ -182,30 +185,32 @@ public class AddTree extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
+        TreeCollection collection = new TreeCollection();
         clearErrorMessage();
         if(barcodeTF.getText().length() == 0){
             displayErrorMessage("Enter Barcode");
         }
-
-
-
-        else{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime today = LocalDateTime.now();
-            String formattedDate = today.format(formatter);
-           Properties tree = new Properties();
-           tree.setProperty("barcode", barcodeTF.getText());
-           tree.setProperty("treeType", barcodeTF.getText().substring(0,3));
-           tree.setProperty("status", status.getValue().toString());
-           tree.setProperty("dateStatusUpdated", formattedDate);
-           tree.setProperty("Notes", notesTA.getText());
-
-
-            //SubmitNewScout goes to TreeTransaction State Change Request
-            myModel.stateChangeRequest("SubmitNewTree", tree);
-
+        if(collection.isDuplicate(barcodeTF.getText().toString())){
+            displayErrorMessage("Barcode already exists in system");
         }
-    }
+
+            else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime today = LocalDateTime.now();
+                String formattedDate = today.format(formatter);
+                Properties tree = new Properties();
+                tree.setProperty("barcode", barcodeTF.getText());
+                tree.setProperty("treeType", barcodeTF.getText().substring(0, 3));
+                tree.setProperty("status", status.getValue().toString());
+                tree.setProperty("dateStatusUpdated", formattedDate);
+                tree.setProperty("Notes", notesTA.getText());
+
+
+                //SubmitNewScout goes to TreeTransaction State Change Request
+                myModel.stateChangeRequest("SubmitNewTree", tree);
+            }
+        }
+
     /**
      * Required by interface, but has no role here
      */

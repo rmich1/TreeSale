@@ -264,22 +264,27 @@ public class EditTreeInfo extends View {
         }
     }
     private void processDelete() {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete tree?");
+        if(status.getValue().equals("Sold")){
+            displayErrorMessage("Can't Delete Sold Tree");
+        }
+        else {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete tree?");
 
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
 
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeYes){
-            alert.close();
-            deleteTree();
-        } else {
-            alert.close();
-            myModel.stateChangeRequest("Return", null);
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeYes) {
+                alert.close();
+                deleteTree();
+            } else {
+                alert.close();
+                myModel.stateChangeRequest("Return", null);
+            }
         }
     }
 

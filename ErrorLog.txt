@@ -7,3 +7,10 @@
 [3/19/20 6:05 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'CAT3456' in 'where clause'>
 [3/20/20 10:55 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'CAT3456' for key 'PRIMARY'>
 [3/20/20 10:57 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'CAT3456' for key 'PRIMARY'>
+[3/27/20 11:17 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:27 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:29 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:30 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:31 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:33 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
+[3/27/20 11:34 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>

@@ -41,15 +41,15 @@ public class TreeCollection extends EntityBase {
         trees.insertElementAt(a, index);
     }
     //----------------------------------------------------------------------------------
-    public void findTreeBarcode(String barcode){
+    public Vector findTreeBarcode(String barcode){
+            Vector barcodeArray = new Vector();
             String query = "SELECT * FROM " + myTableName + " WHERE barcode = \"" + barcode + "\"";
-            treeHelper(query);
-
+           return barcodeArray = treeHelper(query);
 
         }
     //----------------------------------------------------------------------------------
 
-    private void treeHelper(String query){
+    private Vector treeHelper(String query){
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null) {
@@ -68,10 +68,23 @@ public class TreeCollection extends EntityBase {
 
             }
         }
+        return allDataRetrieved;
     }
     //----------------------------------------------------------------------------------
 
+    public boolean isDuplicate(String barcode){
+        Vector<Tree> barcodeVector = new Vector<>();
+      barcodeVector = findTreeBarcode(barcode);
 
+        if(barcodeVector.size() == 1){
+            return true;
+
+        }
+        else {
+            return false;
+        }
+
+    }
     //Find where to put new tree into Tree Vector
     private int findIndexToAdd(Tree a) {
         //users.add(u);

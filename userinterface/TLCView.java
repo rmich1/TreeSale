@@ -118,7 +118,7 @@ public class TLCView extends View {
         deleteScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
         insertTree = new Button("Add Tree");
         insertTree.setOnAction(e -> myModel.stateChangeRequest("NewTree", null));
-        updateTree = new Button("Update Delete Tree");
+        updateTree = new Button("Update Tree");
         updateTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
         deleteTree = new Button("Delete Tree");
         deleteTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
