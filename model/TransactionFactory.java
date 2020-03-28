@@ -40,6 +40,10 @@ public class TransactionFactory {
                 return new TreeTypeTransaction((TreeType) resource){
 
                 };
+            case "SearchTreeType":
+                return new TreeTypeCollectionTransaction();
+            case "TreeTypeSelected":
+                 return new TreeTypeEditTransaction((TreeType) resource);
 
             default:
                 return null;

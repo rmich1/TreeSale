@@ -40,10 +40,9 @@ import java.util.Enumeration;
 // project imports
 import impresario.IModel;
 
-import model.Scout;
-import model.ScoutCollection;
-import model.Tree;
-import model.TreeCollection;
+
+import model.TreeType;
+import model.TreeTypeCollection;
 
 /**
  * View Brings back the tree collection from the user search the user can double click on the desired
@@ -51,9 +50,9 @@ import model.TreeCollection;
  */
 
 //==============================================================================
-public class TreeCollectionView extends View
+public class TreeTypeCollectionView extends View
 {
-    protected TableView<TreeTableModel> tableOfTrees = new TableView();
+    protected TableView<TreeTypeTableModel> tableOfTreeTypes = new TableView();
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -61,9 +60,9 @@ public class TreeCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public TreeCollectionView(IModel tCollection)
+    public TreeTypeCollectionView(IModel ttCollection)
     {
-        super(tCollection, "TreeCollectionView");
+        super(ttCollection, "TreeTypeCollectionView");
 
 
         // create a container for showing the contents
@@ -92,33 +91,33 @@ public class TreeCollectionView extends View
     protected void getEntryTableModelValues()
     {
 
-        TreeCollection trees = (TreeCollection)myModel.getState("TreeList");
-        ObservableList<TreeTableModel> tableData = FXCollections.observableArrayList();
+        TreeTypeCollection treeTypes = (TreeTypeCollection) myModel.getState("TreeTypeList");
+        ObservableList<TreeTypeTableModel> tableData = FXCollections.observableArrayList();
 
 
-        Vector<Tree> entryList = (Vector)trees.getState("Trees");
-        Enumeration<Tree> entries = entryList.elements();
+        Vector<TreeType> entryList = (Vector)treeTypes.getState("TreeTypes");
+        Enumeration<TreeType> entries = entryList.elements();
 
         while (entries.hasMoreElements())
         {
-            Tree nextTree = entries.nextElement();
-            Vector<String> view = nextTree.getEntryListView();
+            TreeType nextTreeType = entries.nextElement();
+            Vector<String> view = nextTreeType.getEntryListView();
 
             //  Add this list entry to the list
-            TreeTableModel nextTableRowData = new TreeTableModel(view);
+            TreeTypeTableModel nextTableRowData = new TreeTypeTableModel(view);
             tableData.add(nextTableRowData);
 
 
 
         }
 
-        SortedList<TreeTableModel> sortedList = new SortedList<TreeTableModel>(tableData,
-                Comparator.comparing(TreeTableModel::getBarcodeSort));
+        SortedList<TreeTypeTableModel> sortedList = new SortedList<TreeTypeTableModel>(tableData,
+                Comparator.comparing(TreeTypeTableModel::getBarcodePrefixSort));
 
 
 
 
-        tableOfTrees.setItems(sortedList);
+        tableOfTreeTypes.setItems(sortedList);
 
 
 
@@ -132,7 +131,7 @@ public class TreeCollectionView extends View
         HBox container = new HBox();
         container.setAlignment(Pos.CENTER);
 
-        Text titleText = new Text("Tree Search");
+        Text titleText = new Text("Tree Type Search");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(300);
         titleText.setTextAlignment(TextAlignment.CENTER);
@@ -146,7 +145,7 @@ public class TreeCollectionView extends View
     //-------------------------------------------------------------
     private VBox createFormContent()
     {
-        VBox vbox = new VBox(30);
+        VBox vbox = new VBox(10);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
@@ -154,56 +153,45 @@ public class TreeCollectionView extends View
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 80, 20, 80));
 
-        Text prompt = new Text("Select Tree");
-        prompt.setWrappingWidth(350);
+        Text prompt = new Text("Select Tree Type");
+        prompt.setWrappingWidth(100);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
 
         //This is how it should look
-        TableColumn<TreeTableModel, String> barcodeColumn = new TableColumn("Barcode") ;
-        barcodeColumn.setMinWidth(100);
-        barcodeColumn.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        TableColumn<TreeTypeTableModel, String> barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
+        barcodePrefixColumn.setMinWidth(100);
+        barcodePrefixColumn.setCellValueFactory(new PropertyValueFactory<>("barcodePrefix"));
+
+        TableColumn<TreeTypeTableModel, String> typeDescColumn = new TableColumn("Type Description") ;
+        typeDescColumn.setMinWidth(100);
+       typeDescColumn.setCellValueFactory(new PropertyValueFactory<>("typeDesc"));
+
+        TableColumn<TreeTypeTableModel, String> costColumn = new TableColumn("Cost") ;
+        costColumn.setMinWidth(100);
+        costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
 
-        TableColumn<TreeTableModel, String> treeTypeColumn = new TableColumn("Tree Type") ;
-        treeTypeColumn.setMinWidth(100);
-        treeTypeColumn.setCellValueFactory(new PropertyValueFactory<>("treeType"));
 
+        tableOfTreeTypes.getColumns().addAll(barcodePrefixColumn, typeDescColumn, costColumn);
 
-        TableColumn<TreeTableModel, String> statusColumn = new TableColumn("Status") ;
-        statusColumn.setMinWidth(100);
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-
-
-        TableColumn<TreeTableModel, String> dateStatusUpdatedColumn = new TableColumn("Date Of Status Updated") ;
-        dateStatusUpdatedColumn.setMinWidth(100);
-        dateStatusUpdatedColumn.setCellValueFactory(new PropertyValueFactory<>("dateStatusUpdated"));
-
-
-        TableColumn<TreeTableModel, String> NotesColumn = new TableColumn("Notes") ;
-        NotesColumn.setMinWidth(100);
-        NotesColumn.setCellValueFactory(new PropertyValueFactory<>("Notes"));
-
-
-        tableOfTrees.getColumns().addAll(barcodeColumn, treeTypeColumn, statusColumn, dateStatusUpdatedColumn, NotesColumn);
-
-        tableOfTrees.setOnMousePressed(new EventHandler<MouseEvent>() {
+        tableOfTreeTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
             {
                 if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processTreeSelected();
+                    processTreeTypeSelected();
                 }
             }
         });
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(115, 150);
-        scrollPane.setContent(tableOfTrees);
+        scrollPane.setPrefSize(75, 100);
+        scrollPane.setContent(tableOfTreeTypes);
 
         submitButton = new Button("Submit");
-        submitButton.setOnAction(e -> processTreeSelected());
+        submitButton.setOnAction(e -> processTreeTypeSelected());
 
         cancelButton = new Button("Back");
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("Return", null));
@@ -230,13 +218,13 @@ public class TreeCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processTreeSelected()
+    protected void processTreeTypeSelected()
     {
-        TreeTableModel selectedItem = tableOfTrees.getSelectionModel().getSelectedItem();
+        TreeTypeTableModel selectedItem = tableOfTreeTypes.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
-            myModel.stateChangeRequest("TreeSelected", selectedItem.getBarcode());
+            myModel.stateChangeRequest("TreeTypeSelected", selectedItem.getBarcodePrefix());
 
         }
     }

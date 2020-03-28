@@ -35,7 +35,7 @@ public class TreeEditTransaction extends Transaction {
         dependencies = new Properties();
         dependencies.setProperty("EditTree", "EditResponse");
         dependencies.setProperty("EditBarcode", "EditBarcodeResponse");
-       dependencies.setProperty("DeleteScout", "DeleteResponse");
+       dependencies.setProperty("DeleteTree", "DeleteResponse");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -82,7 +82,7 @@ public class TreeEditTransaction extends Transaction {
             EditBarcodeResponse = "Tree Updated Successfully ";
 
         }
-        else if(key.equals("DeleteScout")){
+        else if(key.equals("DeleteTree")){
         error = false;
         DeleteResponse = "Tree Deleted Successfully!";
 
