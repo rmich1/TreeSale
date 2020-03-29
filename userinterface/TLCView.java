@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.SessionCollection;
 
 // project imports
 
@@ -40,6 +41,7 @@ public class TLCView extends View {
     private Button insertTreeType;
     private Button updateTreeType;
     private Button deleteTreeType;
+    private Button openSession;
     private Button submitButton;
 
     // For showing error message
@@ -131,7 +133,8 @@ public class TLCView extends View {
         updateTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
         deleteTreeType = new Button("Delete Tree Type");
         deleteTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
-
+        openSession = new Button("Open Session");
+        openSession.setOnAction(e -> processOpenSession(e));
         submitButton = new Button("Done");
         submitButton.setOnAction(e -> Platform.exit());
 
@@ -143,8 +146,9 @@ public class TLCView extends View {
        grid.add(deleteTree, 0, 5);
        grid.add(insertTreeType, 0, 6);
        grid.add(updateTreeType, 0, 7);
+       grid.add(openSession, 0, 8);
 
-        grid.add(submitButton, 0, 8);
+        grid.add(submitButton, 0, 9);
 
         return grid;
     }
@@ -163,13 +167,23 @@ public class TLCView extends View {
     // This method processes events generated from our GUI components.
     // Make the ActionListeners delegate to this method
     //-------------------------------------------------------------
-    public void processAction(Event evt) {
+    public void processOpenSession(Event evt) {
         // DEBUG: System.out.println("TellerView.actionPerformed()");
 
         clearErrorMessage();
+        SessionCollection sessionCol = new SessionCollection();
+        if(sessionCol.isOpenSessions()==true){
+            displayErrorMessage("Session is open");
+        }
+       else {
+
+            myModel.stateChangeRequest("NewSession", null);
+        }
+        }
 
 
-    }
+
+
 
 
 

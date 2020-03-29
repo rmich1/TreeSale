@@ -44,6 +44,10 @@ public class TransactionFactory {
                 return new TreeTypeCollectionTransaction();
             case "TreeTypeSelected":
                  return new TreeTypeEditTransaction((TreeType) resource);
+            case "NewSession":
+                return new SessionTransaction((Session) resource){
+
+                };
 
             default:
                 return null;

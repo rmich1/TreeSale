@@ -45,6 +45,9 @@ public class ViewFactory {
         else if(viewName.equals("TreeTypeCollectionView") == true){
             return new TreeTypeCollectionView(model);
         }
+        else if(viewName.equals("OpenSession") == true){
+            return new OpenSession(model);
+        }
 
 
         else

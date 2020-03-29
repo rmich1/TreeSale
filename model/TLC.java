@@ -65,6 +65,7 @@ public class TLC implements IView, IModel {
             case "NewTreeType":
             case "SearchTreeType":
             case "TreeTypeSelected":
+            case "NewSession":
                 initiateTransaction(key, value);
                 break;
             case "Return":
