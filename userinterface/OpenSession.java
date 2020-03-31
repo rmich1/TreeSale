@@ -195,6 +195,7 @@ public class OpenSession extends View
             //SubmitNewScout goes to ScoutTransaction State Change Request
             myModel.stateChangeRequest("OpenNewSession", session);
 
+
         }
     }
     /**

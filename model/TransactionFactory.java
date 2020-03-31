@@ -48,6 +48,10 @@ public class TransactionFactory {
                 return new SessionTransaction((Session) resource){
 
                 };
+            case "SubmitSession":
+                return new ShiftTransaction((Shift) resource){
+
+                };
 
             default:
                 return null;

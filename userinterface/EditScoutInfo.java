@@ -124,8 +124,8 @@ public class EditScoutInfo extends View {
 
         //TextFields
         scoutIdTF = new TextField();
-        scoutIdTF.setStyle("-fx-focus-color: transparent");
-        scoutIdTF.setEditable(false);
+       // scoutIdTF.setStyle("-fx-focus-color: transparent");
+       // scoutIdTF.setEditable(false);
         firstNameTF = new TextField();
         middleNameTF = new TextField();
         lastNameTF = new TextField();
@@ -133,12 +133,12 @@ public class EditScoutInfo extends View {
         phoneNumberTF = new TextField();
         emailTF = new TextField();
         troopIdTF = new TextField();
-        scoutIdTF = new TextField();
+       // scoutIdTF = new TextField();
         dateStatusUpdatedTF = new TextField();
         dateStatusUpdatedTF.setEditable(false);
         //Labels
-        Text prompt = new Text("Edit Scout Information");
-        Label scoutIdLabel = new Label("Scout ID: ");
+        Text prompt = new Text("Scout Information");
+        //Label scoutIdLabel = new Label("Scout ID: ");
         Label firstNameLabel = new Label("First Name: ");
         Label middleNameLabel = new Label("Middle Name: ");
         Label lastNameLabel = new Label("Last Name: ");
@@ -153,26 +153,24 @@ public class EditScoutInfo extends View {
         status.getItems().addAll("Active", "Inactive");
 
         grid.add(prompt, 0, 0);
-        grid.add(scoutIdLabel, 0, 1);
-        grid.add(scoutIdTF, 1, 1);
-        grid.add(firstNameLabel, 0, 2);
-        grid.add(firstNameTF, 1, 2);
-        grid.add(middleNameLabel, 0, 3);
-        grid.add(middleNameTF, 1, 3);
-        grid.add(lastNameLabel, 0, 4);
-        grid.add(lastNameTF, 1, 4);
-        grid.add(DOBLabel, 0, 5);
-        grid.add(dateOfBirthTF, 1, 5);
-        grid.add(phoneNumberLabel, 0, 6);
-        grid.add(phoneNumberTF, 1, 6);
-        grid.add(emailLabel, 0, 7);
-        grid.add(emailTF, 1, 7);
-        grid.add(statusLabel, 0, 8);
-        grid.add(status, 1, 8);
-        grid.add(troopIdLabel, 0, 9);
-        grid.add(troopIdTF, 1, 9);
-        grid.add(dateStatusUpdatedLabel, 0, 10);
-        grid.add(dateStatusUpdatedTF, 1, 10);
+        grid.add(firstNameLabel, 0, 1);
+        grid.add(firstNameTF, 1, 1);
+        grid.add(middleNameLabel, 0, 2);
+        grid.add(middleNameTF, 1, 2);
+        grid.add(lastNameLabel, 0, 3);
+        grid.add(lastNameTF, 1, 3);
+        grid.add(DOBLabel, 0, 4);
+        grid.add(dateOfBirthTF, 1, 4);
+        grid.add(phoneNumberLabel, 0, 5);
+        grid.add(phoneNumberTF, 1, 5);
+        grid.add(emailLabel, 0, 6);
+        grid.add(emailTF, 1, 6);
+        grid.add(statusLabel, 0, 7);
+        grid.add(status, 1, 7);
+        grid.add(troopIdLabel, 0, 8);
+        grid.add(troopIdTF, 1, 8);
+        //grid.add(dateStatusUpdatedLabel, 0, 9);
+       // grid.add(dateStatusUpdatedTF, 1, 9);
 
 
         // status.setValue("Active");
@@ -211,7 +209,7 @@ public class EditScoutInfo extends View {
     //-------------------------------------------------------------
     public void populateFields() {
         //Populates the fields into the edit Scout screen
-        scoutIdTF.setText((String) myModel.getState("scoutId"));
+         scoutIdTF.setText((String) myModel.getState("scoutId"));
         firstNameTF.setText((String) myModel.getState("firstName"));
         middleNameTF.setText((String) myModel.getState("middleName"));
         lastNameTF.setText((String) myModel.getState("lastName"));
@@ -250,7 +248,7 @@ public class EditScoutInfo extends View {
             else{
                 scout.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
             }
-            scout.setProperty("scoutId", scoutIdTF.getText());
+            scout.setProperty("scoutId", myModel.getState("scoutId").toString());
             scout.setProperty("firstName", firstNameTF.getText());
             scout.setProperty("middleName", middleNameTF.getText());
             scout.setProperty("lastName", lastNameTF.getText());
@@ -275,7 +273,7 @@ public class EditScoutInfo extends View {
         LocalDateTime today = LocalDateTime.now();
         String dateUpdated = today.toString();
 
-        scout.setProperty("scoutId", scoutIdTF.getText());
+        scout.setProperty("scoutId", myModel.getState("scoutId").toString());
         scout.setProperty("firstName", firstNameTF.getText());
         scout.setProperty("middleName", middleNameTF.getText());
         scout.setProperty("lastName", lastNameTF.getText());
@@ -306,7 +304,7 @@ public class EditScoutInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (scoutIdTF.getText() == null || scoutIdTF.getText().trim().isEmpty()) {
+                if ((String)myModel.getState("scoutId") == null){
                     scoutIdTF.setText(response.getKey());
                 }
             }

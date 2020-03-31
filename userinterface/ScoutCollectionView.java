@@ -150,7 +150,7 @@ public class ScoutCollectionView extends View
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 280, 20, 280));
+        grid.setPadding(new Insets(20, 280, 20, 170));
 
         Text prompt = new Text("Select Scout");
         prompt.setWrappingWidth(350);
@@ -208,8 +208,8 @@ public class ScoutCollectionView extends View
 
 
 
-        tableOfScouts.getColumns().addAll(scoutIdColumn, firstNameColumn, middleNameColumn, lastNameColumn,
-                dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn, dateStatusUpdatedColumn);
+        tableOfScouts.getColumns().addAll(firstNameColumn, middleNameColumn, lastNameColumn,
+                dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn);
 
         tableOfScouts.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override

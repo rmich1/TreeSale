@@ -172,14 +172,14 @@ public class TLCView extends View {
 
         clearErrorMessage();
         SessionCollection sessionCol = new SessionCollection();
-        if(sessionCol.isOpenSessions()==true){
-            displayErrorMessage("Session is open");
-        }
-       else {
+      //  if(sessionCol.isOpenSessions()==true){
+        //    displayErrorMessage("Session is open");
+        //}
+       //else {
 
             myModel.stateChangeRequest("NewSession", null);
         }
-        }
+        //}
 
 
 

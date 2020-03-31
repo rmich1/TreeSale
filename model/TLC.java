@@ -68,6 +68,8 @@ public class TLC implements IView, IModel {
             case "NewSession":
                 initiateTransaction(key, value);
                 break;
+            case "NewShift":
+                initiateTransaction(key, value);
             case "Return":
                 createAndShowView("TLCView");
                 break;

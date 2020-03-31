@@ -42,7 +42,7 @@ public class ScoutCollection extends EntityBase {
     }
     //----------------------------------------------------------------------------------
     //Populates the Scout Vector
-    private void scoutHelper(String query){
+    private Vector<Scout> scoutHelper(String query){
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null) {
@@ -62,6 +62,7 @@ public class ScoutCollection extends EntityBase {
 
             }
         }
+        return scouts;
     }
     //----------------------------------------------------------------------------------
     //Finds all scouts with first name like AND Active and Inactive
@@ -87,11 +88,10 @@ public class ScoutCollection extends EntityBase {
     }
     //-----------------------------------------------------------------------------------
     //Find all scouts with part of first name and last name
-    public void findScoutswithFNameLNameLike(String[] fName){
-
+    public Vector<Scout> findScoutswithFNameLNameLike(String[] fName){
         String query = "SELECT * FROM " + myTableName + " WHERE firstName LIKE '%" + fName[0] + "%' AND lastName LIKE '%"
                 + fName[1] + "%'";
-        scoutHelper(query);
+            return scoutHelper(query);
 
     }
     //-----------------------------------------------------------------------------------
@@ -116,11 +116,11 @@ public class ScoutCollection extends EntityBase {
     //----------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------
 
-    public void findScoutsWithFNameLikeActive(String fName)
+    public Vector<Scout> findScoutsWithFNameLikeActive(String fName)
     {
 
         String query = "SELECT * FROM " + myTableName + " WHERE firstName LIKE '%" + fName + "%' AND status='Active'";
-        scoutHelper(query);
+        return scoutHelper(query);
 
     }
     //-----------------------------------------------------------------------------------
@@ -138,11 +138,11 @@ public class ScoutCollection extends EntityBase {
     }
     //-----------------------------------------------------------------------------------
     //Find all scouts with part of first name and last name
-    public void findScoutswithFNameLNameLikeActive(String[] fName){
+    public Vector<Scout> findScoutswithFNameLNameLikeActive(String[] fName){
 
         String query = "SELECT * FROM " + myTableName + " WHERE firstName LIKE '%" + fName[0] + "%' AND lastName LIKE '%"
                 + fName[1] + "%' AND status='Active'";
-        scoutHelper(query);
+        return scoutHelper(query);
 
     }
     //-----------------------------------------------------------------------------------
@@ -165,6 +165,32 @@ public class ScoutCollection extends EntityBase {
         String query = "SELECT * FROM " + myTableName + " WHERE lastName LIKE '%" + info[0] + "%' AND email LIKE '%"
                 + info[1] + "%' AND status='Active'";
         scoutHelper(query);
+    }
+    public Vector findAllActiveScouts(){
+        Vector activeScouts = new Vector();
+        String query = "SELECT firstName, lastName FROM " + myTableName + " WHERE status='Active'";
+        Vector allDataRetrieved = getSelectQueryResult(query);
+
+        if (allDataRetrieved != null) {
+            //initilizing account vector, get a new set of account objects to populate
+            scouts = new Vector<Scout>();
+            //populates the books vector
+            for (int count = 0; count < allDataRetrieved.size(); count++) {
+                Properties nextScoutData = (Properties) allDataRetrieved.elementAt(count);
+
+                Scout scout = new Scout(nextScoutData);
+                //Adding each account to a collection(accounts vector)
+                //Have a seperate method to add account because the method will build up a sorted account collection
+                if (scout != null) {
+                    scouts.addElement(scout);
+                }
+
+
+            }
+        }
+      return scouts;
+
+
     }
     //----------------------------------------------------------------------------------------
     //Find where to put new scout into Scout Vector

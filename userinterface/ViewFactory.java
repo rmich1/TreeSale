@@ -48,6 +48,9 @@ public class ViewFactory {
         else if(viewName.equals("OpenSession") == true){
             return new OpenSession(model);
         }
+        else if(viewName.equals("OpenShift") == true){
+            return new OpenShift(model);
+        }
 
 
         else

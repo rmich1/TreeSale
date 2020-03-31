@@ -8,29 +8,26 @@ import userinterface.ViewFactory;
 
 import java.sql.SQLException;
 import java.util.Properties;
-import impresario.*;
 
 
-public class SessionTransaction extends Transaction{
-    private Session session = new Session((Properties) null);
+public class ShiftTransaction extends Transaction {
     private Shift shift = new Shift((Properties) null);
     private String sessionResponse = "";
     private Boolean error = false;
-    private ModelRegistry myModel;
-    private IModel imodel;
 
 
-    public SessionTransaction(Session sess){
+    public ShiftTransaction(Shift sh){
         super();
 
-        if (sess != null) {
-            session = sess;
+        if (sh != null) {
+            shift = sh;
         }
     }
 
     protected void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("OpenNewSession", "OpenResponse");
+        dependencies.setProperty("OpenNewShift", "OpenResponse");
+        dependencies.setProperty("AddNewScoutToShift", "OpenResponse");
 
         myRegistry.setDependencies(dependencies);
     }
@@ -38,15 +35,15 @@ public class SessionTransaction extends Transaction{
     public Object getState(String key) {
 
         switch (key) {
+            case "shiftId":
             case "sessionId":
             case "startTime":
+            case "companionName":
             case "endTime":
-            case "startingCash":
-            case "endingCash":
             case "status":
-                return session.getState(key);
+                return shift.getState(key);
             case "OpenResponse":
-                return new Pair<>((String) session.getState("sessionId"),
+                return new Pair<>((String) shift.getState("shiftId"),
                         new Pair<>(sessionResponse, error));
             default:
                 return null;
@@ -55,31 +52,27 @@ public class SessionTransaction extends Transaction{
 
     public void stateChangeRequest(String key, Object value) {
 
-        if(key.equals("OpenNewSession")){
-            session = new Session((Properties) value);
-            session.save();
+        if (key.equals("OpenNewShift")) {
+            System.out.println("Here");
+            shift = new Shift((Properties) value);
+            shift.save();
             error = false;
-            sessionResponse = "Session Opened Successfully!";
-            createAndShowOpenShift();
-
+            sessionResponse = "Shift Opened Successfully!";
         }
 
+
+        if (key.equals("AddMoreScoutsToShift")) {
+            shift = new Shift((Properties) value);
+            shift.save();
+            error = false;
+            sessionResponse = "Shift Opened Successfully!";
+            createandShowShiftView();
+        }
         myRegistry.updateSubscribers(key, this);
 
     }
     //Creating the addScout View
     protected Scene createView() {
-        Scene scene = myViews.get("OpenSession");
-
-        if (scene == null) {
-            View view = ViewFactory.createView("OpenSession", this);
-            scene = new Scene(view);
-            myViews.put("OpenSession", scene);
-        }
-
-        return scene;
-    }
-    public void createAndShowOpenShift(){
         Scene scene = myViews.get("OpenShift");
 
         if (scene == null) {
@@ -88,11 +81,17 @@ public class SessionTransaction extends Transaction{
             myViews.put("OpenShift", scene);
         }
 
-        swapToView(scene);
+        return scene;
     }
+    public void createandShowShiftView(){
+    Scene scene = myViews.get("OpenShift");
+
+        if (scene == null) {
+        View view = ViewFactory.createView("OpenShift", this);
+        scene = new Scene(view);
+        myViews.put("OpenShift", scene);
     }
 
-
-
-
-
+    swapToView(scene);
+}
+}
