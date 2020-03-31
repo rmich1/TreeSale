@@ -189,13 +189,21 @@ public class TreeCollectionView extends View
 
         tableOfTrees.getColumns().addAll(barcodeColumn, treeTypeColumn, statusColumn, dateStatusUpdatedColumn, NotesColumn);
 
-       // tableOfTrees.setOnMousePressed(e -> processAccountSelected());
+        tableOfTrees.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
+                    processTreeSelected();
+                }
+            }
+        });
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setPrefSize(115, 150);
         scrollPane.setContent(tableOfTrees);
 
         submitButton = new Button("Submit");
-        submitButton.setOnAction(e -> processAccountSelected());
+        submitButton.setOnAction(e -> processTreeSelected());
 
         cancelButton = new Button("Back");
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("Return", null));
@@ -222,7 +230,7 @@ public class TreeCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processAccountSelected()
+    protected void processTreeSelected()
     {
         TreeTableModel selectedItem = tableOfTrees.getSelectionModel().getSelectedItem();
 

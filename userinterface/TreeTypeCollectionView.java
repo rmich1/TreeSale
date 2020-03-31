@@ -40,18 +40,19 @@ import java.util.Enumeration;
 // project imports
 import impresario.IModel;
 
-import model.Scout;
-import model.ScoutCollection;
+
+import model.TreeType;
+import model.TreeTypeCollection;
 
 /**
- * View Brings back the scout collection from the user search the user can double click on the desired
- * scout name which will bring up the EditScoutInfo screen
+ * View Brings back the tree collection from the user search the user can double click on the desired
+ * scout name which will bring up the EditTreeInfo screen
  */
 
 //==============================================================================
-public class ScoutCollectionView extends View
+public class TreeTypeCollectionView extends View
 {
-    protected TableView<ScoutTableModel> tableOfScouts = new TableView();
+    protected TableView<TreeTypeTableModel> tableOfTreeTypes = new TableView();
     protected Button cancelButton;
     protected Button submitButton;
 
@@ -59,9 +60,9 @@ public class ScoutCollectionView extends View
 
 
     //--------------------------------------------------------------------------
-    public ScoutCollectionView(IModel scCollection)
+    public TreeTypeCollectionView(IModel ttCollection)
     {
-        super(scCollection, "ScoutCollectionView");
+        super(ttCollection, "TreeTypeCollectionView");
 
 
         // create a container for showing the contents
@@ -90,33 +91,33 @@ public class ScoutCollectionView extends View
     protected void getEntryTableModelValues()
     {
 
-        ScoutCollection scouts = (ScoutCollection)myModel.getState("ScoutList");
-        ObservableList<ScoutTableModel> tableData = FXCollections.observableArrayList();
+        TreeTypeCollection treeTypes = (TreeTypeCollection) myModel.getState("TreeTypeList");
+        ObservableList<TreeTypeTableModel> tableData = FXCollections.observableArrayList();
 
 
-        Vector<Scout> entryList = (Vector)scouts.getState("Scouts");
-        Enumeration<Scout> entries = entryList.elements();
+        Vector<TreeType> entryList = (Vector)treeTypes.getState("TreeTypes");
+        Enumeration<TreeType> entries = entryList.elements();
 
         while (entries.hasMoreElements())
         {
-            Scout nextScout = entries.nextElement();
-            Vector<String> view = nextScout.getEntryListView();
+            TreeType nextTreeType = entries.nextElement();
+            Vector<String> view = nextTreeType.getEntryListView();
 
             //  Add this list entry to the list
-            ScoutTableModel nextTableRowData = new ScoutTableModel(view);
+            TreeTypeTableModel nextTableRowData = new TreeTypeTableModel(view);
             tableData.add(nextTableRowData);
 
 
 
         }
 
-        SortedList<ScoutTableModel> sortedList = new SortedList<>(tableData,
-                Comparator.comparing(ScoutTableModel::getStatus));
+        SortedList<TreeTypeTableModel> sortedList = new SortedList<TreeTypeTableModel>(tableData,
+                Comparator.comparing(TreeTypeTableModel::getBarcodePrefixSort));
 
 
 
 
-        tableOfScouts.setItems(sortedList);
+        tableOfTreeTypes.setItems(sortedList);
 
 
 
@@ -130,7 +131,7 @@ public class ScoutCollectionView extends View
         HBox container = new HBox();
         container.setAlignment(Pos.CENTER);
 
-        Text titleText = new Text("Scout Search");
+        Text titleText = new Text("Tree Type Search");
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setWrappingWidth(300);
         titleText.setTextAlignment(TextAlignment.CENTER);
@@ -144,88 +145,53 @@ public class ScoutCollectionView extends View
     //-------------------------------------------------------------
     private VBox createFormContent()
     {
-        VBox vbox = new VBox(30);
+        VBox vbox = new VBox(10);
 
         GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 280, 20, 170));
+        grid.setPadding(new Insets(20, 80, 20, 80));
 
-        Text prompt = new Text("Select Scout");
-        prompt.setWrappingWidth(350);
+        Text prompt = new Text("Select Tree Type");
+        prompt.setWrappingWidth(100);
         prompt.setTextAlignment(TextAlignment.CENTER);
         prompt.setFill(Color.BLACK);
         grid.add(prompt, 0, 0, 2, 1);
 
 
         //This is how it should look
-        TableColumn<ScoutTableModel, String> scoutIdColumn = new TableColumn("Scout ID") ;
-        scoutIdColumn.setMinWidth(100);
-        scoutIdColumn.setCellValueFactory(new PropertyValueFactory<>("scoutId"));
+        TableColumn<TreeTypeTableModel, String> barcodePrefixColumn = new TableColumn("Barcode Prefix") ;
+        barcodePrefixColumn.setMinWidth(100);
+        barcodePrefixColumn.setCellValueFactory(new PropertyValueFactory<>("barcodePrefix"));
 
+        TableColumn<TreeTypeTableModel, String> typeDescColumn = new TableColumn("Type Description") ;
+        typeDescColumn.setMinWidth(100);
+       typeDescColumn.setCellValueFactory(new PropertyValueFactory<>("typeDesc"));
 
-        TableColumn<ScoutTableModel, String> firstNameColumn = new TableColumn("First Name") ;
-        firstNameColumn.setMinWidth(100);
-        firstNameColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("firstName"));
-
-
-        TableColumn<ScoutTableModel, String> middleNameColumn = new TableColumn("Middle Name") ;
-        middleNameColumn.setMinWidth(100);
-        middleNameColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("middleName"));
-
-
-        TableColumn<ScoutTableModel, String> lastNameColumn = new TableColumn("Last Name") ;
-        lastNameColumn.setMinWidth(100);
-        lastNameColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("lastName"));
-
-
-        TableColumn<ScoutTableModel, String> dobColumn = new TableColumn("Date Of Birth") ;
-        dobColumn.setMinWidth(100);
-        dobColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("dateOfBirth"));
-
-        TableColumn<ScoutTableModel, String> phoneNumberColumn = new TableColumn("Phone Number") ;
-        phoneNumberColumn.setMinWidth(100);
-        phoneNumberColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("phoneNumber"));
-
-        TableColumn<ScoutTableModel, String> emailColumn = new TableColumn("Email") ;
-        emailColumn.setMinWidth(100);
-        emailColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("email"));
-
-        TableColumn<ScoutTableModel, String> statusColumn = new TableColumn("Status") ;
-        statusColumn.setMinWidth(100);
-        statusColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("status"));
-
-
-        TableColumn<ScoutTableModel, String> troopIdColumn = new TableColumn("Troop ID") ;
-        troopIdColumn.setMinWidth(100);
-        troopIdColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("troopId"));
-
-        TableColumn<ScoutTableModel, String> dateStatusUpdatedColumn = new TableColumn("Date Status Updated");
-        dateStatusUpdatedColumn.setMinWidth(100);
-        dateStatusUpdatedColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("dateStatusUpdated"));
+        TableColumn<TreeTypeTableModel, String> costColumn = new TableColumn("Cost") ;
+        costColumn.setMinWidth(100);
+        costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
 
 
+        tableOfTreeTypes.getColumns().addAll(barcodePrefixColumn, typeDescColumn, costColumn);
 
-        tableOfScouts.getColumns().addAll(firstNameColumn, middleNameColumn, lastNameColumn,
-                dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn);
-
-        tableOfScouts.setOnMousePressed(new EventHandler<MouseEvent>() {
+        tableOfTreeTypes.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event)
             {
                 if (event.isPrimaryButtonDown() && event.getClickCount() >=2 ){
-                    processAccountSelected();
+                    processTreeTypeSelected();
                 }
             }
         });
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(115, 150);
-        scrollPane.setContent(tableOfScouts);
+        scrollPane.setPrefSize(75, 100);
+        scrollPane.setContent(tableOfTreeTypes);
 
         submitButton = new Button("Submit");
-       submitButton.setOnAction(e -> processAccountSelected());
+        submitButton.setOnAction(e -> processTreeTypeSelected());
 
         cancelButton = new Button("Back");
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("Return", null));
@@ -252,13 +218,13 @@ public class ScoutCollectionView extends View
     }
 
     //--------------------------------------------------------------------------
-    protected void processAccountSelected()
+    protected void processTreeTypeSelected()
     {
-        ScoutTableModel selectedItem = tableOfScouts.getSelectionModel().getSelectedItem();
+        TreeTypeTableModel selectedItem = tableOfTreeTypes.getSelectionModel().getSelectedItem();
 
         if(selectedItem != null)
         {
-            myModel.stateChangeRequest("ScoutSelected", selectedItem.getScoutId());
+            myModel.stateChangeRequest("TreeTypeSelected", selectedItem.getBarcodePrefix());
 
         }
     }
@@ -290,7 +256,7 @@ public class ScoutCollectionView extends View
         statusLog.clearErrorMessage();
     }
 
-	//--------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
 
 
 

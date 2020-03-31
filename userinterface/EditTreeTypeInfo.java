@@ -35,31 +35,26 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
-import model.Scout;
-import model.ScoutCollection;
-import model.Tree;
-import model.TreeCollection;
+import model.*;
 
-/** The View to edit the Scout info*/
+
 //==============================================================
-public class EditTreeInfo extends View {
+public class EditTreeTypeInfo extends View {
 
     // Model
 
     // GUI components
-    private TextField barcodeTF;
-    private TextField treeTypeTF;
-    private TextField dateStatusUpdatedTF;
-    private TextField notesTF;
-    private Tree treeEdit = new Tree();
-    private TreeCollection treeColl = new TreeCollection();
+    private TextField barcodePrefixTF;
+    private TextArea typeDescTA;
+    private TextField costTF;
 
-    private ComboBox status;
+    private TreeType treeTypeEdit = new TreeType();
+    private TreeTypeCollection treeTypeColl = new TreeTypeCollection();
 
     private Button updateButton;
     private Button deleteButton;
     private Button cancelButton;
-    private Stage primary = new Stage();
+
 
 
 
@@ -69,8 +64,8 @@ public class EditTreeInfo extends View {
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public EditTreeInfo(IModel editTree) {
-        super(editTree, "EditTreeInfo");
+    public EditTreeTypeInfo(IModel editTreeType) {
+        super(editTreeType, "EditTreeTypeInfo");
 
 
         // create a container for showing the contents
@@ -117,39 +112,22 @@ public class EditTreeInfo extends View {
 
 
         //TextFields
-        barcodeTF = new TextField();
-        barcodeTF.setEditable(true);
-        treeTypeTF = new TextField();
-        dateStatusUpdatedTF = new TextField();
-        dateStatusUpdatedTF.setEditable(false);
-        notesTF = new TextField();
+        barcodePrefixTF = new TextField();
+        typeDescTA = new TextArea();
+        costTF = new TextField();
         //Labels
-        Text prompt = new Text("Edit Tree Information");
-        Label barcode = new Label("Barcode: ");
-        Label treeType = new Label("Tree Type: ");
-        Label statusLabel = new Label("Status: ");
-        Label dateStatusUpdatedLabel = new Label("Date Status Updated");
-        Label notes = new Label("Notes: ");
-        //status combo box
-        status = new ComboBox();
-        status.getItems().addAll("Available", "Sold");
+        Text prompt = new Text("Edit Tree Type Information");
+        Label barcodePrefix = new Label("Barcode Prefix: ");
+        Label typeDesc = new Label("Type Description");
+        Label cost = new Label("Cost");
 
         grid.add(prompt, 0, 0);
-       grid.add(barcode, 0, 1);
-       grid.add(barcodeTF, 1, 1);
-       grid.add(treeType, 0, 2);
-       grid.add(treeTypeTF, 1, 2);
-       grid.add(statusLabel, 0, 3);
-       grid.add(status, 1, 3);
-       grid.add(dateStatusUpdatedLabel, 0, 4);
-       grid.add(dateStatusUpdatedTF, 1, 4);
-       grid.add(notes, 0, 5);
-       grid.add(notesTF, 1, 5);
-
-
-
-
-
+        grid.add(barcodePrefix, 0, 1);
+        grid.add(barcodePrefixTF, 1, 1);
+        grid.add(typeDesc, 0, 2);
+        grid.add(typeDescTA, 1, 2);
+        grid.add(cost, 0, 3);
+        grid.add(costTF, 1, 3);
 
         updateButton = new Button("Update");
         updateButton.setOnAction(e -> processAction(e));
@@ -185,77 +163,47 @@ public class EditTreeInfo extends View {
     //-------------------------------------------------------------
     public void populateFields() {
         //Populates the fields into the edit Scout screen
-        barcodeTF.setText((String) myModel.getState("barcode"));
-        treeTypeTF.setText((String) myModel.getState("treeType"));
-        dateStatusUpdatedTF.setText((String) myModel.getState("dateStatusUpdated"));
-        notesTF.setText((String) myModel.getState("Notes"));
-        status.setPromptText((String) myModel.getState("status"));
-        status.setValue((String) myModel.getState("status"));
+        barcodePrefixTF.setText((String) myModel.getState("barcodePrefix"));
+        typeDescTA.setText((String) myModel.getState("typeDesc"));
+        costTF.setText((String) myModel.getState("cost"));
     }
 
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
-        Properties tree = new Properties();
-        String oldBarcode = (String) myModel.getState("barcode");
-
         clearErrorMessage();
-        if ((barcodeTF.getText().length()==0) && (treeTypeTF.getText().length() == 0) &&
-                (dateStatusUpdatedTF.getText().length()==0) && (notesTF.getText().length()==0)){
+        Properties treeType = new Properties();
+        String oldBarcodePrefix = (String) myModel.getState("barcodePrefix");
+
+
+        if ((barcodePrefixTF.getText().length()==0) && (typeDescTA.getText().length() == 0) &&
+                (costTF.getText().length()==0)){
             displayErrorMessage("Enter Required Fields");
         }
-        if(!oldBarcode.equals(barcodeTF.getText())) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        //If user is changing the barcode prefix, it will find the old barcode and delete it in the database
+        //Then it adds the new tree type barcode prefix into the database
+        if(!oldBarcodePrefix.equals(barcodePrefixTF.getText())) {
 
-            LocalDateTime today = LocalDateTime.now();
-            String formattedDate = today.format(formatter);
-            String oldStatus = (String) myModel.getState("status");
-            //If the status is updated change the dateStatusUpdated Field
-            if(!oldStatus.equals(status.getValue().toString())){
-                tree.setProperty("dateStatusUpdated", formattedDate);
-            }
-            //If status is unchanged keep original dateStatusUpdatedField
-            else{
-                tree.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
-            }
-            tree.setProperty("barcode", barcodeTF.getText());
-            tree.setProperty("treeType", treeTypeTF.getText());
-            tree.setProperty("status", status.getValue().toString());
-            tree.setProperty("Notes", notesTF.getText());
+            treeType.setProperty("barcodePrefix", barcodePrefixTF.getText());
+            treeType.setProperty("typeDesc", typeDescTA.getText());
+            treeType.setProperty("cost", costTF.getText());
             try {
-                Tree treeDelete = new Tree((String) myModel.getState("barcode"));
-                treeDelete.deleteInDatabase();
+                TreeType treeTypeDelete = new TreeType((String) myModel.getState("barcodePrefix"));
+                treeTypeDelete.deleteInDatabase();
             }
             catch (InvalidPrimaryKeyException e) {
                 e.printStackTrace();
             }
             displayMessage("Tree Updated Successfully!");
-            myModel.stateChangeRequest("EditBarcode", tree);
+            myModel.stateChangeRequest("EditBarcodePrefix", treeType);
 
 
         }
         else{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-            LocalDateTime today = LocalDateTime.now();
-            String formattedDate = today.format(formatter);
-            String oldStatus = (String) myModel.getState("status");
-            //If the status is updated change the dateStatusUpdated Field
-            if(!oldStatus.equals(status.getValue().toString())){
-                tree.setProperty("dateStatusUpdated", formattedDate);
-            }
-            //If status is unchanged keep original dateStatusUpdatedField
-            else{
-                tree.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
-            }
-
-
-
-            tree.setProperty("barcode", barcodeTF.getText());
-            tree.setProperty("treeType", treeTypeTF.getText());
-            tree.setProperty("status", status.getValue().toString());
-            tree.setProperty("Notes", notesTF.getText());
-            myModel.stateChangeRequest("EditTree", tree);
+            treeType.setProperty("barcodePrefix", barcodePrefixTF.getText());
+            treeType.setProperty("typeDesc", typeDescTA.getText());
+            treeType.setProperty("cost", costTF.getText());
+            myModel.stateChangeRequest("EditTreeType", treeType);
 
 
 
@@ -264,14 +212,10 @@ public class EditTreeInfo extends View {
         }
     }
     private void processDelete() {
-        if(status.getValue().equals("Sold")){
-            displayErrorMessage("Can't Delete Sold Tree");
-        }
-        else {
             Alert alert;
             alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(null);
-            alert.setContentText("Are you sure you want to delete tree?");
+            alert.setContentText("Are you sure you want to delete tree type?");
 
             ButtonType buttonTypeYes = new ButtonType("Yes");
             ButtonType buttonTypeNo = new ButtonType("No");
@@ -280,24 +224,24 @@ public class EditTreeInfo extends View {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == buttonTypeYes) {
                 alert.close();
-                deleteTree();
+                deleteTreeType();
             } else {
                 alert.close();
                 myModel.stateChangeRequest("Return", null);
             }
         }
-    }
 
 
 
 
-    public void deleteTree(){
+
+    public void deleteTreeType(){
 
         try {
-            Tree treeDelete = new Tree((String) myModel.getState("barcode"));
-            treeDelete.deleteInDatabase();
-            myModel.stateChangeRequest("DeleteTree", null);
-            displayMessage("Tree Successfully Deleted!");
+            TreeType treeTypeDelete = new TreeType((String) myModel.getState("barcodePrefix"));
+            treeTypeDelete.deleteInDatabase();
+            myModel.stateChangeRequest("DeleteTreeType", null);
+            displayMessage("Tree Type Successfully Deleted!");
         }
         catch (InvalidPrimaryKeyException ex) {
             ex.printStackTrace();
@@ -320,12 +264,12 @@ public class EditTreeInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
-                    barcodeTF.setText(response.getKey());
+                if (barcodePrefixTF.getText() == null || barcodePrefixTF.getText().trim().isEmpty()) {
+                    barcodePrefixTF.setText(response.getKey());
                 }
             }
         }
-        if (key.equals("EditBarcode")) {
+        if (key.equals("EditBarcodePrefix")) {
             if (value instanceof Pair) {
                 Pair<String, Pair<String, Boolean>> response = (Pair) value;
                 if (response.getValue().getValue()) {
@@ -334,8 +278,8 @@ public class EditTreeInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
-                    barcodeTF.setText(response.getKey());
+                if (barcodePrefixTF.getText() == null || barcodePrefixTF.getText().trim().isEmpty()) {
+                    barcodePrefixTF.setText(response.getKey());
                 }
             }
 
@@ -349,8 +293,8 @@ public class EditTreeInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
-                    barcodeTF.setText(response.getKey());
+                if (barcodePrefixTF.getText() == null || barcodePrefixTF.getText().trim().isEmpty()) {
+                    barcodePrefixTF.setText(response.getKey());
                 }
             }
         }

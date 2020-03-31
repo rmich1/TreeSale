@@ -36,6 +36,21 @@ public class ViewFactory {
         else if(viewName.equals("AddTreeType")==true){
             return new AddTreeType(model);
         }
+        else if(viewName.equals("SearchTreeType")== true){
+            return new SearchTreeType(model);
+        }
+        else if(viewName.equals("EditTreeTypeInfo") == true){
+            return new EditTreeTypeInfo(model);
+        }
+        else if(viewName.equals("TreeTypeCollectionView") == true){
+            return new TreeTypeCollectionView(model);
+        }
+        else if(viewName.equals("OpenSession") == true){
+            return new OpenSession(model);
+        }
+        else if(viewName.equals("OpenShift") == true){
+            return new OpenShift(model);
+        }
 
 
         else

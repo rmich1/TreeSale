@@ -23,7 +23,7 @@ public class TreeCollectionTransaction extends Transaction {
 
     protected void setDependencies() {
         dependencies = new Properties();
-        dependencies.setProperty("UpdateTree", "NoScoutsError");
+        dependencies.setProperty("UpdateTree", "NoTreeError");
 
         myRegistry.setDependencies(dependencies);
     }
