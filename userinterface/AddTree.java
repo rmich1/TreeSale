@@ -96,7 +96,7 @@ public class AddTree extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.DARKGREEN);
 
         return titleText;
     }
@@ -124,6 +124,8 @@ public class AddTree extends View
         notesTA.setEditable(true);
         //Labels
         Text prompt =new Text("Tree Information");
+        prompt.setFill(Color.RED);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         Label barcode = new Label("Barcode: ");
         Label statusLabel = new Label("Status: ");
         Label dateStatusUpdated = new Label ("Date Status Updated: ");
@@ -139,10 +141,8 @@ public class AddTree extends View
         grid.add(barcodeTF, 1, 1);
         grid.add(statusLabel, 0, 2);
         grid.add(status, 1, 2);
-        grid.add(dateStatusUpdated, 0, 3);
-        grid.add(dateStatusUpdatedTF, 1, 3);
-        grid.add(notes, 0, 4);
-        grid.add(notesTA, 1, 4);
+        grid.add(notes, 0, 3);
+        grid.add(notesTA, 1, 3);
 
         // status.setValue("Active");
         LocalDate date = LocalDate.now();

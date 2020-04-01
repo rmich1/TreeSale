@@ -105,7 +105,7 @@ public class EditScoutInfo extends View {
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.DARKGREEN);
 
         return titleText;
     }
@@ -138,6 +138,10 @@ public class EditScoutInfo extends View {
         dateStatusUpdatedTF.setEditable(false);
         //Labels
         Text prompt = new Text("Scout Information");
+
+        prompt.setFill(Color.RED);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+
         //Label scoutIdLabel = new Label("Scout ID: ");
         Label firstNameLabel = new Label("First Name: ");
         Label middleNameLabel = new Label("Middle Name: ");
