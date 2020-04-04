@@ -3,6 +3,7 @@ package userinterface;
 
 // system imports
 
+import exception.InvalidPrimaryKeyException;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
@@ -28,6 +29,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,6 +43,7 @@ import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
 import model.ScoutCollection;
+import model.Session;
 import model.Shift;
 
 import javax.swing.*;
@@ -58,16 +61,20 @@ public class OpenShift extends View
     ScoutCollection activeScouts = new ScoutCollection();
     private ComboBox scoutBox;
     private TextField scoutIdTF;
+    private TextField startDateTF;
+
     private TextField startTimeTF;
     private TextField endTimeTF;
     private TextField companionNameTF;
     private TextField companionHoursTF;
-
+    private String startingCash;
 
     private Button addScout;
     private Button submitButton;
     private Button cancelButton;
-
+    DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    Date dateobj = new Date();
+    String today = df.format(dateobj);
 
 
     // For showing error message
@@ -92,7 +99,7 @@ public class OpenShift extends View
         container.getChildren().add(createStatusLog("                          "));
 
         getChildren().add(container);
-
+        startingCash = "0";
         populateFields();
         myModel.subscribe("OpenResponse", this);
     }
@@ -138,6 +145,7 @@ public class OpenShift extends View
        scoutBox = new ComboBox(FXCollections.observableArrayList(scouts));
 
         scoutIdTF = new TextField();
+        startDateTF = new TextField();
         sessionIDTF = new TextField();
         startTimeTF = new TextField();
         endTimeTF = new TextField();
@@ -153,6 +161,7 @@ public class OpenShift extends View
         Text prompt =new Text("Open Shift");
         Label sessionId = new Label("Session ID: ");
         Label scoutId = new Label("Scout ID: ");
+        Label startDate = new Label("Start Date: ");
         Label startTime = new Label("Start Time: ");
         Label companionName = new Label("Companion Name: ");
         Label endTime = new Label("End Time: ");
@@ -163,6 +172,8 @@ public class OpenShift extends View
         grid.add(sessionIDTF, 1, 1);
         grid.add(scout, 0, 2);
         grid.add(scoutBox, 1, 2);
+        grid.add(startDate, 0, 3);
+        grid.add(startDateTF, 1, 3);
         grid.add(startTime, 0, 4);
         grid.add(startTimeTF, 1, 4);
         grid.add(companionName, 0, 5);
@@ -208,7 +219,8 @@ public class OpenShift extends View
     {
 
         sessionIDTF.setText(myModel.getState("sessionId").toString());
-        startTimeTF.setText(myModel.getState("startTime").toString());
+
+        startDateTF.setText(today);
         scoutBox.setPromptText("Choose a scout");
 
 
@@ -219,7 +231,10 @@ public class OpenShift extends View
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         clearErrorMessage();
-        if(companionNameTF.getText().length() == 0){
+        if(scoutBox.getValue()==null){
+            displayErrorMessage("Chose a scout");
+        }
+        else if(companionNameTF.getText().length() == 0){
             displayErrorMessage("Enter Companion Name");
         }
         else if(companionHoursTF.getText().length()==0){
@@ -233,6 +248,13 @@ public class OpenShift extends View
 
 
             Properties shift = new Properties();
+            try {
+                Session ses = new Session(sessionIDTF.getText());
+                startingCash = ses.getStartingCash();
+                System.out.println(startingCash);
+            }catch (InvalidPrimaryKeyException e){
+                e.printStackTrace();
+            }
             ScoutCollection sc = new ScoutCollection();
             String[] name = new String[2];
             String names = scoutBox.getValue().toString();
@@ -246,6 +268,7 @@ public class OpenShift extends View
             }
 
             shift.setProperty("sessionId", sessionIDTF.getText());
+            shift.setProperty("startingCash", startingCash);
             shift.setProperty("startTime", startTimeTF.getText());
             shift.setProperty("companionName", companionNameTF.getText());
             shift.setProperty("companionHours", companionHoursTF.getText());
@@ -263,7 +286,10 @@ public class OpenShift extends View
     }
     public void processMoreScouts(Event evt) {
         clearErrorMessage();
-        if(companionNameTF.getText().length() == 0){
+        if(scoutBox.getValue()==null){
+            displayErrorMessage("Choose a scout");
+        }
+        else if(companionNameTF.getText().length() == 0){
             displayErrorMessage("Enter Companion Name");
         }
 
@@ -282,10 +308,19 @@ public class OpenShift extends View
                 scouts.add(scoutList.get(i).getState("scoutId").toString());
             }
             Properties shift = new Properties();
+            try {
+                Session ses = new Session(sessionIDTF.getText());
+                startingCash = ses.getStartingCash();
+                System.out.println(startingCash);
+            }catch (InvalidPrimaryKeyException e){
+                e.printStackTrace();
+            }
+
             shift.setProperty("sessionId", sessionIDTF.getText());
             shift.setProperty("startTime", startTimeTF.getText());
             shift.setProperty("companionName", companionNameTF.getText());
             shift.setProperty("companionHours", companionHoursTF.getText());
+            shift.setProperty("startingCash",startingCash);
             shift.setProperty("endTime", endTimeTF.getText());
             shift.setProperty("status", "Active");
             shift.setProperty("scoutId", scouts.get(0));
@@ -293,6 +328,7 @@ public class OpenShift extends View
             newShift.save();
             scoutBox.setValue("Choose Scout");
             scoutBox.setPromptText("Choose Scout");
+            startTimeTF.clear();
             companionNameTF.clear();
             companionHoursTF.clear();
             endTimeTF.clear();

@@ -26,9 +26,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -37,6 +39,8 @@ import java.util.Vector;
 import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
+
+import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
 /** The view to add a scout into the system*/
@@ -123,8 +127,8 @@ public class OpenSession extends View
        startingCashTF = new TextField();
 
         //Labels
-        Text prompt =new Text("Open Shift");
-        grid.add(prompt, 0, 0);
+        Text openPrompt =new Text("Open Shift");
+        grid.add(openPrompt, 0, 0);
        grid.add(startTime, 0, 1);
        grid.add(startTimeTF, 1, 1);
        grid.add(endTime, 0, 2);
@@ -182,8 +186,17 @@ public class OpenSession extends View
             displayErrorMessage("Enter Starting Cash");
         }
         else{
+            System.out.println(startTimeTF.getText());
+            System.out.println(endTimeTF.getText());
+            System.out.println(startingCashTF.getText());
+
 
             Properties session = new Properties();
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+            Date dateobj = new Date();
+            String today = df.format(dateobj);
+            System.out.println(today);
+            session.setProperty("startDate", today);
             session.setProperty("startTime", startTimeTF.getText());
             session.setProperty("endTime", endTimeTF.getText());
             session.setProperty("startingCash", startingCashTF.getText());

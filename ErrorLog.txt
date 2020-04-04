@@ -34,3 +34,9 @@
 [3/30/20 11:03 AM]|Shift|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[3] , '12:00' , 'Bill' )' at line 1>
 [4/1/20 2:45 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1998-29-01' for column 'dateOfBirth' at row 1>
 [4/1/20 2:45 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1998-29-01' for column 'dateOfBirth' at row 1>
+[4/4/20 5:19 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/04/95' for column 'startDate' at row 1>
+[4/4/20 5:21 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/04/95' for column 'startDate' at row 1>
+[4/4/20 5:23 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/04/95' for column 'startDate' at row 1>
+[4/4/20 5:24 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/04/95' for column 'startDate' at row 1>
+[4/4/20 5:25 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/04/95' for column 'startDate' at row 1>
+[4/4/20 5:26 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '2020/26/04' for column 'startDate' at row 1>

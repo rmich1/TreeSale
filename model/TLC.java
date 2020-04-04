@@ -7,7 +7,7 @@ import impresario.ModelRegistry;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sun.security.jgss.spi.GSSContextSpi;
+
 import userinterface.MainStageContainer;
 import userinterface.View;
 import userinterface.ViewFactory;

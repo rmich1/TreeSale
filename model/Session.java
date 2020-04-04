@@ -158,6 +158,7 @@ public class Session extends EntityBase {
         Vector<String> v = new Vector<String>();
 
         v.addElement(persistentState.getProperty("sessionId"));
+        v.addElement(persistentState.getProperty("startDate"));
         v.addElement(persistentState.getProperty("startTime"));
         v.addElement(persistentState.getProperty("endTime"));
         v.addElement(persistentState.getProperty("startingCash"));
@@ -167,9 +168,13 @@ public class Session extends EntityBase {
 
         return v;
     }
+    public String getStartingCash(){
+        return persistentState.getProperty("startingCash").toString();
+    }
     //-----------------------------------------------------------------------------------
     public String toString(){
         return( "Session Id: " + persistentState.getProperty("sessionId") +
+                "Start Date: " + persistentState.getProperty("startDate") +
                 "Start Time: " +  persistentState.getProperty("startTime") +
                 "End Time: " + persistentState.getProperty("endTime") +
                 "Total Check Transaction Amount: " + persistentState.getProperty("totalCheckTransactionAmount") +
