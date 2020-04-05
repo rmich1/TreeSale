@@ -1,8 +1,9 @@
 // specify the package
 package userinterface;
 
+// system imports
 
-
+import exception.InvalidPrimaryKeyException;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +11,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,9 +27,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -32,27 +39,23 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
-import model.Scout;
-import model.Tree;
-import model.TreeCollection;
+import model.*;
 
+import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
-/** The view to add a tree into the system*/
+/** The view to add a scout into the system*/
 //==============================================================
-public class AddTree extends View
+public class TreeSaleView extends View
 {
 
     // Model
 
     // GUI components
-    private TextField barcodeTF;
-    private TextField treeTypeTF;
-    private TextField dateStatusUpdatedTF;
-    private TextArea notesTA;
+    private TextField barcodeTf;
+   private Tree treeSale;
+   private TreeType treeType;
 
-
-    private ComboBox status;
 
     private Button submitButton;
     private Button cancelButton;
@@ -65,9 +68,9 @@ public class AddTree extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public AddTree(IModel insertTree)
+    public TreeSaleView(IModel sellTree)
     {
-        super(insertTree, "AddTree");
+        super(sellTree, "TreeSaleView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -83,7 +86,7 @@ public class AddTree extends View
         getChildren().add(container);
 
         populateFields();
-        myModel.subscribe("SubmissionResponse", this);
+
     }
 
 
@@ -96,7 +99,7 @@ public class AddTree extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
+        titleText.setFill(Color.BLACK);
 
         return titleText;
     }
@@ -116,37 +119,16 @@ public class AddTree extends View
 
 
         //TextFields
-        barcodeTF = new TextField();
-        barcodeTF.setEditable(true);
-        dateStatusUpdatedTF = new TextField();
-        dateStatusUpdatedTF.setEditable(true);
-        notesTA = new TextArea();
-        notesTA.setEditable(true);
-        //Labels
-        Text prompt =new Text("Tree Information");
-        prompt.setFill(Color.RED);
-        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         Label barcode = new Label("Barcode: ");
-        Label statusLabel = new Label("Status: ");
-        Label dateStatusUpdated = new Label ("Date Status Updated: ");
-        Label notes = new Label("Notes: ");
-        //status combo box
-        status = new ComboBox();
-        status.getItems().addAll("Available", "Sold","Damaged");
-        status.setValue("Available");
-        status.setPromptText("Available");
+        barcodeTf = new TextField();
 
-        grid.add(prompt, 0, 0);
+        //Labels
+        Text sellPrompt =new Text("Provide Tree Barcode");
+        grid.add(sellPrompt, 0, 0);
         grid.add(barcode, 0, 1);
-        grid.add(barcodeTF, 1, 1);
-        grid.add(statusLabel, 0, 2);
-        grid.add(status, 1, 2);
-        grid.add(notes, 0, 3);
-        grid.add(notesTA, 1, 3);
+        grid.add(barcodeTf, 1, 1);
 
-        // status.setValue("Active");
-        LocalDate date = LocalDate.now();
-        dateStatusUpdatedTF.setText(date.toString());
+
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
 
@@ -185,54 +167,61 @@ public class AddTree extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
-        TreeCollection collection = new TreeCollection();
         clearErrorMessage();
-        if(barcodeTF.getText().length() == 0){
+        if(barcodeTf.getText().length() == 0){
             displayErrorMessage("Enter Barcode");
         }
-        if(collection.isDuplicate(barcodeTF.getText().toString())){
-            displayErrorMessage("Barcode already exists in system");
-        }
+        else {
+            try {
+                 treeSale = new Tree(barcodeTf.getText());
+            } catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            }
+            if (treeSale.getState("status").equals("Sold")) {
+                displayErrorMessage("Can't Sell a Sold Tree!");
+            } else {
 
-            else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime today = LocalDateTime.now();
-                String formattedDate = today.format(formatter);
-                Properties tree = new Properties();
-                tree.setProperty("barcode", barcodeTF.getText());
-                tree.setProperty("treeType", barcodeTF.getText().substring(0, 3));
-                tree.setProperty("status", status.getValue().toString());
-                tree.setProperty("dateStatusUpdated", formattedDate);
-                tree.setProperty("Notes", notesTA.getText());
+                Properties transaction = new Properties();
+                String barcodePrefix = barcodeTf.getText().substring(0,3);
+                try {
+                    treeType = new TreeType(barcodePrefix);
+                } catch (InvalidPrimaryKeyException e) {
+                    e.printStackTrace();
+                }
+
+                SessionCollection sessionCollection = new SessionCollection();
+                Vector<Session> sessionsOpen = new Vector<>();
+                sessionsOpen = sessionCollection.findOpenSessions();
+
+                String sessionID = sessionsOpen.get(2).getState("sessionId").toString();
+                System.out.println(sessionID);
+                transaction.setProperty("sessionId", sessionID);
+                transaction.setProperty("transactionType", "Tree Sale");
+                transaction.setProperty("barcodePrefix", barcodePrefix);
+                transaction.setProperty("barcode", barcodeTf.getText());
+                transaction.setProperty("cost", treeType.getState("cost").toString());
 
 
-                //SubmitNewScout goes to TreeTransaction State Change Request
-                myModel.stateChangeRequest("SubmitNewTree", tree);
+                //SubmitNewScout goes to ScoutTransaction State Change Request
+                myModel.stateChangeRequest("SellNewTree", transaction);
+
+
             }
         }
-
+    }
     /**
      * Required by interface, but has no role here
      */
-    //---------------------------------------------------------
-    public void updateState (String key, Object value)
-    {
-        if (key.equals("SubmissionResponse")) {
-            if (value instanceof Pair) {
-                Pair<String, Pair<String, Boolean>> response = (Pair) value;
-                if (response.getValue().getValue()) {
-                    displayErrorMessage(response.getValue().getKey());
-                } else {
-                    displayMessage(response.getValue().getKey());
-                }
-
-                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
-                    barcodeTF.setText(response.getKey());
-                }
-            }
-        }
+    //
+    public void getTreeInfo(){
 
     }
+    public void updateState (String key, Object value)
+    {
+
+
+    }
+
 
 
     /**

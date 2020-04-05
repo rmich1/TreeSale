@@ -5,6 +5,7 @@ package userinterface;
 
 import exception.InvalidPrimaryKeyException;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.SortedList;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,11 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -33,10 +30,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Properties;
-import java.util.Vector;
+import java.util.*;
 
 // project imports
 import impresario.IModel;
@@ -142,6 +136,7 @@ public class OpenShift extends View
 
         }
 
+
        scoutBox = new ComboBox(FXCollections.observableArrayList(scouts));
 
         scoutIdTF = new TextField();
@@ -232,7 +227,7 @@ public class OpenShift extends View
     public void processAction(Event evt) {
         clearErrorMessage();
         if(scoutBox.getValue()==null){
-            displayErrorMessage("Chose a scout");
+            displayErrorMessage("Choose a scout");
         }
         else if(companionNameTF.getText().length() == 0){
             displayErrorMessage("Enter Companion Name");
@@ -276,9 +271,26 @@ public class OpenShift extends View
             shift.setProperty("scoutId",scouts.get(0));
             System.out.println(scouts.get(0));
             shift.setProperty("status", "Active");
-            Shift shiftOpen = new Shift(shift);
-            shiftOpen.save();
-            displayMessage("Shift has been added sucessfully!");
+
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Shift has successfully been opened!");
+
+            ButtonType buttonTypeYes = new ButtonType("OK");
+            ButtonType buttonTypeNo = new ButtonType("Cancel");
+
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeYes) {
+                Shift shiftOpen = new Shift(shift);
+                shiftOpen.save();
+                alert.close();
+                myModel.stateChangeRequest("Return", null);
+            } else {
+                alert.close();
+               displayErrorMessage("Add Scout Information");
+            }
             //SubmitNewScout goes to ScoutTransaction State Change Request
 
 

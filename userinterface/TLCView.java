@@ -42,6 +42,7 @@ public class TLCView extends View {
     private Button updateTreeType;
     private Button deleteTreeType;
     private Button openSession;
+    private Button sellTree;
     private Button submitButton;
 
     // For showing error message
@@ -135,6 +136,8 @@ public class TLCView extends View {
         deleteTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
         openSession = new Button("Open Session");
         openSession.setOnAction(e -> processOpenSession(e));
+        sellTree = new Button("Sell Tree");
+        sellTree.setOnAction(e -> processTreeSale(e));
         submitButton = new Button("Done");
         submitButton.setOnAction(e -> Platform.exit());
 
@@ -147,8 +150,9 @@ public class TLCView extends View {
         grid.add(insertTreeType, 0, 6);
         grid.add(updateTreeType, 0, 7);
         grid.add(openSession, 0, 8);
+        grid.add(sellTree, 0, 9);
 
-        grid.add(submitButton, 0, 9);
+        grid.add(submitButton, 0, 10);
 
         return grid;
     }
@@ -181,7 +185,16 @@ public class TLCView extends View {
         }
         //}
 
-
+    public void processTreeSale(Event e){
+        clearErrorMessage();
+        SessionCollection sessionCollection = new SessionCollection();
+        if(sessionCollection.isOpenSessions()==true){
+            myModel.stateChangeRequest("SellTree", null);
+        }
+        else{
+            displayErrorMessage("Must have open session to sell a tree!");
+        }
+    }
 
 
 

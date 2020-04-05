@@ -9,25 +9,25 @@ import userinterface.ViewFactory;
 import java.util.Properties;
 import java.util.Vector;
 
-public class SessionCollection extends EntityBase {
+public class TreeSaleCollection extends EntityBase {
 
-    private static final String myTableName = "Session";
-    private Vector<Session> sessions;
+    private static final String myTableName = "Transaction";
+    private Vector<TreeSale> treeSales;
 
     //Constructor
-    public SessionCollection()
+    public TreeSaleCollection()
     {
         super(myTableName);
-        sessions = new Vector();
+        treeSales = new Vector();
     }
     //-----------------------------------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("Sessions"))
-            return sessions;
-        else if (key.equals("SessionList"))
+        if (key.equals("TreeSales"))
+            return treeSales;
+        else if (key.equals("TreeSaleList"))
             return this;
         else if(key.equals("Count"))
-            return sessions.size();
+            return treeSales.size();
         return null;
     }
     //-----------------------------------------------------------------------------------
@@ -36,70 +36,51 @@ public class SessionCollection extends EntityBase {
         myRegistry.updateSubscribers(key, this);
     }
     //-----------------------------------------------------------------------------------
-    private void addSession(Session a) {
+    private void addTreeSale(TreeSale a) {
         int index = findIndexToAdd(a);
-        sessions.insertElementAt(a, index);
+        treeSales.insertElementAt(a, index);
     }
     //----------------------------------------------------------------------------------
-    public Boolean isOpenSessions(){
-        Boolean open = false;
-        Vector<Session> sessionVector = new Vector();
-        String query = "SELECT * FROM " + myTableName;
-        sessionVector = sessionHelper(query);
-        for(int i = 0; i < sessionVector.size(); i++){
-            if(sessionVector.get(i).persistentState.getProperty("status").equals("Active")){
-                open = true;
-            }
-        }
-        return open;
-
-    }
-    public Vector<Session> findOpenSessions(){
-        Vector<Session> sessionVector = new Vector();
-        String query = "SELECT * FROM " + myTableName;
-        sessionVector = sessionHelper(query);
-        return sessionVector;
-    }
 
     //----------------------------------------------------------------------------------
 
-    private Vector sessionHelper(String query){
+    private Vector TreeSaleHelper(String query){
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null) {
-            sessions = new Vector<Session>();
+            treeSales = new Vector<TreeSale>();
             //populates the books vector
             for (int count = 0; count < allDataRetrieved.size(); count++) {
-                Properties nextSessionData = (Properties) allDataRetrieved.elementAt(count);
+                Properties nextTreeSaleData = (Properties) allDataRetrieved.elementAt(count);
 
-                Session session = new Session(nextSessionData);
+               TreeSale treeSale = new TreeSale(nextTreeSaleData);
                 //Adding each account to a collection(accounts vector)
                 //Have a seperate method to add account because the method will build up a sorted account collection
-                if (session != null) {
-                    addSession(session);
+                if (treeSale != null) {
+                    addTreeSale(treeSale);
                 }
 
 
             }
         }
-        return sessions;
+        return treeSales;
     }
     //----------------------------------------------------------------------------------
 
 
     //Find where to put new tree into Tree Vector
-    private int findIndexToAdd(Session a) {
+    private int findIndexToAdd(TreeSale a) {
         //users.add(u);
         int low = 0;
-        int high = sessions.size() - 1;
+        int high = treeSales.size() - 1;
         int middle;
 
         while (low <= high) {
             middle = (low + high) / 2;
 
-            Session midSession = sessions.elementAt(middle);
+            TreeSale midTreeSale = treeSales.elementAt(middle);
             //compares the accounts to help with the sort binary search
-            int result = Session.compare(a, midSession);
+            int result = TreeSale.compare(a, midTreeSale);
 
             if (result == 0) {
                 return middle;

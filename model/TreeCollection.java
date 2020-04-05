@@ -47,6 +47,7 @@ public class TreeCollection extends EntityBase {
            return barcodeArray = treeHelper(query);
 
         }
+
     //----------------------------------------------------------------------------------
 
     private Vector treeHelper(String query){
