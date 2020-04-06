@@ -176,14 +176,14 @@ public class TLCView extends View {
 
         clearErrorMessage();
         SessionCollection sessionCol = new SessionCollection();
-      //  if(sessionCol.isOpenSessions()==true){
-        //    displayErrorMessage("Session is open");
-        //}
-       //else {
+        if(sessionCol.isOpenSessions()==true){
+            displayErrorMessage("Session is open");
+        }
+        else {
 
             myModel.stateChangeRequest("NewSession", null);
         }
-        //}
+    }
 
     public void processTreeSale(Event e){
         clearErrorMessage();
@@ -192,7 +192,7 @@ public class TLCView extends View {
             myModel.stateChangeRequest("SellTree", null);
         }
         else{
-            displayErrorMessage("Must have open session to sell a tree!");
+            displayErrorMessage("Open Session First");
         }
     }
 

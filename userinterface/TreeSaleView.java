@@ -193,7 +193,7 @@ public class TreeSaleView extends View
                 Vector<Session> sessionsOpen = new Vector<>();
                 sessionsOpen = sessionCollection.findOpenSessions();
 
-                String sessionID = sessionsOpen.get(2).getState("sessionId").toString();
+                String sessionID = sessionsOpen.get(0).getState("sessionId").toString();
                 System.out.println(sessionID);
                 transaction.setProperty("sessionId", sessionID);
                 transaction.setProperty("transactionType", "Tree Sale");

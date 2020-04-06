@@ -221,6 +221,9 @@ public class AddScout extends View
        else if(dateOfBirthTF.getText().length()==0){
            displayErrorMessage("Enter Date Of Birth");
        }
+       else if(!dateOfBirthTF.getText().matches("\\d{4}-\\d{2}-\\d{2}")){
+           displayErrorMessage("Date Invalid, use YYYY-MM-DD");
+       }
        else if(phoneNumberTF.getText().length()==0){
            displayErrorMessage("Enter Phone Number");
        }
