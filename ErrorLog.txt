@@ -48,3 +48,11 @@
 [4/5/20 2:45 PM]|TreeSale|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Id: 73Start Date: 2020-04-04Start Time: 09:00:00End Time: 12:00:00Total Check Tr' at line 1>
 [4/5/20 3:46 PM]|TreeSale|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'FIR2999999' in 'where clause'>
 [4/5/20 6:33 PM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'FIR12345789' for key 'PRIMARY'>
+[4/6/20 8:21 PM]|ShiftCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'status' in 'where clause'>
+[4/6/20 8:30 PM]|ShiftCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'status' in 'where clause'>
+[4/6/20 8:30 PM]|ShiftCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'status' in 'where clause'>
+[4/6/20 8:39 PM]|ShiftCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'status' in 'where clause'>
+[4/6/20 8:43 PM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='Active'' at line 1>
+[4/6/20 8:46 PM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '='Active'' at line 1>
+[4/6/20 8:48 PM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=Active' at line 1>
+[4/6/20 8:48 PM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'Active' in 'where clause'>

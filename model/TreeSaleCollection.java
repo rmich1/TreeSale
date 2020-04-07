@@ -66,6 +66,10 @@ public class TreeSaleCollection extends EntityBase {
         return treeSales;
     }
     //----------------------------------------------------------------------------------
+    public Vector findTotalCash(String sessionId){
+        String query = "SELECT * FROM " + myTableName + " WHERE sessionId=" + sessionId;
+        return TreeSaleHelper(query);
+    }
 
 
     //Find where to put new tree into Tree Vector

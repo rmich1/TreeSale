@@ -56,7 +56,7 @@ public class SessionCollection extends EntityBase {
     }
     public Vector<Session> findOpenSessions(){
         Vector<Session> sessionVector = new Vector();
-        String query = "SELECT * FROM " + myTableName;
+        String query = "SELECT * FROM " + myTableName + " WHERE status='Active'";
         sessionVector = sessionHelper(query);
         return sessionVector;
     }

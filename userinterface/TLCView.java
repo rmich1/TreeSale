@@ -43,6 +43,7 @@ public class TLCView extends View {
     private Button deleteTreeType;
     private Button openSession;
     private Button sellTree;
+    private Button closeShift;
     private Button submitButton;
 
     // For showing error message
@@ -138,6 +139,8 @@ public class TLCView extends View {
         openSession.setOnAction(e -> processOpenSession(e));
         sellTree = new Button("Sell Tree");
         sellTree.setOnAction(e -> processTreeSale(e));
+        closeShift = new Button("Close Shift");
+        closeShift.setOnAction(e -> processCloseShift(e));
         submitButton = new Button("Done");
         submitButton.setOnAction(e -> Platform.exit());
 
@@ -151,8 +154,9 @@ public class TLCView extends View {
         grid.add(updateTreeType, 0, 7);
         grid.add(openSession, 0, 8);
         grid.add(sellTree, 0, 9);
+        grid.add(closeShift, 0, 10);
 
-        grid.add(submitButton, 0, 10);
+        grid.add(submitButton, 0, 11);
 
         return grid;
     }
@@ -195,7 +199,17 @@ public class TLCView extends View {
             displayErrorMessage("Open Session First");
         }
     }
+    public void processCloseShift(Event e){
+        clearErrorMessage();
+        SessionCollection sessionCollection = new SessionCollection();
+        if(sessionCollection.isOpenSessions()==true){
+            myModel.stateChangeRequest("CloseShift", null);
+        }
+        else{
+            displayErrorMessage("No Open Shifts Exist");
+        }
 
+    }
 
 
 

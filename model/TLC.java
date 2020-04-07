@@ -67,6 +67,7 @@ public class TLC implements IView, IModel {
             case "TreeTypeSelected":
             case "NewSession":
             case "SellTree":
+            case "CloseShift":
                 initiateTransaction(key, value);
                 break;
             case "Return":
@@ -95,6 +96,7 @@ public class TLC implements IView, IModel {
             delegate.subscribe("TreeSelected", this);
             delegate.subscribe("SearchTree", this);
             delegate.subscribe("TreeTypeSelected", this);
+            delegate.subscribe("CloseShift", this);
             delegate.doYourJob();
         }
     }

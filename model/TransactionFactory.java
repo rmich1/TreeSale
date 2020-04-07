@@ -56,7 +56,8 @@ public class TransactionFactory {
                     return new TreeSaleTransaction((TreeSale) resource){
 
                     };
-
+            case "CloseShift":
+                return new CloseShiftTransaction();
             default:
                 return null;
         }

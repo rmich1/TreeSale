@@ -190,7 +190,7 @@ public class TreeSaleView extends View
                 }
 
                 SessionCollection sessionCollection = new SessionCollection();
-                Vector<Session> sessionsOpen = new Vector<>();
+                Vector<Session> sessionsOpen = new Vector<Session>();
                 sessionsOpen = sessionCollection.findOpenSessions();
 
                 String sessionID = sessionsOpen.get(0).getState("sessionId").toString();

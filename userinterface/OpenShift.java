@@ -269,8 +269,8 @@ public class OpenShift extends View
             shift.setProperty("companionHours", companionHoursTF.getText());
             shift.setProperty("endTime", endTimeTF.getText());
             shift.setProperty("scoutId",scouts.get(0));
-            System.out.println(scouts.get(0));
-            shift.setProperty("status", "Active");
+            Shift shiftOpen = new Shift(shift);
+            shiftOpen.save();
 
             Alert alert;
             alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -283,8 +283,7 @@ public class OpenShift extends View
             alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == buttonTypeYes) {
-                Shift shiftOpen = new Shift(shift);
-                shiftOpen.save();
+
                 alert.close();
                 myModel.stateChangeRequest("Return", null);
             } else {
@@ -334,7 +333,6 @@ public class OpenShift extends View
             shift.setProperty("companionHours", companionHoursTF.getText());
             shift.setProperty("startingCash",startingCash);
             shift.setProperty("endTime", endTimeTF.getText());
-            shift.setProperty("status", "Active");
             shift.setProperty("scoutId", scouts.get(0));
             Shift newShift = new Shift(shift);
             newShift.save();
