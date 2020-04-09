@@ -117,6 +117,9 @@ public class TreeTypeCollection extends EntityBase {
         else if(barcodePrefix.equals("61")){
             treeTypeDesc = "Balsam Fir - Premium ";
         }
+        else{
+            treeTypeDesc = "Unknown";
+        }
         return treeTypeDesc;
     }
     //Find where to put new tree into Tree Vector
