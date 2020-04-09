@@ -85,6 +85,40 @@ public class TreeTypeCollection extends EntityBase {
         }
 
     }
+    public String getTreeType(String barcodePrefix){
+        String treeTypeDesc =null;
+        if(barcodePrefix.equals("20")){
+            treeTypeDesc = "Frasier Fir- Regular ";
+        }
+        else if(barcodePrefix.equals("21")){
+            treeTypeDesc = "Fraiser Fir - Premium ";
+        }
+        else if(barcodePrefix.equals("30")){
+            treeTypeDesc = "DouglassFir - Regular ";
+        }
+        else if(barcodePrefix.equals("31")){
+            treeTypeDesc = "DouglassFir - Premium ";
+        }
+        else if(barcodePrefix.equals("40")){
+            treeTypeDesc = "Blue Spruce - Regular ";
+        }
+        else if(barcodePrefix.equals("41")){
+            treeTypeDesc = "Blue Spruce - Premuim ";
+        }
+        else if(barcodePrefix.equals("50")){
+            treeTypeDesc = "Concolor - Regular ";
+        }
+        else if(barcodePrefix.equals("51")){
+            treeTypeDesc = "Concolor - Premium ";
+        }
+        else if(barcodePrefix.equals("60")){
+            treeTypeDesc = "Balsam Fir - Regular ";
+        }
+        else if(barcodePrefix.equals("61")){
+            treeTypeDesc = "Balsam Fir - Premium ";
+        }
+        return treeTypeDesc;
+    }
     //Find where to put new tree into Tree Vector
     private int findIndexToAdd(TreeType a) {
         //users.add(u);
