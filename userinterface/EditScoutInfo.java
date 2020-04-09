@@ -11,11 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -66,6 +62,7 @@ public class EditScoutInfo extends View {
     private Button updateButton;
     private Button deleteButton;
     private Button cancelButton;
+    private DatePicker datePicker;
 
 
 
@@ -105,7 +102,7 @@ public class EditScoutInfo extends View {
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.DARKGREEN);
 
         return titleText;
     }
@@ -124,8 +121,8 @@ public class EditScoutInfo extends View {
 
         //TextFields
         scoutIdTF = new TextField();
-        scoutIdTF.setStyle("-fx-focus-color: transparent");
-        scoutIdTF.setEditable(false);
+        // scoutIdTF.setStyle("-fx-focus-color: transparent");
+        // scoutIdTF.setEditable(false);
         firstNameTF = new TextField();
         middleNameTF = new TextField();
         lastNameTF = new TextField();
@@ -133,16 +130,23 @@ public class EditScoutInfo extends View {
         phoneNumberTF = new TextField();
         emailTF = new TextField();
         troopIdTF = new TextField();
-        scoutIdTF = new TextField();
         dateStatusUpdatedTF = new TextField();
         dateStatusUpdatedTF.setEditable(false);
+        datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.parse((String)myModel.getState("dateOfBirth")));
+
+        // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
         //Labels
-        Text prompt = new Text("Edit Scout Information");
-        Label scoutIdLabel = new Label("Scout ID: ");
+        Text prompt = new Text("Scout Information");
+
+        prompt.setFill(Color.RED);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+
+        //Label scoutIdLabel = new Label("Scout ID: ");
         Label firstNameLabel = new Label("First Name: ");
         Label middleNameLabel = new Label("Middle Name: ");
         Label lastNameLabel = new Label("Last Name: ");
-        Label DOBLabel = new Label("Date Of Birth YYYY-MM-DD");
+        Label DOBLabel = new Label("Date Of Birth: ");
         Label phoneNumberLabel = new Label("Phone Number: ");
         Label emailLabel = new Label("E-Mail: ");
         Label statusLabel = new Label("Status: ");
@@ -153,26 +157,23 @@ public class EditScoutInfo extends View {
         status.getItems().addAll("Active", "Inactive");
 
         grid.add(prompt, 0, 0);
-        grid.add(scoutIdLabel, 0, 1);
-        grid.add(scoutIdTF, 1, 1);
-        grid.add(firstNameLabel, 0, 2);
-        grid.add(firstNameTF, 1, 2);
-        grid.add(middleNameLabel, 0, 3);
-        grid.add(middleNameTF, 1, 3);
-        grid.add(lastNameLabel, 0, 4);
-        grid.add(lastNameTF, 1, 4);
-        grid.add(DOBLabel, 0, 5);
-        grid.add(dateOfBirthTF, 1, 5);
-        grid.add(phoneNumberLabel, 0, 6);
-        grid.add(phoneNumberTF, 1, 6);
-        grid.add(emailLabel, 0, 7);
-        grid.add(emailTF, 1, 7);
-        grid.add(statusLabel, 0, 8);
-        grid.add(status, 1, 8);
-        grid.add(troopIdLabel, 0, 9);
-        grid.add(troopIdTF, 1, 9);
-        grid.add(dateStatusUpdatedLabel, 0, 10);
-        grid.add(dateStatusUpdatedTF, 1, 10);
+        grid.add(firstNameLabel, 0, 1);
+        grid.add(firstNameTF, 1, 1);
+        grid.add(middleNameLabel, 0, 2);
+        grid.add(middleNameTF, 1, 2);
+        grid.add(lastNameLabel, 0, 3);
+        grid.add(lastNameTF, 1, 3);
+        grid.add(DOBLabel, 0, 4);
+        grid.add(datePicker, 1, 4);
+        grid.add(phoneNumberLabel, 0, 5);
+        grid.add(phoneNumberTF, 1, 5);
+        grid.add(emailLabel, 0, 6);
+        grid.add(emailTF, 1, 6);
+        grid.add(statusLabel, 0, 7);
+        grid.add(status, 1, 7);
+        grid.add(troopIdLabel, 0, 8);
+        grid.add(troopIdTF, 1, 8);
+
 
 
         // status.setValue("Active");
@@ -188,9 +189,10 @@ public class EditScoutInfo extends View {
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(updateButton);
         btnContainer.getChildren().add(deleteButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
 
 
@@ -215,7 +217,7 @@ public class EditScoutInfo extends View {
         firstNameTF.setText((String) myModel.getState("firstName"));
         middleNameTF.setText((String) myModel.getState("middleName"));
         lastNameTF.setText((String) myModel.getState("lastName"));
-        dateOfBirthTF.setText((String) myModel.getState("dateOfBirth"));
+        // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
         phoneNumberTF.setText((String) myModel.getState("phoneNumber"));
         emailTF.setText((String) myModel.getState("email"));
         status.setPromptText((String) myModel.getState("status"));
@@ -230,37 +232,44 @@ public class EditScoutInfo extends View {
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         Properties scout = new Properties();
+        String oldStatus = (String) myModel.getState("status");
 
         clearErrorMessage();
         if ((firstNameTF.getText().length() == 0) && (lastNameTF.getText().length() == 0)
-                && (dateOfBirthTF.getText().length() == 0) && (phoneNumberTF.getText().length() == 0)
-                && (emailTF.getText().length() == 0) && (troopIdTF.getText().length() == 0)) {
+                && (datePicker.getValue().equals(LocalDate.now())) && (phoneNumberTF.getText().length() == 0)
+                && (emailTF.getText().length() == 0) && (troopIdTF.getText().length() < 6)) {
             displayErrorMessage("Enter Required Fields");
         } else {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if((phoneNumberTF.getText().substring(0,1).equals("(")) && (phoneNumberTF.getText().substring(4,5).equals(")")) && (phoneNumberTF.getText().length()==14)){
+                phoneNumberTF.setText(phoneNumberTF.getText().toString().substring(1,4).concat("-").concat(phoneNumberTF.getText().toString().substring(5,13)));
+            }
+            else if(phoneNumberTF.getText().length()==10){
+                phoneNumberTF.setText(phoneNumberTF.getText().substring(0,3).concat("-").concat(phoneNumberTF.getText().substring(3,6))
+                        .concat("-").concat(phoneNumberTF.getText().substring(6,10)));
+            }
 
-            LocalDateTime today = LocalDateTime.now();
-            String formattedDate = today.format(formatter);
-            String oldStatus = (String) myModel.getState("status");
             //If the status is updated change the dateStatusUpdated Field
             if(!oldStatus.equals(status.getValue().toString())){
-                scout.setProperty("dateStatusUpdated", formattedDate);
+                LocalDate today = LocalDate.now();
+                String todayDate = today.toString();
+                scout.setProperty("dateStatusUpdated", todayDate);
             }
             //If status is unchanged keep original dateStatusUpdatedField
             else{
                 scout.setProperty("dateStatusUpdated", dateStatusUpdatedTF.getText());
             }
-            scout.setProperty("scoutId", scoutIdTF.getText());
+
+            scout.setProperty("scoutId", myModel.getState("scoutId").toString());
             scout.setProperty("firstName", firstNameTF.getText());
             scout.setProperty("middleName", middleNameTF.getText());
             scout.setProperty("lastName", lastNameTF.getText());
-            scout.setProperty("dateOfBirth", dateOfBirthTF.getText());
+            scout.setProperty("dateOfBirth", datePicker.getValue().toString());
             scout.setProperty("phoneNumber", phoneNumberTF.getText());
             scout.setProperty("email", emailTF.getText());
             scout.setProperty("status", status.getValue().toString());
             scout.setProperty("troopId", troopIdTF.getText());
             displayMessage("Scout Successfully Updated");
-             myModel.stateChangeRequest("EditScout", scout);
+            myModel.stateChangeRequest("EditScout", scout);
 
 
 
@@ -272,18 +281,17 @@ public class EditScoutInfo extends View {
     public void processDelete(Event e){
         Properties scout = new Properties();
         status.setValue("Inactive");
-        LocalDateTime today = LocalDateTime.now();
-        String dateUpdated = today.toString();
 
-        scout.setProperty("scoutId", scoutIdTF.getText());
+
+        scout.setProperty("scoutId", myModel.getState("scoutId").toString());
         scout.setProperty("firstName", firstNameTF.getText());
         scout.setProperty("middleName", middleNameTF.getText());
         scout.setProperty("lastName", lastNameTF.getText());
-        scout.setProperty("dateOfBirth", dateOfBirthTF.getText());
+        scout.setProperty("dateOfBirth", datePicker.getValue().toString());
         scout.setProperty("phoneNumber", phoneNumberTF.getText());
         scout.setProperty("email", emailTF.getText());
         scout.setProperty("status", status.getValue().toString());
-        scout.setProperty("dateStatusUpdated", dateUpdated);
+        scout.setProperty("dateStatusUpdated", LocalDate.now().toString());
         scout.setProperty("troopId", troopIdTF.getText());
         displayMessage("Scout was deleted");
         myModel.stateChangeRequest("DeleteScout", scout);
@@ -306,7 +314,7 @@ public class EditScoutInfo extends View {
                     displayMessage(response.getValue().getKey());
                 }
 
-                if (scoutIdTF.getText() == null || scoutIdTF.getText().trim().isEmpty()) {
+                if ((String)myModel.getState("scoutId") == null){
                     scoutIdTF.setText(response.getKey());
                 }
             }
