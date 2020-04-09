@@ -187,11 +187,15 @@ public class AddTree extends View
     public void processAction(Event evt) {
         TreeCollection collection = new TreeCollection();
         clearErrorMessage();
+        TreeTypeCollection tt = new TreeTypeCollection();
         if(barcodeTF.getText().length() < 6){
             displayErrorMessage("Enter Barcode");
         }
         if(collection.isDuplicate(barcodeTF.getText().toString())){
             displayErrorMessage("Barcode already exists in system");
+        }
+        if(tt.getTreeType(barcodeTF.getText().substring(0,2)).equals("Unknown")){
+            displayErrorMessage("Invalid Barcode");
         }
 
             else {
