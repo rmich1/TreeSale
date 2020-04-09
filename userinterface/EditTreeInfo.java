@@ -163,9 +163,8 @@ public class EditTreeInfo extends View {
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
         btnContainer.getChildren().add(updateButton);
-        btnContainer.getChildren().add(cancelButton);
-
         btnContainer.getChildren().add(deleteButton);
+        btnContainer.getChildren().add(cancelButton);
 
 
 
