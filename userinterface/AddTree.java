@@ -32,9 +32,7 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
-import model.Scout;
-import model.Tree;
-import model.TreeCollection;
+import model.*;
 
 import java.text.SimpleDateFormat;
 
@@ -56,6 +54,7 @@ public class AddTree extends View
 
     private Button submitButton;
     private Button cancelButton;
+    private TreeTypeCollection type;
 
 
 
@@ -132,7 +131,7 @@ public class AddTree extends View
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Available", "Sold");
+        status.getItems().addAll("Available");
         status.setValue("Available");
         status.setPromptText("Available");
 
@@ -155,8 +154,9 @@ public class AddTree extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
 
         vbox.getChildren().add(grid);
@@ -187,7 +187,7 @@ public class AddTree extends View
     public void processAction(Event evt) {
         TreeCollection collection = new TreeCollection();
         clearErrorMessage();
-        if(barcodeTF.getText().length() == 0){
+        if(barcodeTF.getText().length() < 6){
             displayErrorMessage("Enter Barcode");
         }
         if(collection.isDuplicate(barcodeTF.getText().toString())){
@@ -195,12 +195,15 @@ public class AddTree extends View
         }
 
             else {
+                TreeTypeCollection type = new TreeTypeCollection();
+                String treeType = type.getTreeType(barcodeTF.getText().substring(0,2));
+
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 LocalDateTime today = LocalDateTime.now();
                 String formattedDate = today.format(formatter);
                 Properties tree = new Properties();
                 tree.setProperty("barcode", barcodeTF.getText());
-                tree.setProperty("treeType", barcodeTF.getText().substring(0, 3));
+                tree.setProperty("treeType", treeType);
                 tree.setProperty("status", status.getValue().toString());
                 tree.setProperty("dateStatusUpdated", formattedDate);
                 tree.setProperty("Notes", notesTA.getText());
@@ -210,6 +213,7 @@ public class AddTree extends View
                 myModel.stateChangeRequest("SubmitNewTree", tree);
             }
         }
+
 
     /**
      * Required by interface, but has no role here
