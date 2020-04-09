@@ -38,7 +38,7 @@ public class JDBCBroker
 {
     // Single broker to be shared by all other Servlets
  	private static JDBCBroker myInstance = null;
-    	private static Connection theDBConnection = null;
+ 	private static Connection theDBConnection = null;
 	public static Driver theDriver = null;
 	private PropertyFile props = null;
 

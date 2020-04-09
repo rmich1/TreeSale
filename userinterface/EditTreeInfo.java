@@ -132,7 +132,7 @@ public class EditTreeInfo extends View {
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Available", "Sold");
+        status.getItems().addAll("Available");
 
         grid.add(prompt, 0, 0);
        grid.add(barcode, 0, 1);
@@ -162,8 +162,9 @@ public class EditTreeInfo extends View {
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(updateButton);
+        btnContainer.getChildren().add(cancelButton);
+
         btnContainer.getChildren().add(deleteButton);
 
 

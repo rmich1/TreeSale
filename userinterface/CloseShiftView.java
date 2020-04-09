@@ -69,6 +69,9 @@ public class CloseShiftView extends View
     String totCash;
     String totCheck;
     String sessionId;
+    SessionCollection sesscol = new SessionCollection();
+    Vector<Session>openSession = sesscol.findOpenSessions();
+
 
 
     // For showing error message
@@ -77,44 +80,14 @@ public class CloseShiftView extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public CloseShiftView(IModel insertShift)
+    public CloseShiftView(IModel closeShift)
     {
-        super(insertShift, "CloseShiftView");
-        ShiftCollection sc = new ShiftCollection();
-        Vector<Shift> openShift = new Vector<Shift>();
-        SessionCollection sescol = new SessionCollection();
-        Vector<Session>openSession = new Vector<Session>();
-      System.out.println(openSession = sescol.findOpenSessions());
-
-        sessionId = openSession.get(0).getState("sessionId").toString();
-        startDt = openSession.get(0).getState("startDate").toString();
-        startTm = openSession.get(0).getState("startTime").toString();
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        LocalDateTime now = LocalDateTime.now();
-        endDt = now.toString().substring(0,10);
-        endTm = openSession.get(0).getState("endTime").toString();
-        startingCsh = openSession.get(0).getStartingCash();
-        Double startC = Double.parseDouble(startingCsh);
-        TreeSaleCollection tsc = new TreeSaleCollection();
-        Vector<TreeSale> treeSaleCost = new Vector<TreeSale>();
-        treeSaleCost = tsc.findTotalCash(sessionId);
-        double totalCash = 0;
-        double totalCheck = 0;
-        for(int i = 0; i < treeSaleCost.size(); i++){
-            if(treeSaleCost.get(i).getState("paymentType").equals("Cash")){
-                double cash = Double.parseDouble(treeSaleCost.get(i).getState("cost").toString());
-                totalCash = totalCash + cash;
-            }
-        }
-        for(int i = 0; i < treeSaleCost.size(); i++){
-            if(treeSaleCost.get(i).getState("paymentType").equals("Check")){
-                double cash = Double.parseDouble(treeSaleCost.get(i).getState("cost").toString());
-                totalCheck = totalCheck + cash;
-            }
-        }
-        startC = startC + totalCash;
-        totCash = "" + startC + "";
-        totCheck = "" + totalCheck + "";
+        super(closeShift, "CloseShiftView");
+        getTextFieldInfo();
+        Double totalCashNum = totalCash();
+        Double totalCheckNum = totalCheck();
+         totCash = ""+totalCashNum + "";
+         totCheck = "" + totalCheckNum + "";
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -259,8 +232,19 @@ public class CloseShiftView extends View
      */
     //---------------------------------------------------------
     public void processClose(){
-        try{
-            Session closeSession = new Session(sessionId);
+
+
+        Alert alert;
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to close shift?");
+
+        ButtonType buttonTypeYes = new ButtonType("Yes");
+        ButtonType buttonTypeNo = new ButtonType("No");
+
+        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == buttonTypeYes) {
             Properties closeSes = new Properties();
             closeSes.setProperty("sessionId", sessionId);
             closeSes.setProperty("startDate", startDateTF.getText());
@@ -273,9 +257,50 @@ public class CloseShiftView extends View
             closeSes.setProperty("status", "Inactive");
             Session close = new Session(closeSes);
             close.save();
-        }catch(InvalidPrimaryKeyException e){
-            e.printStackTrace();
+            alert.close();
+            myModel.stateChangeRequest("Return", null);
+        } else {
+            alert.close();
         }
+    }
+    public void getTextFieldInfo(){
+        sessionId = openSession.get(0).getState("sessionId").toString();
+        startDt = openSession.get(0).getState("startDate").toString();
+        startTm = openSession.get(0).getState("startTime").toString();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        endDt = now.toString().substring(0,10);
+        endTm = openSession.get(0).getState("endTime").toString();
+        startingCsh = openSession.get(0).getStartingCash();
+    }
+    public double totalCash(){
+        double totalCash = 0;
+
+        double startCash = Double.parseDouble(startingCsh);
+        TreeSaleCollection tsc = new TreeSaleCollection();
+        Vector<TreeSale> treeSaleCost = new Vector<TreeSale>();
+        treeSaleCost = tsc.findTotalCash(sessionId);
+        for(int i = 0; i < treeSaleCost.size(); i++){
+            if(treeSaleCost.get(i).getState("paymentType").equals("Cash")){
+                double cash = Double.parseDouble(treeSaleCost.get(i).getState("cost").toString());
+                totalCash = totalCash + cash;
+            }
+        }
+        totalCash = totalCash + startCash;
+        return totalCash;
+    }
+    public double totalCheck(){
+        double totalCheck = 0;
+        TreeSaleCollection tsc = new TreeSaleCollection();
+        Vector<TreeSale> treeSaleCost = new Vector<TreeSale>();
+        treeSaleCost = tsc.findTotalCash(sessionId);
+        for(int i = 0; i < treeSaleCost.size(); i++){
+            if(treeSaleCost.get(i).getState("paymentType").equals("Check")){
+                double treeCost = Double.parseDouble(treeSaleCost.get(i).getState("cost").toString());
+                totalCheck = totalCheck + treeCost;
+            }
+        }
+        return totalCheck;
     }
     public void updateState (String key, Object value)
     {

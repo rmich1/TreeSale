@@ -10,11 +10,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -29,6 +25,7 @@ import javafx.stage.Stage;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -53,11 +50,12 @@ public class AddScout extends View
     private TextField dateOfBirthTF;
     private TextField phoneNumberTF;
     private TextField emailTF;
-    private TextField statusTF;
     private TextField troopIdTF;
     private TextField scoutIdTF;
 
+
     private ComboBox status;
+    DatePicker datePicker;
 
     private Button submitButton;
     private Button cancelButton;
@@ -136,11 +134,10 @@ public class AddScout extends View
         Text prompt =new Text("Scout Information");
         prompt.setFill(Color.RED);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
-        Label scoutIdLabel = new Label("Scout ID: ");
         Label firstNameLabel = new Label("First Name: ");
         Label middleNameLabel = new Label("Middle Name: ");
         Label lastNameLabel = new Label("Last Name: ");
-        Label DOBLabel = new Label("Date Of Birth YYYY-MM-DD");
+        Label DOBLabel = new Label("Date Of Birth");
         Label phoneNumberLabel = new Label("Phone Number: ");
         Label emailLabel = new Label("E-Mail: ");
         Label statusLabel = new Label("Status: ");
@@ -150,6 +147,9 @@ public class AddScout extends View
         status.getItems().addAll("Active", "Inactive");
         status.setValue("Active");
         status.setPromptText("Active");
+        datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now());
+
 
         grid.add(prompt, 0, 0);
         grid.add(firstNameLabel, 0, 1);
@@ -159,7 +159,7 @@ public class AddScout extends View
         grid.add(lastNameLabel, 0, 3);
         grid.add(lastNameTF, 1, 3);
         grid.add(DOBLabel, 0, 4);
-        grid.add(dateOfBirthTF, 1, 4);
+        grid.add(datePicker, 1, 4);
         grid.add(phoneNumberLabel, 0, 5);
         grid.add(phoneNumberTF, 1, 5);
         grid.add(emailLabel, 0, 6);
@@ -180,8 +180,9 @@ public class AddScout extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
 
         vbox.getChildren().add(grid);
@@ -218,37 +219,39 @@ public class AddScout extends View
        else if(lastNameTF.getText().length() == 0){
            displayErrorMessage("Enter Last Name");
        }
-       else if(dateOfBirthTF.getText().length()==0){
+       else if(datePicker.getValue().equals(LocalDate.now())){
            displayErrorMessage("Enter Date Of Birth");
        }
-       else if(!dateOfBirthTF.getText().matches("\\d{4}-\\d{2}-\\d{2}")){
-           displayErrorMessage("Date Invalid, use YYYY-MM-DD");
-       }
-       else if(phoneNumberTF.getText().length()==0){
+
+       else if(phoneNumberTF.getText().length() < 10){
            displayErrorMessage("Enter Phone Number");
        }
        else if(emailTF.getText().length()== 0){
            displayErrorMessage("Enter E-mail");
        }
-       else if(troopIdTF.getText().length()==0){
+       else if(troopIdTF.getText().length()<6){
            displayErrorMessage("Enter Troop ID");
        }
 
         else{
 
             Properties scout = new Properties();
-           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            if(phoneNumberTF.getText().substring(0,1).equals("(") && phoneNumberTF.getText().substring(4,5).equals(")")){
+                phoneNumberTF.setText(phoneNumberTF.getText().toString().substring(1,4).concat("-").concat(phoneNumberTF.getText().toString().substring(5,13)));
+            }
+            if(phoneNumberTF.getText().length()==10){
+                phoneNumberTF.setText(phoneNumberTF.getText().substring(0,3).concat("-").concat(phoneNumberTF.getText().substring(3,6))
+                .concat("-").concat(phoneNumberTF.getText().substring(6,10)));
+            }
 
-           LocalDateTime today = LocalDateTime.now();
-           String formattedDate = today.format(formatter);
             scout.setProperty("firstName", firstNameTF.getText());
             scout.setProperty("middleName", middleNameTF.getText());
             scout.setProperty("lastName", lastNameTF.getText());
-            scout.setProperty("dateOfBirth", dateOfBirthTF.getText());
+            scout.setProperty("dateOfBirth", datePicker.getValue().toString());
             scout.setProperty("phoneNumber", phoneNumberTF.getText());
             scout.setProperty("email", emailTF.getText());
             scout.setProperty("status", status.getValue().toString());
-            scout.setProperty("dateStatusUpdated", formattedDate);
+            scout.setProperty("dateStatusUpdated", LocalDate.now().toString());
             scout.setProperty("troopId", troopIdTF.getText());
 
             //SubmitNewScout goes to ScoutTransaction State Change Request
