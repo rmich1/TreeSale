@@ -148,7 +148,7 @@ public class TLCView extends View {
         grid.add(updateTreeType, 0, 7);
       // grid.add(openSession, 0, 8);
 
-        grid.add(submitButton, 0, 4);
+        grid.add(submitButton, 0, 9);
 
         return grid;
     }
