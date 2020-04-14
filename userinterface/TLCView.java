@@ -142,10 +142,10 @@ public class TLCView extends View {
         grid.add(updateScout, 0, 1);
         grid.add(deleteScout, 0, 2);
         grid.add(insertTree, 0, 3);
-      // grid.add(updateTree, 0, 4);
-     //  grid.add(deleteTree, 0, 5);
-     //  grid.add(insertTreeType, 0, 6);
-     //  grid.add(updateTreeType, 0, 7);
+        grid.add(updateTree, 0, 4);
+        grid.add(deleteTree, 0, 5);
+        grid.add(insertTreeType, 0, 6);
+        grid.add(updateTreeType, 0, 7);
       // grid.add(openSession, 0, 8);
 
         grid.add(submitButton, 0, 4);
