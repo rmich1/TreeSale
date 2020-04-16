@@ -18,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import model.SessionCollection;
 
 // project imports
 
@@ -33,8 +34,14 @@ public class TLCView extends View {
     //private PasswordField password;
     private Button insertScout;
     private Button updateScout;
+    private Button deleteScout;
     private Button insertTree;
     private Button updateTree;
+    private Button deleteTree;
+    private Button insertTreeType;
+    private Button updateTreeType;
+    private Button deleteTreeType;
+    private Button openSession;
     private Button submitButton;
 
     // For showing error message
@@ -110,23 +117,38 @@ public class TLCView extends View {
         //Buttons
         insertScout = new Button("Add New Scout");
         insertScout.setOnAction(e -> myModel.stateChangeRequest("NewScout", null));
-        updateScout = new Button("Update/Delete Scout");
+        updateScout = new Button("Update Scout");
         updateScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
+        deleteScout = new Button("Delete Scout");
+        deleteScout.setOnAction(e -> myModel.stateChangeRequest("SearchScout", null));
         insertTree = new Button("Add Tree");
         insertTree.setOnAction(e -> myModel.stateChangeRequest("NewTree", null));
-        updateTree = new Button("Update/Delete Tree");
+        updateTree = new Button("Update Tree");
         updateTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
-
-
-
+        deleteTree = new Button("Delete Tree");
+        deleteTree.setOnAction(e -> myModel.stateChangeRequest("SearchTree", null));
+        insertTreeType = new Button("Add Tree Type");
+        insertTreeType.setOnAction(e -> myModel.stateChangeRequest("NewTreeType", null));
+        updateTreeType = new Button("Update Tree Type");
+        updateTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
+        deleteTreeType = new Button("Delete Tree Type");
+        deleteTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
+        openSession = new Button("Open Session");
+        openSession.setOnAction(e -> processOpenSession(e));
         submitButton = new Button("Done");
         submitButton.setOnAction(e -> Platform.exit());
 
         grid.add(insertScout, 0, 0);
         grid.add(updateScout, 0, 1);
-        grid.add(insertTree, 0, 2);
-       grid.add(updateTree, 0, 3);
-        grid.add(submitButton, 0, 4);
+        grid.add(deleteScout, 0, 2);
+        grid.add(insertTree, 0, 3);
+        grid.add(updateTree, 0, 4);
+        grid.add(deleteTree, 0, 5);
+        grid.add(insertTreeType, 0, 6);
+        grid.add(updateTreeType, 0, 7);
+      // grid.add(openSession, 0, 8);
+
+        grid.add(submitButton, 0, 9);
 
         return grid;
     }
@@ -145,13 +167,23 @@ public class TLCView extends View {
     // This method processes events generated from our GUI components.
     // Make the ActionListeners delegate to this method
     //-------------------------------------------------------------
-    public void processAction(Event evt) {
+    public void processOpenSession(Event evt) {
         // DEBUG: System.out.println("TellerView.actionPerformed()");
 
         clearErrorMessage();
+        SessionCollection sessionCol = new SessionCollection();
+      //  if(sessionCol.isOpenSessions()==true){
+        //    displayErrorMessage("Session is open");
+        //}
+       //else {
+
+            myModel.stateChangeRequest("NewSession", null);
+        }
+        //}
 
 
-    }
+
+
 
 
 
@@ -164,12 +196,7 @@ public class TLCView extends View {
 
     //---------------------------------------------------------
     public void updateState(String key, Object value) {
-        // STEP 6: Be sure to finish the end of the 'perturbation'
-        // by indicating how the view state gets updated.
-        if (key.equals("LoginError") == true) {
-            // display the passed text
-            displayErrorMessage((String) value);
-        }
+
 
     }
 

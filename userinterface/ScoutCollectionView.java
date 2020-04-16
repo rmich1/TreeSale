@@ -150,13 +150,16 @@ public class ScoutCollectionView extends View
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 280, 20, 280));
+        grid.setPadding(new Insets(20, 280, 20, 140));
 
         Text prompt = new Text("Select Scout");
-        prompt.setWrappingWidth(350);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        prompt.setWrappingWidth(300);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
-        grid.add(prompt, 0, 0, 2, 1);
+        prompt.setFill(Color.RED);
+
+
+         grid.add(prompt, 10, 0, 1, 1);
 
 
         //This is how it should look
@@ -201,11 +204,14 @@ public class ScoutCollectionView extends View
         troopIdColumn.setMinWidth(100);
         troopIdColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("troopId"));
 
+        TableColumn<ScoutTableModel, String> dateStatusUpdatedColumn = new TableColumn("Date Status Updated");
+        dateStatusUpdatedColumn.setMinWidth(100);
+        dateStatusUpdatedColumn.setCellValueFactory(new PropertyValueFactory<ScoutTableModel, String>("dateStatusUpdated"));
 
 
 
 
-        tableOfScouts.getColumns().addAll(scoutIdColumn, firstNameColumn, middleNameColumn, lastNameColumn,
+        tableOfScouts.getColumns().addAll(firstNameColumn, middleNameColumn, lastNameColumn,
                 dobColumn, phoneNumberColumn, emailColumn, statusColumn, troopIdColumn);
 
         tableOfScouts.setOnMousePressed(new EventHandler<MouseEvent>() {

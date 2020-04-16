@@ -50,7 +50,7 @@ public class EditTreeInfo extends View {
     private TextField barcodeTF;
     private TextField treeTypeTF;
     private TextField dateStatusUpdatedTF;
-    private TextField notesTF;
+    private TextArea notesTF;
     private Tree treeEdit = new Tree();
     private TreeCollection treeColl = new TreeCollection();
 
@@ -122,7 +122,7 @@ public class EditTreeInfo extends View {
         treeTypeTF = new TextField();
         dateStatusUpdatedTF = new TextField();
         dateStatusUpdatedTF.setEditable(false);
-        notesTF = new TextField();
+        notesTF = new TextArea();
         //Labels
         Text prompt = new Text("Edit Tree Information");
         Label barcode = new Label("Barcode: ");
@@ -141,10 +141,10 @@ public class EditTreeInfo extends View {
        grid.add(treeTypeTF, 1, 2);
        grid.add(statusLabel, 0, 3);
        grid.add(status, 1, 3);
-       grid.add(dateStatusUpdatedLabel, 0, 4);
-       grid.add(dateStatusUpdatedTF, 1, 4);
-       grid.add(notes, 0, 5);
-       grid.add(notesTF, 1, 5);
+      // grid.add(dateStatusUpdatedLabel, 0, 4);
+      // grid.add(dateStatusUpdatedTF, 1, 4);
+       grid.add(notes, 0, 4);
+       grid.add(notesTF, 1, 4);
 
 
 
@@ -229,7 +229,7 @@ public class EditTreeInfo extends View {
             catch (InvalidPrimaryKeyException e) {
                 e.printStackTrace();
             }
-            displayMessage("Tree Updated Sucessfully!");
+            displayMessage("Tree Updated Successfully!");
             myModel.stateChangeRequest("EditBarcode", tree);
 
 
@@ -264,22 +264,27 @@ public class EditTreeInfo extends View {
         }
     }
     private void processDelete() {
-        Alert alert;
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete tree?");
+        if(status.getValue().equals("Sold")){
+            displayErrorMessage("Can't Delete Sold Tree");
+        }
+        else {
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to delete tree?");
 
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
 
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeYes){
-            alert.close();
-            deleteTree();
-        } else {
-            alert.close();
-            myModel.stateChangeRequest("Return", null);
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeYes) {
+                alert.close();
+                deleteTree();
+            } else {
+                alert.close();
+                myModel.stateChangeRequest("Return", null);
+            }
         }
     }
 

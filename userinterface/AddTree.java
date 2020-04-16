@@ -32,7 +32,8 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
-import model.Scout;
+import model.*;
+
 import java.text.SimpleDateFormat;
 
 /** The view to add a tree into the system*/
@@ -53,6 +54,7 @@ public class AddTree extends View
 
     private Button submitButton;
     private Button cancelButton;
+    private TreeTypeCollection type;
 
 
 
@@ -93,7 +95,7 @@ public class AddTree extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.DARKGREEN);
 
         return titleText;
     }
@@ -121,13 +123,15 @@ public class AddTree extends View
         notesTA.setEditable(true);
         //Labels
         Text prompt =new Text("Tree Information");
+        prompt.setFill(Color.RED);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         Label barcode = new Label("Barcode: ");
         Label statusLabel = new Label("Status: ");
         Label dateStatusUpdated = new Label ("Date Status Updated: ");
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Available", "Sold");
+        status.getItems().addAll("Available");
         status.setValue("Available");
         status.setPromptText("Available");
 
@@ -136,10 +140,8 @@ public class AddTree extends View
         grid.add(barcodeTF, 1, 1);
         grid.add(statusLabel, 0, 2);
         grid.add(status, 1, 2);
-        grid.add(dateStatusUpdated, 0, 3);
-        grid.add(dateStatusUpdatedTF, 1, 3);
-        grid.add(notes, 0, 4);
-        grid.add(notesTA, 1, 4);
+        grid.add(notes, 0, 3);
+        grid.add(notesTA, 1, 3);
 
         // status.setValue("Active");
         LocalDate date = LocalDate.now();
@@ -152,8 +154,9 @@ public class AddTree extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
 
         vbox.getChildren().add(grid);
@@ -182,30 +185,40 @@ public class AddTree extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
+        TreeCollection collection = new TreeCollection();
         clearErrorMessage();
-        if(barcodeTF.getText().length() == 0){
+        TreeTypeCollection tt = new TreeTypeCollection();
+        if(barcodeTF.getText().length() < 6){
             displayErrorMessage("Enter Barcode");
         }
-
-
-
-        else{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime today = LocalDateTime.now();
-            String formattedDate = today.format(formatter);
-           Properties tree = new Properties();
-           tree.setProperty("barcode", barcodeTF.getText());
-           tree.setProperty("treeType", barcodeTF.getText().substring(0,3));
-           tree.setProperty("status", status.getValue().toString());
-           tree.setProperty("dateStatusUpdated", formattedDate);
-           tree.setProperty("Notes", notesTA.getText());
-
-
-            //SubmitNewScout goes to TreeTransaction State Change Request
-            myModel.stateChangeRequest("SubmitNewTree", tree);
-
+        if(collection.isDuplicate(barcodeTF.getText().toString())){
+            displayErrorMessage("Barcode already exists in system");
         }
-    }
+        if(tt.getTreeType(barcodeTF.getText().substring(0,2)).equals("Unknown")){
+            displayErrorMessage("Invalid Barcode");
+        }
+
+            else {
+                TreeTypeCollection type = new TreeTypeCollection();
+                String treeType = type.getTreeType(barcodeTF.getText().substring(0,2));
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                LocalDateTime today = LocalDateTime.now();
+                String formattedDate = today.format(formatter);
+                Properties tree = new Properties();
+                tree.setProperty("barcode", barcodeTF.getText());
+                tree.setProperty("treeType", treeType);
+                tree.setProperty("status", status.getValue().toString());
+                tree.setProperty("dateStatusUpdated", formattedDate);
+                tree.setProperty("Notes", notesTA.getText());
+
+
+                //SubmitNewScout goes to TreeTransaction State Change Request
+                myModel.stateChangeRequest("SubmitNewTree", tree);
+            }
+        }
+
+
     /**
      * Required by interface, but has no role here
      */

@@ -15,6 +15,7 @@ public class ScoutTableModel {
     private final SimpleStringProperty email;
     private final SimpleStringProperty status;
     private final SimpleStringProperty troopId;
+   // private final SimpleStringProperty dateStatusUpdated;
 
     //----------------------------------------------------------------------------
     public ScoutTableModel(Vector<String> scoutData) {
@@ -27,6 +28,7 @@ public class ScoutTableModel {
         email = new SimpleStringProperty(scoutData.elementAt(6));
         status = new SimpleStringProperty(scoutData.elementAt(7));
         troopId = new SimpleStringProperty(scoutData.elementAt(8));
+       // dateStatusUpdated = new SimpleStringProperty(scoutData.elementAt(9));
 
 
     }
@@ -36,7 +38,7 @@ public class ScoutTableModel {
     // return accountNumber.get();
     // }
 
-    public String getScoutId() {
+   public String getScoutId() {
         return scoutId.get();
     }
 
@@ -44,6 +46,7 @@ public class ScoutTableModel {
     public void setScoutId(String number) {
         scoutId.set(number);
     }
+
     //----------------------------------------------------------------------------
 
 
@@ -117,6 +120,13 @@ public class ScoutTableModel {
     public String getTroopId(){
         return troopId.get();
     }
+    public void setTroopId(String id){troopId.set(id);}
     //----------------------------------------------------------------------------
-
+    /*public String getDateStatusUpdated(){
+        return dateStatusUpdated.get();
+    }
+    //----------------------------------------------------------------------------
+    public void setDateStatusUpdated(String date){
+        dateStatusUpdated.set(date);
+    }*/
 }

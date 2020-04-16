@@ -14,12 +14,12 @@ public class TreeTableModel {
 
 
     //----------------------------------------------------------------------------
-    public TreeTableModel(Vector<String> scoutData) {
-        barcode = new SimpleStringProperty(scoutData.elementAt(0));
-        treeType = new SimpleStringProperty(scoutData.elementAt(1));
-        status = new SimpleStringProperty(scoutData.elementAt(2));
-        dateStatusUpdated = new SimpleStringProperty(scoutData.elementAt(3));
-        notes = new SimpleStringProperty(scoutData.elementAt(4));
+    public TreeTableModel(Vector<String> treeData) {
+        barcode = new SimpleStringProperty(treeData.elementAt(0));
+        treeType = new SimpleStringProperty(treeData.elementAt(1));
+        status = new SimpleStringProperty(treeData.elementAt(2));
+        dateStatusUpdated = new SimpleStringProperty(treeData.elementAt(3));
+        notes = new SimpleStringProperty(treeData.elementAt(4));
     }
 
     //----------------------------------------------------------------------------
