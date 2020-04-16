@@ -80,7 +80,7 @@ public class SearchScout extends View {
     //-------------------------------------------------------------
     private Node createTitle() {
 
-        Text titleText = new Text("Update Scout");
+        Text titleText = new Text("Enter Scout Information");
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);

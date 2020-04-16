@@ -1,3 +1,15 @@
 [4/9/20 12:43 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1989-29-07' for column 'dateOfBirth' at row 1>
 [4/9/20 12:44 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1989-29-07' for column 'dateOfBirth' at row 1>
 [4/9/20 1:46 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1406: Data truncation: Data too long for column 'phoneNumber' at row 1>
+[4/13/20 10:50 AM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: '12:00PM' for column 'endTime' at row 1>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: Communications link failure
+
+The last packet successfully received from the server was 308,924 milliseconds ago.  The last packet sent successfully to the server was 14 milliseconds ago.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:40 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>

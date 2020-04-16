@@ -230,6 +230,9 @@ public class AddScout extends View
            displayErrorMessage("Enter E-mail");
        }
        else if(troopIdTF.getText().length()<6){
+           displayErrorMessage("Enter a 6 digit Troop ID");
+       }
+       else if(troopIdTF.getText().length()==0){
            displayErrorMessage("Enter Troop ID");
        }
 

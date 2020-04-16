@@ -61,11 +61,11 @@ public class TLCView extends View {
         super(tlc, "TLCView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
+        VBox container = new VBox(20);
         //VBox is added to getChildren.add(container)
         //container is a VBox
         //VBox is a vertical Box
-        container.setPadding(new Insets(15, 5, 5, 5));
+        container.setPadding(new Insets(15, 10, 5, 5));
 
         // create a Node (Text) for showing the title
         container.getChildren().add(createTitle());
@@ -109,7 +109,8 @@ public class TLCView extends View {
         //H V is horizontal and vertical gaps
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setPadding(new Insets(40, 60, 40, 60));
+
 
         // data entry fields
         //Label userName = new Label("User ID:");
