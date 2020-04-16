@@ -170,7 +170,7 @@ public class AddScout extends View
         grid.add(troopIdTF, 1, 8);
 
 
-       // status.setValue("Active");
+        // status.setValue("Active");
 
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
@@ -212,6 +212,7 @@ public class AddScout extends View
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         clearErrorMessage();
+
        if(firstNameTF.getText().length() == 0){
            displayErrorMessage("Enter First Name");
        }
@@ -236,6 +237,27 @@ public class AddScout extends View
            displayErrorMessage("Enter Troop ID");
        }
 
+        if(firstNameTF.getText().length() == 0){
+            displayErrorMessage("Enter First Name");
+        }
+
+        else if(lastNameTF.getText().length() == 0){
+            displayErrorMessage("Enter Last Name");
+        }
+        else if(datePicker.getValue().equals(LocalDate.now())){
+            displayErrorMessage("Enter Date Of Birth");
+        }
+
+        else if(phoneNumberTF.getText().length() < 10){
+            displayErrorMessage("Enter Phone Number");
+        }
+        else if(emailTF.getText().length()== 0){
+            displayErrorMessage("Enter E-mail");
+        }
+        else if(troopIdTF.getText().length()<6){
+            displayErrorMessage("Enter Troop ID");
+        }
+
         else{
 
             Properties scout = new Properties();
@@ -244,7 +266,10 @@ public class AddScout extends View
             }
             if(phoneNumberTF.getText().length()==10){
                 phoneNumberTF.setText(phoneNumberTF.getText().substring(0,3).concat("-").concat(phoneNumberTF.getText().substring(3,6))
-                .concat("-").concat(phoneNumberTF.getText().substring(6,10)));
+
+
+                        .concat("-").concat(phoneNumberTF.getText().substring(6,10)));
+
             }
 
             scout.setProperty("firstName", firstNameTF.getText());
@@ -258,7 +283,7 @@ public class AddScout extends View
             scout.setProperty("troopId", troopIdTF.getText());
 
             //SubmitNewScout goes to ScoutTransaction State Change Request
-           myModel.stateChangeRequest("SubmitNewScout", scout);
+            myModel.stateChangeRequest("SubmitNewScout", scout);
 
         }
     }
