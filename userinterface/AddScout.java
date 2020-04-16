@@ -212,6 +212,31 @@ public class AddScout extends View
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         clearErrorMessage();
+
+       if(firstNameTF.getText().length() == 0){
+           displayErrorMessage("Enter First Name");
+       }
+
+       else if(lastNameTF.getText().length() == 0){
+           displayErrorMessage("Enter Last Name");
+       }
+       else if(datePicker.getValue().equals(LocalDate.now())){
+           displayErrorMessage("Enter Date Of Birth");
+       }
+
+       else if(phoneNumberTF.getText().length() < 10){
+           displayErrorMessage("Enter Phone Number");
+       }
+       else if(emailTF.getText().length()== 0){
+           displayErrorMessage("Enter E-mail");
+       }
+       else if(troopIdTF.getText().length()<6){
+           displayErrorMessage("Enter a 6 digit Troop ID");
+       }
+       else if(troopIdTF.getText().length()==0){
+           displayErrorMessage("Enter Troop ID");
+       }
+
         if(firstNameTF.getText().length() == 0){
             displayErrorMessage("Enter First Name");
         }
@@ -241,7 +266,10 @@ public class AddScout extends View
             }
             if(phoneNumberTF.getText().length()==10){
                 phoneNumberTF.setText(phoneNumberTF.getText().substring(0,3).concat("-").concat(phoneNumberTF.getText().substring(3,6))
+
+
                         .concat("-").concat(phoneNumberTF.getText().substring(6,10)));
+
             }
 
             scout.setProperty("firstName", firstNameTF.getText());

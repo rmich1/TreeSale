@@ -8,6 +8,7 @@
 import exception.InvalidPrimaryKeyException;
 import model.Scout;
 import model.Tree;
+import model.TreeSale;
 
 import java.util.Properties;
 import java.util.Scanner;
@@ -19,13 +20,13 @@ public class Tester {
         String cont = "Y";
 
         Properties prop = new Properties();
-        prop.setProperty("barcode", "FIR2999999");
-        prop.setProperty("treeType", "Douglas");
-        prop.setProperty("status", "Active");
+        prop.setProperty("transactionType", "Tree Sale");
+        prop.setProperty("barcode", "FIR12345789");
+        prop.setProperty("sessionId", "Active");
         prop.setProperty("dateStatusUpdated",  "2020-03-19");
         prop.setProperty("Notes", "Good");
-        Tree tree = new Tree(prop);
-        tree.save();
+        TreeSale trans = new TreeSale(prop);
+        trans.save();
         System.out.println("yay");
 
 

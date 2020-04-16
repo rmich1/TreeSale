@@ -40,6 +40,11 @@ public class ShiftCollection extends EntityBase {
         int index = findIndexToAdd(a);
         shifts.insertElementAt(a, index);
     }
+    public Vector<Shift> findOpenShift(){
+        Vector<Shift> shiftVector = new Vector();
+        String query = "SELECT * FROM " + myTableName + " WHERE status='Active'";
+       return shiftVector = shiftHelper(query);
+    }
     //----------------------------------------------------------------------------------
     public Boolean isOpenShift(){
         Boolean openShift = false;

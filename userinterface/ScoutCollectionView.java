@@ -235,9 +235,9 @@ public class ScoutCollectionView extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);

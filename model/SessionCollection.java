@@ -47,7 +47,6 @@ public class SessionCollection extends EntityBase {
         String query = "SELECT * FROM " + myTableName;
         sessionVector = sessionHelper(query);
         for(int i = 0; i < sessionVector.size(); i++){
-            System.out.println(sessionVector.get(i));
             if(sessionVector.get(i).persistentState.getProperty("status").equals("Active")){
                 open = true;
             }
@@ -55,6 +54,13 @@ public class SessionCollection extends EntityBase {
         return open;
 
     }
+    public Vector<Session> findOpenSessions(){
+        Vector<Session> sessionVector = new Vector();
+        String query = "SELECT * FROM " + myTableName + " WHERE status='Active'";
+        sessionVector = sessionHelper(query);
+        return sessionVector;
+    }
+
     //----------------------------------------------------------------------------------
 
     private Vector sessionHelper(String query){

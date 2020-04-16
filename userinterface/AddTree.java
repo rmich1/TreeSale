@@ -1,3 +1,4 @@
+
 // specify the package
 package userinterface;
 
@@ -34,23 +35,32 @@ import impresario.IModel;
 import javafx.util.Pair;
 import model.*;
 
-import java.text.SimpleDateFormat;
+
 
 /** The view to add a tree into the system*/
 //==============================================================
-public class AddTree extends View
-{
-
-    // Model
-
-    // GUI components
-    private TextField barcodeTF;
-    private TextField treeTypeTF;
-    private TextField dateStatusUpdatedTF;
-    private TextArea notesTA;
 
 
-    private ComboBox status;
+
+
+
+
+    /** The view to add a tree into the system*/
+    //==============================================================
+    public class AddTree extends View
+    {
+
+        // Model
+
+        // GUI components
+        private TextField barcodeTF;
+        private TextField treeTypeTF;
+        private TextField dateStatusUpdatedTF;
+        private TextArea notesTA;
+
+
+        private ComboBox status;
+
 
     private Button submitButton;
     private Button cancelButton;
@@ -58,47 +68,49 @@ public class AddTree extends View
 
 
 
-    // For showing error message
-    private userinterface.MessageView statusLog;
+
+        // For showing error message
+        private userinterface.MessageView statusLog;
 
 
-    // constructor for this class -- takes a model object
-    //----------------------------------------------------------
-    public AddTree(IModel insertTree)
-    {
-        super(insertTree, "AddTree");
+        // constructor for this class -- takes a model object
+        //----------------------------------------------------------
+        public AddTree(IModel insertTree)
+        {
+            super(insertTree, "AddTree");
 
-        // create a container for showing the contents
-        VBox container = new VBox(10);
-        container.setPadding(new Insets(15, 5, 5, 5));
+            // create a container for showing the contents
+            VBox container = new VBox(10);
+            container.setPadding(new Insets(15, 5, 5, 5));
 
-        // create our GUI components, add them to this panel
-        container.getChildren().add(createTitle());
-        container.getChildren().add(createFormContent());
+            // create our GUI components, add them to this panel
+            container.getChildren().add(createTitle());
+            container.getChildren().add(createFormContent());
 
-        // Error message area
-        container.getChildren().add(createStatusLog("                          "));
+            // Error message area
+            container.getChildren().add(createStatusLog("                          "));
 
-        getChildren().add(container);
+            getChildren().add(container);
 
-        populateFields();
-        myModel.subscribe("SubmissionResponse", this);
-    }
+            populateFields();
+            myModel.subscribe("SubmissionResponse", this);
+        }
 
 
-    // Create the label (Text) for the title
-    //-------------------------------------------------------------
-    private Node createTitle()
-    {
+        // Create the label (Text) for the title
+        //-------------------------------------------------------------
+        private Node createTitle()
+        {
 
-        Text titleText = new Text("Boy Scout Troop 209");
-        titleText.setWrappingWidth(300);
-        titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-        titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.DARKGREEN);
+            Text titleText = new Text("Boy Scout Troop 209");
+            titleText.setWrappingWidth(300);
+            titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+            titleText.setTextAlignment(TextAlignment.CENTER);
+            titleText.setFill(Color.DARKGREEN);
 
-        return titleText;
-    }
+            return titleText;
+        }
+
 
     // Create the main form content
     //-------------------------------------------------------------
@@ -165,18 +177,19 @@ public class AddTree extends View
         return vbox;
     }
 
-    // Create the status log field
-    //-------------------------------------------------------------
-    private userinterface.MessageView createStatusLog(String initialMessage)
-    {
-        statusLog = new userinterface.MessageView(initialMessage);
+        // Create the status log field
+        //-------------------------------------------------------------
+        private userinterface.MessageView createStatusLog(String initialMessage)
+        {
+            statusLog = new userinterface.MessageView(initialMessage);
 
-        return statusLog;
-    }
+            return statusLog;
+        }
 
-    //-------------------------------------------------------------
-    public void populateFields()
-    {
+        //-------------------------------------------------------------
+        public void populateFields()
+        {
+
 
 
 
@@ -188,80 +201,86 @@ public class AddTree extends View
         TreeCollection collection = new TreeCollection();
         clearErrorMessage();
         TreeTypeCollection tt = new TreeTypeCollection();
-        if(barcodeTF.getText().length() < 6){
+        if (barcodeTF.getText().length() < 6) {
             displayErrorMessage("Enter Barcode");
         }
-        if(collection.isDuplicate(barcodeTF.getText().toString())){
+        if (collection.isDuplicate(barcodeTF.getText().toString())) {
             displayErrorMessage("Barcode already exists in system");
+
         }
-        if(tt.getTreeType(barcodeTF.getText().substring(0,2)).equals("Unknown")){
+        if (tt.getTreeType(barcodeTF.getText().substring(0, 2)).equals("Unknown")) {
             displayErrorMessage("Invalid Barcode");
+        } else {
+            TreeTypeCollection type = new TreeTypeCollection();
+            String treeType = type.getTreeType(barcodeTF.getText().substring(0, 2));
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime today = LocalDateTime.now();
+            String formattedDate = today.format(formatter);
+            Properties tree = new Properties();
+            tree.setProperty("barcode", barcodeTF.getText());
+            tree.setProperty("treeType", treeType);
+            tree.setProperty("status", status.getValue().toString());
+            tree.setProperty("dateStatusUpdated", formattedDate);
+            tree.setProperty("Notes", notesTA.getText());
+
+
+            //SubmitNewScout goes to TreeTransaction State Change Request
+            myModel.stateChangeRequest("SubmitNewTree", tree);
+
         }
+    }
 
-            else {
-                TreeTypeCollection type = new TreeTypeCollection();
-                String treeType = type.getTreeType(barcodeTF.getText().substring(0,2));
-
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                LocalDateTime today = LocalDateTime.now();
-                String formattedDate = today.format(formatter);
-                Properties tree = new Properties();
-                tree.setProperty("barcode", barcodeTF.getText());
-                tree.setProperty("treeType", treeType);
-                tree.setProperty("status", status.getValue().toString());
-                tree.setProperty("dateStatusUpdated", formattedDate);
-                tree.setProperty("Notes", notesTA.getText());
-
-
-                //SubmitNewScout goes to TreeTransaction State Change Request
-                myModel.stateChangeRequest("SubmitNewTree", tree);
-            }
-        }
 
 
     /**
      * Required by interface, but has no role here
      */
     //---------------------------------------------------------
-    public void updateState (String key, Object value)
-    {
-        if (key.equals("SubmissionResponse")) {
-            if (value instanceof Pair) {
-                Pair<String, Pair<String, Boolean>> response = (Pair) value;
-                if (response.getValue().getValue()) {
-                    displayErrorMessage(response.getValue().getKey());
-                } else {
-                    displayMessage(response.getValue().getKey());
-                }
 
-                if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
-                    barcodeTF.setText(response.getKey());
+        /**
+         * Required by interface, but has no role here
+         */
+        //---------------------------------------------------------
+        public void updateState (String key, Object value)
+        {
+            if (key.equals("SubmissionResponse")) {
+                if (value instanceof Pair) {
+                    Pair<String, Pair<String, Boolean>> response = (Pair) value;
+                    if (response.getValue().getValue()) {
+                        displayErrorMessage(response.getValue().getKey());
+                    } else {
+                        displayMessage(response.getValue().getKey());
+                    }
+
+                    if (barcodeTF.getText() == null || barcodeTF.getText().trim().isEmpty()) {
+                        barcodeTF.setText(response.getKey());
+                    }
                 }
             }
+
+        }
+
+
+        /**
+         * Display error message
+         */
+        //----------------------------------------------------------
+        public void displayErrorMessage (String message)
+        {
+            statusLog.displayErrorMessage(message);
+        }
+        public void displayMessage (String message)
+        {
+            statusLog.displayMessage(message);
+        }
+        /**
+         * Clear error message
+         */
+        //----------------------------------------------------------
+        public void clearErrorMessage ()
+        {
+            statusLog.clearErrorMessage();
         }
 
     }
-
-
-    /**
-     * Display error message
-     */
-    //----------------------------------------------------------
-    public void displayErrorMessage (String message)
-    {
-        statusLog.displayErrorMessage(message);
-    }
-    public void displayMessage (String message)
-    {
-        statusLog.displayMessage(message);
-    }
-    /**
-     * Clear error message
-     */
-    //----------------------------------------------------------
-    public void clearErrorMessage ()
-    {
-        statusLog.clearErrorMessage();
-    }
-
-}

@@ -42,6 +42,8 @@ public class TLCView extends View {
     private Button updateTreeType;
     private Button deleteTreeType;
     private Button openSession;
+    private Button sellTree;
+    private Button closeShift;
     private Button submitButton;
 
     // For showing error message
@@ -59,11 +61,11 @@ public class TLCView extends View {
         super(tlc, "TLCView");
 
         // create a container for showing the contents
-        VBox container = new VBox(10);
+        VBox container = new VBox(20);
         //VBox is added to getChildren.add(container)
         //container is a VBox
         //VBox is a vertical Box
-        container.setPadding(new Insets(15, 5, 5, 5));
+        container.setPadding(new Insets(15, 10, 5, 5));
 
         // create a Node (Text) for showing the title
         container.getChildren().add(createTitle());
@@ -107,7 +109,8 @@ public class TLCView extends View {
         //H V is horizontal and vertical gaps
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
+        grid.setPadding(new Insets(40, 60, 40, 60));
+
 
         // data entry fields
         //Label userName = new Label("User ID:");
@@ -135,6 +138,10 @@ public class TLCView extends View {
         deleteTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
         openSession = new Button("Open Session");
         openSession.setOnAction(e -> processOpenSession(e));
+        sellTree = new Button("Sell Tree");
+        sellTree.setOnAction(e -> processTreeSale(e));
+        closeShift = new Button("Close Shift");
+        closeShift.setOnAction(e -> processCloseShift(e));
         submitButton = new Button("Done");
         submitButton.setOnAction(e -> Platform.exit());
 
@@ -146,9 +153,12 @@ public class TLCView extends View {
         grid.add(deleteTree, 0, 5);
         grid.add(insertTreeType, 0, 6);
         grid.add(updateTreeType, 0, 7);
-      // grid.add(openSession, 0, 8);
+        grid.add(openSession, 0, 8);
+        grid.add(sellTree, 0, 9);
+        grid.add(closeShift, 0, 10);
 
-        grid.add(submitButton, 0, 9);
+        grid.add(submitButton, 0, 11);
+
 
         return grid;
     }
@@ -172,17 +182,36 @@ public class TLCView extends View {
 
         clearErrorMessage();
         SessionCollection sessionCol = new SessionCollection();
-      //  if(sessionCol.isOpenSessions()==true){
-        //    displayErrorMessage("Session is open");
-        //}
-       //else {
+        if(sessionCol.isOpenSessions()==true){
+            displayErrorMessage("Session is open");
+        }
+        else {
 
             myModel.stateChangeRequest("NewSession", null);
         }
-        //}
+    }
 
+    public void processTreeSale(Event e){
+        clearErrorMessage();
+        SessionCollection sessionCollection = new SessionCollection();
+        if(sessionCollection.isOpenSessions()==true){
+            myModel.stateChangeRequest("SellTree", null);
+        }
+        else{
+            displayErrorMessage("Open Session First");
+        }
+    }
+    public void processCloseShift(Event e){
+        clearErrorMessage();
+        SessionCollection sessionCollection = new SessionCollection();
+        if(sessionCollection.isOpenSessions()==true){
+            myModel.stateChangeRequest("CloseShift", null);
+        }
+        else{
+            displayErrorMessage("No Open Shifts Exist");
+        }
 
-
+    }
 
 
 

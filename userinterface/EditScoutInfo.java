@@ -121,8 +121,6 @@ public class EditScoutInfo extends View {
 
         //TextFields
         scoutIdTF = new TextField();
-        // scoutIdTF.setStyle("-fx-focus-color: transparent");
-        // scoutIdTF.setEditable(false);
         firstNameTF = new TextField();
         middleNameTF = new TextField();
         lastNameTF = new TextField();
@@ -135,7 +133,11 @@ public class EditScoutInfo extends View {
         datePicker = new DatePicker();
         datePicker.setValue(LocalDate.parse((String)myModel.getState("dateOfBirth")));
 
+
+       // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
+
         // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
+
         //Labels
         Text prompt = new Text("Scout Information");
 
@@ -217,7 +219,11 @@ public class EditScoutInfo extends View {
         firstNameTF.setText((String) myModel.getState("firstName"));
         middleNameTF.setText((String) myModel.getState("middleName"));
         lastNameTF.setText((String) myModel.getState("lastName"));
+
+      // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
+
         // datePicker.setValue((LocalDate) myModel.getState("dateOfBirth"));
+
         phoneNumberTF.setText((String) myModel.getState("phoneNumber"));
         emailTF.setText((String) myModel.getState("email"));
         status.setPromptText((String) myModel.getState("status"));

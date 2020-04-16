@@ -52,7 +52,12 @@ public class TransactionFactory {
                 return new ShiftTransaction((Shift) resource){
 
                 };
+            case "SellTree":
+                    return new TreeSaleTransaction((TreeSale) resource){
 
+                    };
+            case "CloseShift":
+                return new CloseShiftTransaction();
             default:
                 return null;
         }

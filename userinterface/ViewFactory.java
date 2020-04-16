@@ -51,7 +51,15 @@ public class ViewFactory {
         else if(viewName.equals("OpenShift") == true){
             return new OpenShift(model);
         }
-
+        else if(viewName.equals("TreeSaleView") == true){
+            return new TreeSaleView(model);
+        }
+        else if(viewName.equals("TreeSaleInfoView") == true){
+            return new TreeSaleInfoView(model);
+        }
+        else if(viewName.equals("CloseShiftView") == true){
+            return new CloseShiftView(model);
+        }
 
         else
             return null;

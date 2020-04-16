@@ -9,25 +9,25 @@ import userinterface.ViewFactory;
 import java.util.Properties;
 import java.util.Vector;
 
-public class TreeCollection extends EntityBase {
+public class TreeSaleCollection extends EntityBase {
 
-    private static final String myTableName = "Tree";
-    private Vector<Tree> trees;
+    private static final String myTableName = "Transaction";
+    private Vector<TreeSale> treeSales;
 
     //Constructor
-    public TreeCollection()
+    public TreeSaleCollection()
     {
         super(myTableName);
-        trees = new Vector();
+        treeSales = new Vector();
     }
     //-----------------------------------------------------------------------------------
     public Object getState(String key) {
-        if (key.equals("Trees"))
-            return trees;
-        else if (key.equals("TreeList"))
+        if (key.equals("TreeSales"))
+            return treeSales;
+        else if (key.equals("TreeSaleList"))
             return this;
         else if(key.equals("Count"))
-            return trees.size();
+            return treeSales.size();
         return null;
     }
     //-----------------------------------------------------------------------------------
@@ -36,74 +36,55 @@ public class TreeCollection extends EntityBase {
         myRegistry.updateSubscribers(key, this);
     }
     //-----------------------------------------------------------------------------------
-    private void addTree(Tree a) {
+    private void addTreeSale(TreeSale a) {
         int index = findIndexToAdd(a);
-        trees.insertElementAt(a, index);
+        treeSales.insertElementAt(a, index);
     }
     //----------------------------------------------------------------------------------
-    public Vector findTreeBarcode(String barcode){
-            Vector barcodeArray = new Vector();
-            String query = "SELECT * FROM " + myTableName + " WHERE barcode = \"" + barcode + "\"";
-           return barcodeArray = treeHelper(query);
-
-        }
-        public Vector findTreeBarcodePrefix(String barcode){
-        Vector barcodeArray = new Vector();
-        String query = "SELECT * FROM " + myTableName + " WHERE barcode LIKE '%" + barcode + "%'";
-        return treeHelper(query);
-        }
 
     //----------------------------------------------------------------------------------
 
-    private Vector treeHelper(String query){
+    private Vector TreeSaleHelper(String query){
         Vector allDataRetrieved = getSelectQueryResult(query);
 
         if (allDataRetrieved != null) {
-            trees = new Vector<Tree>();
+            treeSales = new Vector<TreeSale>();
             //populates the books vector
             for (int count = 0; count < allDataRetrieved.size(); count++) {
-                Properties nextTreeData = (Properties) allDataRetrieved.elementAt(count);
+                Properties nextTreeSaleData = (Properties) allDataRetrieved.elementAt(count);
 
-                Tree tree = new Tree(nextTreeData);
+               TreeSale treeSale = new TreeSale(nextTreeSaleData);
                 //Adding each account to a collection(accounts vector)
                 //Have a seperate method to add account because the method will build up a sorted account collection
-                if (tree != null) {
-                    addTree(tree);
+                if (treeSale != null) {
+                    addTreeSale(treeSale);
                 }
 
 
             }
         }
-        return allDataRetrieved;
+        return treeSales;
     }
     //----------------------------------------------------------------------------------
-
-    public boolean isDuplicate(String barcode){
-        Vector<Tree> barcodeVector = new Vector<>();
-      barcodeVector = findTreeBarcode(barcode);
-
-        if(barcodeVector.size() == 1){
-            return true;
-
-        }
-        else {
-            return false;
-        }
-
+    public Vector findTotalCash(String sessionId){
+        String query = "SELECT * FROM " + myTableName + " WHERE sessionId=" + sessionId;
+        return TreeSaleHelper(query);
     }
+
+
     //Find where to put new tree into Tree Vector
-    private int findIndexToAdd(Tree a) {
+    private int findIndexToAdd(TreeSale a) {
         //users.add(u);
         int low = 0;
-        int high = trees.size() - 1;
+        int high = treeSales.size() - 1;
         int middle;
 
         while (low <= high) {
             middle = (low + high) / 2;
 
-            Tree midSession = trees.elementAt(middle);
+            TreeSale midTreeSale = treeSales.elementAt(middle);
             //compares the accounts to help with the sort binary search
-            int result = Tree.compare(a, midSession);
+            int result = TreeSale.compare(a, midTreeSale);
 
             if (result == 0) {
                 return middle;
@@ -118,28 +99,7 @@ public class TreeCollection extends EntityBase {
 
     //----------------------------------------------------------------------------------
 
-    //Populates the Scout Vector
-    private void TreeHelper(String query){
-        Vector allDataRetrieved = getSelectQueryResult(query);
 
-        if (allDataRetrieved != null) {
-            //initilizing account vector, get a new set of account objects to populate
-            trees = new Vector<Tree>();
-            //populates the books vector
-            for (int count = 0; count < allDataRetrieved.size(); count++) {
-                Properties nextTreeData = (Properties) allDataRetrieved.elementAt(count);
-
-                Tree tree = new Tree(nextTreeData);
-                //Adding each account to a collection(accounts vector)
-                //Have a seperate method to add account because the method will build up a sorted account collection
-                if (tree != null) {
-                    addTree(tree);
-                }
-
-
-            }
-        }
-    }
     //----------------------------------------------------------------------------------
 
     public void updateState(String key, Object value) {

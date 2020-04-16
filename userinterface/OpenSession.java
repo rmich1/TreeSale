@@ -26,9 +26,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -37,6 +39,9 @@ import java.util.Vector;
 import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
+
+import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
 /** The view to add a scout into the system*/
@@ -47,8 +52,12 @@ public class OpenSession extends View
     // Model
 
     // GUI components
-    private TextField startTimeTF;
-    private TextField endTimeTF;
+    private ComboBox startHour;
+    private ComboBox startMin;
+    private ComboBox amPm;
+    private ComboBox endHour;
+    private ComboBox endMin;
+    private ComboBox endAMPM;
     private TextField startingCashTF;
 
 
@@ -115,22 +124,53 @@ public class OpenSession extends View
 
 
         //TextFields
-       Label startTime = new Label("Start Time:");
-       Label endTime = new Label("End Time:");
+       Label startTimeLabel = new Label("Start Time:");
+       Label endTimeLabel = new Label("End Time:");
        Label startingCash = new Label("Starting Cash :");
-       startTimeTF = new TextField();
-       endTimeTF = new TextField();
+       startHour = new ComboBox();
+       startMin = new ComboBox();
+        startHour.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9",
+                "10", "11", "12");
+        startHour.setPromptText("Hour");
+        startMin.getItems().addAll("00", "01", "02", "03", "04", "05", "06", "07",
+                "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33",
+                "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
+                "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59");
+        startMin.setPromptText("Minute");
+        amPm = new ComboBox();
+        amPm.getItems().addAll("AM", "PM");
+        amPm.setPromptText("AM/PM");
+        endHour = new ComboBox();
+        endHour.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9",
+            "10", "11", "12");
+        endMin = new ComboBox();
+        endMin.getItems().addAll("00", "01", "02", "03", "04", "05", "06", "07",
+                "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33",
+                "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46",
+                "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59");
+        endAMPM = new ComboBox();
+        endAMPM.getItems().addAll("AM", "PM");
+        endMin.setPromptText("Minute");
+        endHour.setPromptText("Hour");
+        endAMPM.setPromptText("AM/PM");
+
        startingCashTF = new TextField();
 
         //Labels
-        Text prompt =new Text("Open Shift");
-        grid.add(prompt, 0, 0);
-       grid.add(startTime, 0, 1);
-       grid.add(startTimeTF, 1, 1);
-       grid.add(endTime, 0, 2);
-       grid.add(endTimeTF, 1, 2);
-       grid.add(startingCash, 0, 3);
-       grid.add(startingCashTF, 1, 3);
+        Text openPrompt =new Text("Open Shift");
+        grid.add(openPrompt, 0, 0);
+       grid.add(startTimeLabel, 0, 1);
+       grid.add(startHour, 1, 1);
+       grid.add(startMin, 2, 1);
+       grid.add(amPm, 3, 1);
+       grid.add(endTimeLabel, 0,2 );
+       grid.add(endHour, 1, 2);
+       grid.add(endMin, 2,2 );
+       grid.add(endAMPM, 3, 2);
+       grid.add(startingCash, 0, 6);
+       grid.add(startingCashTF, 1, 6);
 
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
@@ -140,8 +180,8 @@ public class OpenSession extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
 
 
         vbox.getChildren().add(grid);
@@ -171,21 +211,61 @@ public class OpenSession extends View
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         clearErrorMessage();
-        if(startTimeTF.getText().length() == 0){
+        if(startHour.getValue().equals(null)){
             displayErrorMessage("Enter Start Time");
         }
 
-        else if(endTimeTF.getText().length() == 0){
+        else if(startMin.getValue().equals(null)){
+            displayErrorMessage("Enter Start Time");
+        }
+        else if(amPm.getValue().equals(null)){
+            displayErrorMessage("Enter AM/PM");
+        }
+        else if(endHour.getValue().equals(null)){
             displayErrorMessage("Enter End Time");
+        }
+        else if(endMin.getValue().equals(null)){
+            displayErrorMessage("Enter End Time");
+        }
+        else if(endAMPM.getValue().equals(null)){
+            displayErrorMessage("Enter AM/PM");
         }
         else if(startingCashTF.getText().length()==0){
             displayErrorMessage("Enter Starting Cash");
         }
         else{
 
+
             Properties session = new Properties();
-            session.setProperty("startTime", startTimeTF.getText());
-            session.setProperty("endTime", endTimeTF.getText());
+            DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+            Date dateobj = new Date();
+            String today = df.format(dateobj);
+            String startTime=null;
+            String endTime = null;
+            int adjustedTime = 0;
+            if(amPm.getValue().equals("AM")){
+                startTime = (String)startHour.getValue() + ":" + (String)startMin.getValue() + ":00";
+                System.out.println(startTime);
+            }
+            else{
+                adjustedTime = (int)startHour.getValue();
+                adjustedTime = adjustedTime + 12;
+                Integer obj = new Integer(adjustedTime);
+                startTime =  obj.toString() + ":" + (String)startMin.getValue() + ":00";
+            }
+            if(endAMPM.getValue().equals("AM")){
+                endTime = (String)endHour.getValue() + ":" + (String)endMin.getValue() + ":00";
+            }
+            else{
+                adjustedTime = (int)endHour.getValue();
+                adjustedTime = adjustedTime + 12;
+                Integer obj = new Integer(adjustedTime);
+                endTime = obj.toString() + ":" + (String)endMin.getValue() + ":00";
+            }
+            session.setProperty("startDate", today);
+            session.setProperty("startTime", startTime);
+            session.setProperty("endDate", today);
+            session.setProperty("endTime", endTime);
             session.setProperty("startingCash", startingCashTF.getText());
             session.setProperty("endingCash", "0");
             session.setProperty("totalCheckTransactionAmount", "0");

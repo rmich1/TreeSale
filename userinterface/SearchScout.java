@@ -80,7 +80,7 @@ public class SearchScout extends View {
     //-------------------------------------------------------------
     private Node createTitle() {
 
-        Text titleText = new Text("Update Scout");
+        Text titleText = new Text("Enter Scout Information");
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
@@ -133,8 +133,8 @@ public class SearchScout extends View {
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(searchButton);
+        btnContainer.getChildren().add(cancelButton);
 
 
         vbox.getChildren().add(grid);

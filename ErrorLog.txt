@@ -1,36 +1,18 @@
-[3/19/20 1:04 PM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'FIR25556' for key 'PRIMARY'>
-[3/19/20 3:13 PM]|Main|TLC.<init>|Error|NOTAG|null<Unable to create TLC object>
-[3/19/20 3:14 PM]|Main|TLC.<init>|Error|NOTAG|null<Unable to create TLC object>
-[3/19/20 4:04 PM]|Main|TLC.<init>|Error|NOTAG|null<Unable to create TLC object>
-[3/19/20 6:02 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'CAT3456' in 'where clause'>
-[3/19/20 6:02 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'CAT3456' in 'where clause'>
-[3/19/20 6:05 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1054: Unknown column 'CAT3456' in 'where clause'>
-[3/20/20 10:55 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'CAT3456' for key 'PRIMARY'>
-[3/20/20 10:57 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'CAT3456' for key 'PRIMARY'>
-[3/27/20 11:17 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:27 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:29 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:30 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:31 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:33 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 11:34 AM]|Tree|insertPersistentState|Error|NOTAG|null<SQL Exception: 1062: Duplicate entry 'Testtest' for key 'PRIMARY'>
-[3/27/20 2:34 PM]|TreeType|insertPersistentState|Error|NOTAG|null<SQL Exception: 1366: Incorrect decimal value: '' for column 'cost' at row 1>
-[3/29/20 5:31 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:32 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:33 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:34 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:35 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:37 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: 'TextField@711b0107[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 5:44 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: 'TextField@383277f8[styleClass=text-input text-field]' for column 'endTime' at row 1>
-[3/29/20 6:40 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '2020-29-03 11:00' for column 'endTime' at row 1>
-[3/29/20 6:45 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '11:00' for column 'endTime' at row 1>
-[3/29/20 6:47 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '22:00' for column 'endTime' at row 1>
-[3/29/20 7:07 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '03-29-2020 08:00' for column 'endTime' at row 1>
-[3/29/20 7:08 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '07:02' for column 'endTime' at row 1>
-[3/29/20 7:08 PM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '2020-29-03' for column 'endTime' at row 1>
-[3/30/20 10:36 AM]|Shift|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect datetime value: '5:00' for column 'endTime' at row 1>
-[3/30/20 11:00 AM]|Shift|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[4] , '12:00' , 'Liz' )' at line 1>
-[3/30/20 11:01 AM]|Shift|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[4] , '12:00' , 'Liz' )' at line 1>
-[3/30/20 11:03 AM]|Shift|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '[3] , '12:00' , 'Bill' )' at line 1>
-[4/1/20 2:45 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1998-29-01' for column 'dateOfBirth' at row 1>
-[4/1/20 2:45 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1998-29-01' for column 'dateOfBirth' at row 1>
+[4/9/20 12:43 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1989-29-07' for column 'dateOfBirth' at row 1>
+[4/9/20 12:44 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect date value: '1989-29-07' for column 'dateOfBirth' at row 1>
+[4/9/20 1:46 PM]|Scout|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1406: Data truncation: Data too long for column 'phoneNumber' at row 1>
+[4/13/20 10:50 AM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: '12:00PM' for column 'endTime' at row 1>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: Communications link failure
+
+The last packet successfully received from the server was 308,924 milliseconds ago.  The last packet sent successfully to the server was 14 milliseconds ago.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 12:40 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 1:54 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%20' at line 1>
+[4/16/20 1:54 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%20' at line 1>
+[4/16/20 1:55 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%200001' at line 1>

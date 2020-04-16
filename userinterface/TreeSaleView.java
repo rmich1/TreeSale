@@ -1,8 +1,9 @@
 // specify the package
 package userinterface;
 
+// system imports
 
-
+import exception.InvalidPrimaryKeyException;
 import javafx.event.Event;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,7 +11,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,9 +27,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
@@ -32,26 +39,22 @@ import java.util.Vector;
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
-import model.Scout;
-import model.Tree;
-import model.TreeCollection;
-import model.TreeTypeCollection;
+import model.*;
 
+import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
-/** The view to add a tree into the system*/
+/** The view to add a scout into the system*/
 //==============================================================
-public class AddTreeType extends View
+public class TreeSaleView extends View
 {
 
     // Model
 
     // GUI components
-    private TextField barcodePrefixTF;
-    private TextArea typeDescTA;
-    private TextField costTF;
-
-
+    private TextField barcodeTf;
+   private Tree treeSale;
+   private TreeType treeType;
 
 
     private Button submitButton;
@@ -65,9 +68,9 @@ public class AddTreeType extends View
 
     // constructor for this class -- takes a model object
     //----------------------------------------------------------
-    public AddTreeType(IModel insertTreeType)
+    public TreeSaleView(IModel sellTree)
     {
-        super(insertTreeType, "AddTreeType");
+        super(sellTree, "TreeSaleView");
 
         // create a container for showing the contents
         VBox container = new VBox(10);
@@ -83,7 +86,7 @@ public class AddTreeType extends View
         getChildren().add(container);
 
         populateFields();
-        myModel.subscribe("SubmissionResponse", this);
+
     }
 
 
@@ -116,21 +119,15 @@ public class AddTreeType extends View
 
 
         //TextFields
-        barcodePrefixTF = new TextField();
-        typeDescTA = new TextArea();
-        costTF = new TextField();
+        Label barcode = new Label("Barcode: ");
+        barcodeTf = new TextField();
+
         //Labels
-        Text prompt =new Text("Tree Type Information");
-        Label barcodePrefix = new Label("Barcode Prefix: ");
-        Label typeDesc = new Label("Type Description: ");
-        Label cost = new Label("Cost: ");
-        grid.add(prompt, 0, 0);
-        grid.add(barcodePrefix, 0, 1);
-        grid.add(barcodePrefixTF, 1, 1);
-        grid.add(typeDesc, 0, 2);
-        grid.add(typeDescTA, 1, 2);
-        grid.add(cost, 0, 3);
-        grid.add(costTF, 1, 3);
+        Text sellPrompt =new Text("Provide Tree Barcode");
+        grid.add(sellPrompt, 0, 0);
+        grid.add(barcode, 0, 1);
+        grid.add(barcodeTf, 1, 1);
+
 
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
@@ -140,8 +137,8 @@ public class AddTreeType extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(submitButton);
         btnContainer.getChildren().add(cancelButton);
+        btnContainer.getChildren().add(submitButton);
 
 
         vbox.getChildren().add(grid);
@@ -170,54 +167,61 @@ public class AddTreeType extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
-        TreeTypeCollection collection = new TreeTypeCollection();
         clearErrorMessage();
-        if(barcodePrefixTF.getText().length() == 0){
-            displayErrorMessage("Enter Barcode Prefix");
+        if(barcodeTf.getText().length() == 0){
+            displayErrorMessage("Enter Barcode");
         }
-        else if(collection.isDuplicate(barcodePrefixTF.getText().toString())){
-            displayErrorMessage("Barcode Prefix already exists in system");
-        }
-        else if(costTF.getText().length()==0){
-            displayErrorMessage("Enter Cost");
-        }
-
         else {
+            try {
+                 treeSale = new Tree(barcodeTf.getText());
+            } catch (InvalidPrimaryKeyException e) {
+                e.printStackTrace();
+            }
+            if (treeSale.getState("status").equals("Sold")) {
+                displayErrorMessage("Can't Sell a Sold Tree!");
+            } else {
 
-            Properties treeType = new Properties();
-            treeType.setProperty("barcodePrefix", barcodePrefixTF.getText());
-            treeType.setProperty("typeDesc", typeDescTA.getText());
-            treeType.setProperty("cost", costTF.getText());
+                Properties transaction = new Properties();
+                String barcodePrefix = barcodeTf.getText().substring(0,3);
+                try {
+                    treeType = new TreeType(barcodePrefix);
+                } catch (InvalidPrimaryKeyException e) {
+                    e.printStackTrace();
+                }
+
+                SessionCollection sessionCollection = new SessionCollection();
+                Vector<Session> sessionsOpen = new Vector<Session>();
+                sessionsOpen = sessionCollection.findOpenSessions();
+
+                String sessionID = sessionsOpen.get(0).getState("sessionId").toString();
+                System.out.println(sessionID);
+                transaction.setProperty("sessionId", sessionID);
+                transaction.setProperty("transactionType", "Tree Sale");
+                transaction.setProperty("barcodePrefix", barcodePrefix);
+                transaction.setProperty("barcode", barcodeTf.getText());
+                transaction.setProperty("cost", treeType.getState("cost").toString());
 
 
+                //SubmitNewScout goes to ScoutTransaction State Change Request
+                myModel.stateChangeRequest("SellNewTree", transaction);
 
-            //SubmitNewScout goes to TreeTransaction State Change Request
-            myModel.stateChangeRequest("SubmitNewTreeType", treeType);
+
+            }
         }
     }
-
     /**
      * Required by interface, but has no role here
      */
-    //---------------------------------------------------------
-    public void updateState (String key, Object value)
-    {
-        if (key.equals("SubmissionResponse")) {
-            if (value instanceof Pair) {
-                Pair<String, Pair<String, Boolean>> response = (Pair) value;
-                if (response.getValue().getValue()) {
-                    displayErrorMessage(response.getValue().getKey());
-                } else {
-                    displayMessage(response.getValue().getKey());
-                }
-
-                if (barcodePrefixTF.getText() == null || barcodePrefixTF.getText().trim().isEmpty()) {
-                    barcodePrefixTF.setText(response.getKey());
-                }
-            }
-        }
+    //
+    public void getTreeInfo(){
 
     }
+    public void updateState (String key, Object value)
+    {
+
+
+    }
+
 
 
     /**

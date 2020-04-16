@@ -123,6 +123,25 @@ public class Shift extends EntityBase {
 
         updateStateInDatabase();
     }
+    public void updateSave(){
+        try{
+            if(persistentState.getProperty("shiftId") != null){
+                Properties updateValues = new Properties();
+                Properties whereValues = new Properties();
+                whereValues.setProperty("barcode", persistentState.getProperty("barcode"));
+
+                updateValues.setProperty("treeType", persistentState.getProperty("treeType"));
+                updateValues.setProperty("status", persistentState.getProperty("status"));
+                updateValues.setProperty("dateStatusUpdated", persistentState.getProperty("dateStatusUpdated"));
+                updateValues.setProperty("Notes", persistentState.getProperty("Notes"));
+                updatePersistentState(mySchema, updateValues, whereValues);
+
+
+            }
+        } catch (SQLException e) {
+            updateStatusMessage = "Error in updating tree data to database!";
+        }
+    }
 
     //-----------------------------------------------------------------------------------
     private void updateStateInDatabase() {
