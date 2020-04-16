@@ -152,7 +152,7 @@ public class TreeCollectionView extends View
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 80, 20, 80));
+        grid.setPadding(new Insets(20, 20, 20, 50));
 
         Text prompt = new Text("Select Tree");
         prompt.setWrappingWidth(350);
@@ -187,7 +187,7 @@ public class TreeCollectionView extends View
         NotesColumn.setCellValueFactory(new PropertyValueFactory<>("Notes"));
 
 
-        tableOfTrees.getColumns().addAll(barcodeColumn, treeTypeColumn, statusColumn, dateStatusUpdatedColumn, NotesColumn);
+        tableOfTrees.getColumns().addAll(barcodeColumn, treeTypeColumn, statusColumn, NotesColumn);
 
         tableOfTrees.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -199,7 +199,7 @@ public class TreeCollectionView extends View
             }
         });
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefSize(115, 150);
+        scrollPane.setPrefSize(100, 110);
         scrollPane.setContent(tableOfTrees);
 
         submitButton = new Button("Submit");
@@ -210,9 +210,9 @@ public class TreeCollectionView extends View
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(submitButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
         vbox.getChildren().add(grid);
         vbox.getChildren().add(scrollPane);

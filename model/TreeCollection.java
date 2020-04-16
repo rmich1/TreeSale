@@ -47,6 +47,11 @@ public class TreeCollection extends EntityBase {
            return barcodeArray = treeHelper(query);
 
         }
+        public Vector findTreeBarcodePrefix(String barcode){
+        Vector barcodeArray = new Vector();
+        String query = "SELECT * FROM " + myTableName + " WHERE barcode LIKE '%" + barcode + "%'";
+        return treeHelper(query);
+        }
 
     //----------------------------------------------------------------------------------
 

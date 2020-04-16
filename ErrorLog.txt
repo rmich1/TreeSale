@@ -13,3 +13,6 @@ The last packet successfully received from the server was 308,924 milliseconds a
 [4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
 [4/16/20 12:39 PM]|ScoutCollection|getSchemaInfo|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
 [4/16/20 12:40 PM]|ScoutCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: No operations allowed after connection closed.>
+[4/16/20 1:54 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%20' at line 1>
+[4/16/20 1:54 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%20' at line 1>
+[4/16/20 1:55 PM]|TreeCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''%200001' at line 1>

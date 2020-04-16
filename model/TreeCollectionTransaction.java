@@ -44,7 +44,7 @@ public class TreeCollectionTransaction extends Transaction {
 
     public void stateChangeRequest(String key, Object value) {
         if(key.equals("UpdateTree")){
-            trees.findTreeBarcode((String) value);
+            trees.findTreeBarcodePrefix((String) value);
             if((int) trees.getState("Count") > 0){
                 createAndShowTreeCollectionView();
                 noTreeError = "";

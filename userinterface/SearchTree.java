@@ -80,11 +80,11 @@ public class SearchTree extends View {
     //-------------------------------------------------------------
     private Node createTitle() {
 
-        Text titleText = new Text("Update Tree");
+        Text titleText = new Text("Search Tree");
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -122,8 +122,9 @@ public class SearchTree extends View {
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
+        btnContainer.getChildren().addAll(searchButton);
         btnContainer.getChildren().add(cancelButton);
-        btnContainer.getChildren().add(searchButton);
+
 
 
         vbox.getChildren().add(grid);
