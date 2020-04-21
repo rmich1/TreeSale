@@ -85,7 +85,7 @@ public class SearchTreeType extends View {
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -107,6 +107,7 @@ public class SearchTreeType extends View {
         //Labels
         Label barcodePrefixLabel = new Label("Barcode Prefix: ");
         Label prompt = new Label("Enter Barcode Prefix");
+
         searchButton = new Button("Search");
 
         grid.add(prompt, 0, 0);
@@ -123,8 +124,9 @@ public class SearchTreeType extends View {
 
         HBox btnContainer = new HBox(100);
         btnContainer.setAlignment(Pos.CENTER);
-        btnContainer.getChildren().add(cancelButton);
         btnContainer.getChildren().add(searchButton);
+        btnContainer.getChildren().add(cancelButton);
+
 
 
         vbox.getChildren().add(grid);

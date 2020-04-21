@@ -152,12 +152,14 @@ public class TreeCollectionView extends View
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
-        grid.setPadding(new Insets(20, 20, 20, 50));
+        grid.setPadding(new Insets(20, 50, 20, 50));
 
         Text prompt = new Text("Select Tree");
-        prompt.setWrappingWidth(350);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+        prompt.setWrappingWidth(300);
         prompt.setTextAlignment(TextAlignment.CENTER);
-        prompt.setFill(Color.BLACK);
+        prompt.setFill(Color.RED);
+
         grid.add(prompt, 0, 0, 2, 1);
 
 

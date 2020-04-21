@@ -96,7 +96,7 @@ public class AddTreeType extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -121,6 +121,8 @@ public class AddTreeType extends View
         costTF = new TextField();
         //Labels
         Text prompt =new Text("Tree Type Information");
+        prompt.setFill(Color.RED);
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         Label barcodePrefix = new Label("Barcode Prefix: ");
         Label typeDesc = new Label("Type Description: ");
         Label cost = new Label("Cost: ");

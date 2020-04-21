@@ -99,7 +99,7 @@ public class EditTreeInfo extends View {
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -125,6 +125,8 @@ public class EditTreeInfo extends View {
         notesTF = new TextArea();
         //Labels
         Text prompt = new Text("Edit Tree Information");
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        prompt.setFill(Color.RED);
         Label barcode = new Label("Barcode: ");
         Label treeType = new Label("Tree Type: ");
         Label statusLabel = new Label("Status: ");
