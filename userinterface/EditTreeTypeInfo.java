@@ -94,7 +94,7 @@ public class EditTreeTypeInfo extends View {
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -120,7 +120,8 @@ public class EditTreeTypeInfo extends View {
         Label barcodePrefix = new Label("Barcode Prefix: ");
         Label typeDesc = new Label("Type Description");
         Label cost = new Label("Cost");
-
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        prompt.setFill(Color.RED);
         grid.add(prompt, 0, 0);
         grid.add(barcodePrefix, 0, 1);
         grid.add(barcodePrefixTF, 1, 1);

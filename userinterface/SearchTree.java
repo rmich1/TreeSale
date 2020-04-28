@@ -85,7 +85,6 @@ public class SearchTree extends View {
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
         titleText.setFill(Color.GREEN);
-
         return titleText;
     }
 
