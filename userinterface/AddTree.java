@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.Vector;
 
+
 // project imports
 import impresario.IModel;
 import javafx.util.Pair;
@@ -78,6 +79,7 @@ import model.*;
         public AddTree(IModel insertTree)
         {
             super(insertTree, "AddTree");
+
 
             // create a container for showing the contents
             VBox container = new VBox(10);
@@ -129,31 +131,43 @@ import model.*;
         //TextFields
         barcodeTF = new TextField();
         barcodeTF.setEditable(true);
+        barcodeTF.textProperty().addListener((observable) -> {
+            TreeTypeCollection tt = new TreeTypeCollection();
+                if(barcodeTF.getLength() > 1) {
+                    String treeType = tt.getTreeType(barcodeTF.getText().substring(0, 2));
+                    treeTypeTF.setText(treeType);
+                }
+        });
         dateStatusUpdatedTF = new TextField();
         dateStatusUpdatedTF.setEditable(true);
+
         notesTA = new TextArea();
         notesTA.setEditable(true);
+        treeTypeTF = new TextField();
+        treeTypeTF.setEditable(false);
+
         //Labels
         Text prompt =new Text("Tree Information");
         prompt.setFill(Color.RED);
         prompt.setFont(Font.font("Arial", FontWeight.BOLD, 15));
         Label barcode = new Label("Barcode: ");
         Label statusLabel = new Label("Status: ");
-        Label dateStatusUpdated = new Label ("Date Status Updated: ");
+       Label treeTypeLabel = new Label("Tree Type");
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
         status.getItems().addAll("Available");
         status.setValue("Available");
         status.setPromptText("Available");
-
         grid.add(prompt, 0, 0);
         grid.add(barcode, 0, 1);
         grid.add(barcodeTF, 1, 1);
-        grid.add(statusLabel, 0, 2);
-        grid.add(status, 1, 2);
-        grid.add(notes, 0, 3);
-        grid.add(notesTA, 1, 3);
+        grid.add(treeTypeLabel, 0, 2);
+        grid.add(treeTypeTF, 1, 2);
+        grid.add(statusLabel, 0, 3);
+        grid.add(status, 1, 3);
+        grid.add(notes, 0, 4);
+        grid.add(notesTA, 1, 4);
 
         // status.setValue("Active");
         LocalDate date = LocalDate.now();
@@ -201,25 +215,30 @@ import model.*;
         TreeCollection collection = new TreeCollection();
         clearErrorMessage();
         TreeTypeCollection tt = new TreeTypeCollection();
-        if (barcodeTF.getText().length() < 6) {
+        System.out.println(barcodeTF.getText().length());
+
+        if(barcodeTF.getText().length()==0){
             displayErrorMessage("Enter Barcode");
         }
-        if (collection.isDuplicate(barcodeTF.getText().toString())) {
+        else if (barcodeTF.getText().length() < 6) {
+            displayErrorMessage("Enter 6 digit barcode");
+        }
+        else if (collection.isDuplicate(barcodeTF.getText().toString())) {
             displayErrorMessage("Barcode already exists in system");
 
         }
-        if (tt.getTreeType(barcodeTF.getText().substring(0, 2)).equals("Unknown")) {
+        else if (tt.getTreeType(barcodeTF.getText().substring(0, 2)).equals("Unknown")) {
             displayErrorMessage("Invalid Barcode");
-        } else {
-            TreeTypeCollection type = new TreeTypeCollection();
-            String treeType = type.getTreeType(barcodeTF.getText().substring(0, 2));
+        }
+        else {
+
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             LocalDateTime today = LocalDateTime.now();
             String formattedDate = today.format(formatter);
             Properties tree = new Properties();
             tree.setProperty("barcode", barcodeTF.getText());
-            tree.setProperty("treeType", treeType);
+            tree.setProperty("treeType", treeTypeTF.getText());
             tree.setProperty("status", status.getValue().toString());
             tree.setProperty("dateStatusUpdated", formattedDate);
             tree.setProperty("Notes", notesTA.getText());

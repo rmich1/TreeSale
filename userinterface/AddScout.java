@@ -230,9 +230,7 @@ public class AddScout extends View
        else if(emailTF.getText().length()== 0){
            displayErrorMessage("Enter E-mail");
        }
-       else if(troopIdTF.getText().length()<6){
-           displayErrorMessage("Enter a 6 digit Troop ID");
-       }
+
        else if(troopIdTF.getText().length()==0){
            displayErrorMessage("Enter Troop ID");
        }
@@ -254,8 +252,8 @@ public class AddScout extends View
         else if(emailTF.getText().length()== 0){
             displayErrorMessage("Enter E-mail");
         }
-        else if(troopIdTF.getText().length()<6){
-            displayErrorMessage("Enter Troop ID");
+        if(troopIdTF.getText().length() < 9){
+            displayErrorMessage("Enter a 9 digit Troop ID");
         }
 
         else{

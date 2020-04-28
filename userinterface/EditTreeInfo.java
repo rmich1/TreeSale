@@ -134,7 +134,7 @@ public class EditTreeInfo extends View {
         Label notes = new Label("Notes: ");
         //status combo box
         status = new ComboBox();
-        status.getItems().addAll("Available", "Sold", "Damaged");
+        status.getItems().addAll("Available", "Damaged");
 
         grid.add(prompt, 0, 0);
        grid.add(barcode, 0, 1);
@@ -264,6 +264,7 @@ public class EditTreeInfo extends View {
         }
     }
     private void processDelete() {
+        System.out.println(status.getValue());
         if(status.getValue().equals("Sold")){
             displayErrorMessage("Can't Delete Sold Tree");
         }
