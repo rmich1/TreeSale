@@ -86,7 +86,7 @@ public class CloseShiftView extends View
         getTextFieldInfo();
         Double totalCashNum = totalCash();
         Double totalCheckNum = totalCheck();
-         totCash = ""+totalCashNum + "";
+         totCash = ""+totalCashNum + "0";
          totCheck = "" + totalCheckNum + "";
 
         // create a container for showing the contents

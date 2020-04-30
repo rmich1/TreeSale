@@ -146,6 +146,45 @@ public class TreeTypeCollection extends EntityBase {
         }
         return low;
     }
+    public double getCost(String barcodePrefix){
+        double cost = 0;
+        if(barcodePrefix.equals("20")){
+            cost = 45.00;
+        }
+        else if(barcodePrefix.equals("21")){
+            cost = 55.00;
+        }
+        else if(barcodePrefix.equals("30")){
+           cost = 45.00;
+        }
+        else if(barcodePrefix.equals("31")){
+            cost = 55.00;
+        }
+        else if(barcodePrefix.equals("40")){
+            cost = 45.00;
+        }
+        else if(barcodePrefix.equals("41")){
+            cost = 55.00;
+        }
+        else if(barcodePrefix.equals("50")){
+            cost = 45.00;
+        }
+        else if(barcodePrefix.equals("51")){
+            cost = 55.00;
+        }
+        else if(barcodePrefix.equals("60")){
+           cost = 45.00;
+        }
+        else if(barcodePrefix.equals("61")){
+            cost = 50.00;
+        }
+        else{
+            cost = 0.00;
+        }
+        return cost;
+    }
+
+
 
     //----------------------------------------------------------------------------------
 

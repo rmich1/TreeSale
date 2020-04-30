@@ -182,12 +182,16 @@ public class TreeSaleView extends View
             } else {
 
                 Properties transaction = new Properties();
-                String barcodePrefix = barcodeTf.getText().substring(0,3);
+                String barcodePrefix = barcodeTf.getText().substring(0,2);
                 try {
                     treeType = new TreeType(barcodePrefix);
                 } catch (InvalidPrimaryKeyException e) {
                     e.printStackTrace();
                 }
+                TreeTypeCollection tc = new TreeTypeCollection();
+               double cost =  tc.getCost(barcodePrefix);
+               String treeCost = "" + cost + "0";
+
 
                 SessionCollection sessionCollection = new SessionCollection();
                 Vector<Session> sessionsOpen = new Vector<Session>();
@@ -197,9 +201,11 @@ public class TreeSaleView extends View
                 System.out.println(sessionID);
                 transaction.setProperty("sessionId", sessionID);
                 transaction.setProperty("transactionType", "Tree Sale");
+                System.out.println(barcodePrefix);
                 transaction.setProperty("barcodePrefix", barcodePrefix);
                 transaction.setProperty("barcode", barcodeTf.getText());
-                transaction.setProperty("cost", treeType.getState("cost").toString());
+
+                transaction.setProperty("cost", treeCost);
 
 
                 //SubmitNewScout goes to ScoutTransaction State Change Request
