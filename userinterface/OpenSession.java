@@ -43,6 +43,7 @@ import model.Scout;
 import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
+
 /** The view to add a scout into the system*/
 //==============================================================
 public class OpenSession extends View
@@ -119,13 +120,12 @@ public class OpenSession extends View
 
 
         //TextFields
-        Label startTime = new Label("Start Time:");
-        Label endTime = new Label("End Time:");
+        Label startTime = new Label("Start Time: hh:mm AM/PM");
+        Label endTime = new Label("End Time: hh: mm AM/PM");
         Label startingCash = new Label("Starting Cash :");
         startTimeTF = new TextField();
         endTimeTF = new TextField();
         startingCashTF = new TextField();
-
         //Labels
         Text openPrompt =new Text("Open Shift");
         grid.add(openPrompt, 0, 0);
@@ -187,19 +187,27 @@ public class OpenSession extends View
             displayErrorMessage("Enter Starting Cash");
         }
         else{
-            System.out.println(startTimeTF.getText());
-            System.out.println(endTimeTF.getText());
-            System.out.println(startingCashTF.getText());
 
 
+            String start = startTimeTF.getText().toUpperCase();
+            String end = endTimeTF.getText().toUpperCase();
+            int startHour = Integer.parseInt(startTimeTF.getText().substring(0,2));
+            int endHour = Integer.parseInt(endTimeTF.getText().substring(0,2));
+            if(start.substring(6,8).equals("PM") && startHour != 12){
+                startHour = startHour + 12;
+            }
+            else if(end.substring(6,8).equals("PM") && endHour != 12){
+                endHour = endHour + 12;
+            }
+            String militaryStartTime = "" + startHour + ":" + startTimeTF.getText().substring(3,5);
+            String militaryEndTime = "" + endHour + ":" + endTimeTF.getText().substring(3,5);
             Properties session = new Properties();
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
             Date dateobj = new Date();
             String today = df.format(dateobj);
-            System.out.println(today);
             session.setProperty("startDate", today);
-            session.setProperty("startTime", startTimeTF.getText());
-            session.setProperty("endTime", endTimeTF.getText());
+            session.setProperty("startTime", militaryStartTime);
+            session.setProperty("endTime", militaryEndTime);
             session.setProperty("startingCash", startingCashTF.getText());
             session.setProperty("endingCash", "0");
             session.setProperty("totalCheckTransactionAmount", "0");

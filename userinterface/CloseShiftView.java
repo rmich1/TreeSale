@@ -87,7 +87,7 @@ public class CloseShiftView extends View
         Double totalCashNum = totalCash();
         Double totalCheckNum = totalCheck();
          totCash = ""+totalCashNum + "0";
-         totCheck = "" + totalCheckNum + "";
+         totCheck = "" + totalCheckNum + "0";
 
         // create a container for showing the contents
         VBox container = new VBox(10);
