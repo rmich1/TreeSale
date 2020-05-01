@@ -40,6 +40,7 @@ import impresario.IModel;
 import javafx.util.Pair;
 import model.Scout;
 
+import javax.swing.*;
 import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
@@ -52,9 +53,14 @@ public class OpenSession extends View
     // Model
 
     // GUI components
-    private TextField startTimeTF;
-    private TextField endTimeTF;
+    private TextField startTimeHourTF;
+    private TextField startTimeMinuteTF;
+    private ComboBox startTimeAMPM;
+    private TextField endTimeHourTF;
+    private TextField endTimeMinuteTF;
+    private ComboBox endTimeAMPM;
     private TextField startingCashTF;
+    String militaryStartTime;
 
 
 
@@ -120,19 +126,62 @@ public class OpenSession extends View
 
 
         //TextFields
-        Label startTime = new Label("Start Time: hh:mm AM/PM");
+        Label startTime = new Label("Start Time:");
+
         Label endTime = new Label("End Time: hh: mm AM/PM");
         Label startingCash = new Label("Starting Cash :");
-        startTimeTF = new TextField();
-        endTimeTF = new TextField();
+        Label startSemi = new Label(":");
+        Label endSemi = new Label(":");
+
+        startTimeHourTF = new TextField();
+        startTimeMinuteTF = new TextField();
+
+        startTimeAMPM = new ComboBox();
+
+        endTimeHourTF = new TextField();
+        endTimeMinuteTF = new TextField();
+        endTimeAMPM = new ComboBox();
+        endTimeAMPM.getItems().addAll("AM", "PM");
         startingCashTF = new TextField();
+        endTimeHourTF.setPromptText("hh");
+        endTimeMinuteTF.setPromptText("mm");
+        startTimeAMPM.getItems().addAll("AM", "PM");
+        startTimeAMPM.setValue("AM");
+        endTimeAMPM.setValue("AM");
+        startTimeHourTF.setPromptText("hh");
+        startTimeMinuteTF.setPromptText("mm");
+        TextField errorStart = new TextField();
+        TextField errorEnd = new TextField();
+        startTimeHourTF.textProperty().addListener((observable) -> {
+            clearErrorMessage();
+            int hour = Integer.parseInt(startTimeHourTF.getText());
+            if(hour > 12 || hour < 1){
+               displayErrorMessage("Enter Valid Time for Hours");
+            }
+    });
+        startTimeMinuteTF.textProperty().addListener((observable) -> {
+            clearErrorMessage();
+            int min = Integer.parseInt(startTimeMinuteTF.getText());
+            if(min > 59 || min < 0){
+                displayErrorMessage("Enter Valid Time for Minutes");
+            }
+        });
+
+
+
         //Labels
         Text openPrompt =new Text("Open Shift");
         grid.add(openPrompt, 0, 0);
         grid.add(startTime, 0, 1);
-        grid.add(startTimeTF, 1, 1);
+        grid.add(startTimeHourTF, 1, 1);
+        grid.add(startSemi, 2, 1);
+        grid.add(startTimeMinuteTF, 3, 1);
+        grid.add(startTimeAMPM, 4, 1);
         grid.add(endTime, 0, 2);
-        grid.add(endTimeTF, 1, 2);
+        grid.add(endTimeHourTF, 1, 2);
+        grid.add(endSemi, 2, 2);
+        grid.add(endTimeMinuteTF, 3, 2);
+        grid.add(endTimeAMPM, 4, 2);
         grid.add(startingCash, 0, 3);
         grid.add(startingCashTF, 1, 3);
 
@@ -176,36 +225,61 @@ public class OpenSession extends View
     //-------------------------------------------------------------
     public void processAction(Event evt) {
         clearErrorMessage();
-        if(startTimeTF.getText().length() == 0){
-            displayErrorMessage("Enter Start Time");
+        if(startTimeHourTF.getText().length() == 0){
+            displayErrorMessage("Enter Start Time Hours");
+        }
+        else if(startTimeMinuteTF.getText().length()==0){
+            displayErrorMessage("Enter End Time Hours");
         }
 
-        else if(endTimeTF.getText().length() == 0){
-            displayErrorMessage("Enter End Time");
+        else if(endTimeHourTF.getText().length() == 0){
+            displayErrorMessage("Enter End Time Hour");
+        }
+        else if(endTimeMinuteTF.getText().length()==0){
+            displayErrorMessage("Enter End Time Minutes");
         }
         else if(startingCashTF.getText().length()==0){
             displayErrorMessage("Enter Starting Cash");
         }
         else{
+            String militaryEndTime;
+            int hours = Integer.parseInt(startTimeHourTF.getText());
+            int minutes = Integer.parseInt(startTimeMinuteTF.getText());
+            if(startTimeAMPM.getValue().equals("PM")){
+                if(hours != 12) {
+                    hours = hours + 12;
+                    System.out.println(hours);
+                }
+                else{
+                    hours = 12;
+
+                }
+            }
+            if(startTimeAMPM.getValue().equals("AM") && startTimeHourTF.getText().equals("12")){
+                militaryStartTime = "00:" + minutes;
+            }
+            else{
+                militaryStartTime = hours + ":" + minutes;
+            }
+            int endHours = Integer.parseInt(endTimeHourTF.getText());
+            int endMins = Integer.parseInt(endTimeMinuteTF.getText());
+            if(endTimeAMPM.getValue().equals("PM")){
+                if(endHours != 12){
+                    endHours = endHours + 12;
+                }
+            }
+             militaryEndTime = endHours + ":" + endMins;
 
 
-            String start = startTimeTF.getText().toUpperCase();
-            String end = endTimeTF.getText().toUpperCase();
-            int startHour = Integer.parseInt(startTimeTF.getText().substring(0,2));
-            int endHour = Integer.parseInt(endTimeTF.getText().substring(0,2));
-            if(start.substring(6,8).equals("PM") && startHour != 12){
-                startHour = startHour + 12;
-            }
-            else if(end.substring(6,8).equals("PM") && endHour != 12){
-                endHour = endHour + 12;
-            }
-            String militaryStartTime = "" + startHour + ":" + startTimeTF.getText().substring(3,5);
-            String militaryEndTime = "" + endHour + ":" + endTimeTF.getText().substring(3,5);
+
+
             Properties session = new Properties();
             DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
             Date dateobj = new Date();
             String today = df.format(dateobj);
             session.setProperty("startDate", today);
+            System.out.println(militaryStartTime);
+            System.out.println(militaryEndTime);
             session.setProperty("startTime", militaryStartTime);
             session.setProperty("endTime", militaryEndTime);
             session.setProperty("startingCash", startingCashTF.getText());

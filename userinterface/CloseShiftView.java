@@ -50,8 +50,12 @@ public class CloseShiftView extends View
     // GUI components
     private TextField sessionIDTF;
     private TextField startDateTF;
-    private TextField startTimeTF;
-    private TextField endTimeTF;
+    private TextField startTimeHourTF;
+    private TextField startTimeMinTF;
+    private ComboBox startAMPM;
+    private TextField endTimeHourTF;
+    private TextField endTimeMinTF;
+    private ComboBox endAMPM;
     private TextField endDateTF;
     private TextField startingCashTF;
     private TextField endingCashTF;
@@ -69,8 +73,18 @@ public class CloseShiftView extends View
     String totCash;
     String totCheck;
     String sessionId;
+    String startHr;
+    String startMin;
+    String startAP;
+    String endHr;
+    String endMin;
+    String endAP;
     SessionCollection sesscol = new SessionCollection();
     Vector<Session>openSession = sesscol.findOpenSessions();
+    Boolean startPM;
+    Boolean endPM;
+    String startDate;
+    String endDate;
 
 
 
@@ -141,9 +155,15 @@ public class CloseShiftView extends View
 
         startDateTF = new TextField();
         sessionIDTF = new TextField();
-        startTimeTF = new TextField();
+        startTimeHourTF = new TextField();
+        startTimeMinTF = new TextField();
+        startAMPM = new ComboBox<>();
+        startAMPM.getItems().addAll("AM", "PM");
         endDateTF = new TextField();
-        endTimeTF = new TextField();
+        endTimeHourTF = new TextField();
+        endTimeMinTF = new TextField();
+        endAMPM = new ComboBox<>();
+        endAMPM.getItems().addAll("AM", "PM");
         sessionIDTF.setEditable(false);
         startingCashTF = new TextField();
         endingCashTF = new TextField();
@@ -154,6 +174,8 @@ public class CloseShiftView extends View
         Label sessionId = new Label("Session ID: ");
         Label startDate = new Label("Start Date: ");
         Label startTime = new Label("Start Time: ");
+        Label startSemi = new Label(":");
+        Label endSemi = new Label(":");
         Label endTime = new Label("End Time: ");
         Label endDate = new Label("End Date: ");
         Label startingCash = new Label("Starting Cash: ");
@@ -165,11 +187,17 @@ public class CloseShiftView extends View
         grid.add(startDate, 0, 2);
         grid.add(startDateTF, 1, 2);
         grid.add(startTime, 0, 3);
-        grid.add(startTimeTF, 1, 3);
+        grid.add(startTimeHourTF, 1, 3);
+        grid.add(startSemi, 2, 3);
+        grid.add(startTimeMinTF, 3, 3);
+        grid.add(startAMPM, 4, 3);
         grid.add(endDate, 0, 4);
         grid.add(endDateTF, 1, 4);
         grid.add(endTime, 0, 5);
-        grid.add(endTimeTF, 1, 5);
+        grid.add(endTimeHourTF, 1, 5);
+        grid.add(endSemi, 2, 5);
+        grid.add(endTimeMinTF, 3, 5);
+        grid.add(endAMPM, 4, 5);
         grid.add(startingCash, 0, 6);
         grid.add(startingCashTF, 1, 6);
         grid.add(endingCash, 0, 7);
@@ -177,7 +205,16 @@ public class CloseShiftView extends View
         grid.add(totalCheckTrans, 0, 8);
         grid.add(totalCheckTransactionAmountTF, 1, 8);
 
-
+        if(startPM == true){
+            startAMPM.setValue("PM");
+        }
+        else
+            startAMPM.setValue("AM");
+        if(endPM == true){
+            endAMPM.setValue("PM");
+        }
+        else
+            endAMPM.setValue("AM");
         submitButton = new Button("Close Shift");
         submitButton.setOnAction(e -> processClose());
 
@@ -211,9 +248,11 @@ public class CloseShiftView extends View
     {
         sessionIDTF.setText(sessionId);
         startDateTF.setText(startDt);
-        startTimeTF.setText(startTm);
+        startTimeHourTF.setText(startHr);
+        startTimeMinTF.setText(startMin);
         endDateTF.setText(endDt);
-        endTimeTF.setText(endTm);
+        endTimeHourTF.setText(endHr);
+        endTimeMinTF.setText(endMin);
         startingCashTF.setText(startingCsh);
         endingCashTF.setText(totCash);
         totalCheckTransactionAmountTF.setText(totCheck);
@@ -234,7 +273,6 @@ public class CloseShiftView extends View
     //---------------------------------------------------------
     public void processClose(){
 
-
         Alert alert;
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
@@ -247,11 +285,13 @@ public class CloseShiftView extends View
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeYes) {
             Properties closeSes = new Properties();
+            String startTimeFinal = startTimeHourTF.getText() + ":" + startTimeMinTF.getText();
+            String endTimeFinal = endTimeHourTF.getText() + ":" + endTimeMinTF.getText();
             closeSes.setProperty("sessionId", sessionId);
             closeSes.setProperty("startDate", startDateTF.getText());
-            closeSes.setProperty("startTime", startTimeTF.getText());
+            closeSes.setProperty("startTime", startTimeFinal);
             closeSes.setProperty("endDate", endDateTF.getText());
-            closeSes.setProperty("endTime", endTimeTF.getText());
+            closeSes.setProperty("endTime", endTimeFinal);
             closeSes.setProperty("startingCash", startingCashTF.getText());
             closeSes.setProperty("totalCheckTransactionAmount", totalCheckTransactionAmountTF.getText());
             closeSes.setProperty("endingCash", endingCashTF.getText());
@@ -265,14 +305,41 @@ public class CloseShiftView extends View
         }
     }
     public void getTextFieldInfo(){
+        startPM = false;
+        endPM = false;
         sessionId = openSession.get(0).getState("sessionId").toString();
         startDt = openSession.get(0).getState("startDate").toString();
         startTm = openSession.get(0).getState("startTime").toString();
+        startHr = startTm.substring(0,2);
+        startMin = startTm.substring(3,5);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         endDt = now.toString().substring(0,10);
         endTm = openSession.get(0).getState("endTime").toString();
+        endHr = endTm.substring(0,2);
+        endMin = endTm.substring(3,5);
+        int endHour = Integer.parseInt(endHr);
+        if(endHour > 12){
+            endHour = endHour - 12;
+            endHr = "" +endHour;
+            endPM = true;
+        }
         startingCsh = openSession.get(0).getStartingCash();
+        int startHour = Integer.parseInt(startHr);
+        if(startHour > 12){
+            startHour = 12 - startHour;
+            startHr = ""+startHour;
+            startPM = true;
+        }
+        else if(startHour == 12){
+            startPM = true;
+        }
+
+
+
+
+
+
     }
     public double totalCash(){
         double totalCash = 0;
