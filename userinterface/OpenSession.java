@@ -264,12 +264,21 @@ public class OpenSession extends View
             int endHours = Integer.parseInt(endTimeHourTF.getText());
             int endMins = Integer.parseInt(endTimeMinuteTF.getText());
             if(endTimeAMPM.getValue().equals("PM")){
-                if(endHours != 12){
+                if(endHours != 12) {
                     endHours = endHours + 12;
+
+                }
+                else{
+                    endHours = 12;
+
                 }
             }
-             militaryEndTime = endHours + ":" + endMins;
-
+            if(endTimeAMPM.getValue().equals("AM") && endTimeHourTF.getText().equals("12")){
+                militaryEndTime = "00:" + minutes;
+            }
+            else{
+                militaryEndTime = hours + ":" + minutes;
+            }
 
 
 
