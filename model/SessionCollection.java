@@ -44,9 +44,10 @@ public class SessionCollection extends EntityBase {
     public Boolean isOpenSessions(){
         Boolean open = false;
         Vector<Session> sessionVector = new Vector();
-        String query = "SELECT * FROM " + myTableName;
+        String query = "SELECT * FROM " + myTableName + " WHERE status='Active'";
         sessionVector = sessionHelper(query);
         for(int i = 0; i < sessionVector.size(); i++){
+            System.out.println(sessionVector.get(i).toString());
             if(sessionVector.get(i).persistentState.getProperty("status").equals("Active")){
                 open = true;
             }

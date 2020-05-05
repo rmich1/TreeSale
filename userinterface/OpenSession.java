@@ -277,7 +277,7 @@ public class OpenSession extends View
                 militaryEndTime = "00:" + minutes;
             }
             else{
-                militaryEndTime = hours + ":" + minutes;
+                militaryEndTime = endHours + ":" + minutes;
             }
 
 
