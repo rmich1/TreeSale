@@ -58,6 +58,8 @@ public class TreeSaleInfoView extends View
     private Button submitButton;
     private Button cancelButton;
     private TreeSale treeSale;
+    private TextField statusTF;
+    private TextField notesTF;
 
     // For showing error message
     private userinterface.MessageView statusLog;
@@ -123,6 +125,10 @@ public class TreeSaleInfoView extends View
         custNameTF = new TextField();
         custPhoneTF = new TextField();
         custEmailTF = new TextField();
+        statusTF = new TextField();
+        notesTF = new TextField();
+
+
         //Labels
         Text prompt =new Text("Enter Customer Info");
         Label barcode = new Label("Barcode: ");
@@ -131,20 +137,25 @@ public class TreeSaleInfoView extends View
         Label custName = new Label("Customer Name: ");
         Label custPhone = new Label("Customer Phone: ");
         Label custEmail = new Label("Customer Email: ");
+        Label status = new Label("Status");
+
 
         grid.add(prompt, 0, 0);
         grid.add(barcode, 0, 1);
         grid.add(barcodeTF, 1, 1);
-        grid.add(cost, 0, 2);
-        grid.add(costTF, 1, 2);
-        grid.add(paymentTypeLabel, 0, 3);
-        grid.add(paymentType, 1, 3);
-        grid.add(custName, 0, 4);
-        grid.add(custNameTF, 1, 4);
-        grid.add(custPhone, 0, 5);
-        grid.add(custPhoneTF, 1, 5);
-        grid.add(custEmail, 0, 6);
-        grid.add(custEmailTF, 1, 6);
+        grid.add(status, 0, 2);
+        grid.add(statusTF, 1, 2);
+
+        grid.add(cost, 0, 3);
+        grid.add(costTF, 1, 3);
+        grid.add(paymentTypeLabel, 0, 4);
+        grid.add(paymentType, 1, 4);
+        grid.add(custName, 0, 5);
+        grid.add(custNameTF, 1, 5);
+        grid.add(custPhone, 0, 6);
+        grid.add(custPhoneTF, 1, 6);
+        grid.add(custEmail, 0, 7);
+        grid.add(custEmailTF, 1, 7);
 
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
@@ -187,11 +198,10 @@ public class TreeSaleInfoView extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt){
-
         Alert alert;
         alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setHeaderText(null);
-        alert.setContentText("Is the amount $" + myModel.getState("cost") + " correct?" );
+        alert.setContentText("Is the amount $" + costTF.getText() + " correct?" );
 
         ButtonType buttonTypeYes = new ButtonType("Yes");
         ButtonType buttonTypeNo = new ButtonType("No");
@@ -206,7 +216,7 @@ public class TreeSaleInfoView extends View
            myModel.stateChangeRequest("Return", null);
         } else {
             alert.close();
-            displayErrorMessage("Confirm");
+            displayErrorMessage("Confirm Cost");
         }
 
         }
