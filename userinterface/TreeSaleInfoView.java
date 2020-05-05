@@ -225,6 +225,8 @@ public class TreeSaleInfoView extends View
              makeTree();
              updateTree();
 
+             TreeSale ts = new TreeSale();
+
 
            myModel.stateChangeRequest("Return", null);
         } else {
@@ -242,11 +244,10 @@ public class TreeSaleInfoView extends View
     //---------------------------------------------------------
     public void makeTree(){
         Properties sale = new Properties();
-        sale.setProperty("transactionId", myModel.getState("transactionId").toString());
         sale.setProperty("transactionType", "Tree Sale");
         sale.setProperty("sessionId", myModel.getState("sessionId").toString());
         sale.setProperty("barcode", barcodeTF.getText());
-        sale.setProperty("barcodePrefix", barcodeTF.getText().substring(0,3));
+        sale.setProperty("barcodePrefix", barcodeTF.getText().substring(0,2));
         sale.setProperty("cost", costTF.getText());
         sale.setProperty("paymentType", paymentType.getValue().toString());
         if(custNameTF.getText().length() !=0){

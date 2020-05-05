@@ -197,9 +197,9 @@ public class TreeSaleView extends View
                 sessionsOpen = sessionCollection.findOpenSessions();
 
                 String sessionID = sessionsOpen.get(0).getState("sessionId").toString();
-                System.out.println(sessionID);
-                transaction.setProperty("sessionId", sessionID);
-                transaction.setProperty("transactionType", "Tree Sale");
+                //System.out.println(sessionID);
+               transaction.setProperty("sessionId", sessionID);
+               transaction.setProperty("transactionType", "Tree Sale");
                 transaction.setProperty("barcodePrefix", barcodeTf.getText().substring(0,2));
                 transaction.setProperty("barcode", barcodeTf.getText());
 

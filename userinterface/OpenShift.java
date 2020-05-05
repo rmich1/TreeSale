@@ -211,6 +211,8 @@ public class OpenShift extends View
         addScout.setOnAction(e -> processMoreScouts(e));
         submitButton = new Button("Submit Shift");
         submitButton.setOnAction(e -> processAction(e));
+        startAMPM.setValue("AM");
+        endAMPM.setValue("AM");
 
         cancelButton = new Button("Back");
         cancelButton.setOnAction(e -> myModel.stateChangeRequest("Return", null));

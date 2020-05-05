@@ -58,7 +58,7 @@ public class TreeSaleTransaction extends Transaction {
 
         if (key.equals("SellNewTree")) {
             treeSale = new TreeSale((Properties) value);
-            treeSale.save();
+            //treeSale.save();
             error = false;
             treeSaleResponse = "Tree Sold Successfully!";
             createAndShowTreeSaleInfo();
