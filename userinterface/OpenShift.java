@@ -57,11 +57,19 @@ public class OpenShift extends View
     private TextField scoutIdTF;
     private TextField startDateTF;
 
-    private TextField startTimeTF;
+    private TextField startHourTF;
+    private TextField startMinTF;
+    private ComboBox startAMPM;
+    private TextField endMinTF;
+    private ComboBox endAMPM;
+    private TextField endHourTF;
+
     private TextField endTimeTF;
     private TextField companionNameTF;
     private TextField companionHoursTF;
     private String startingCash;
+    private String militaryStartTime;
+    private String militaryEndTime;
 
     private Button addScout;
     private Button submitButton;
@@ -142,12 +150,23 @@ public class OpenShift extends View
         scoutIdTF = new TextField();
         startDateTF = new TextField();
         sessionIDTF = new TextField();
-        startTimeTF = new TextField();
+        startHourTF = new TextField();
+        startMinTF = new TextField();
+        startAMPM = new ComboBox();
+        startAMPM.getItems().addAll("AM", "PM");
+        endAMPM = new ComboBox();
+        endHourTF = new TextField();
+        endMinTF = new TextField();
+        endAMPM.getItems().addAll("AM", "PM");
         endTimeTF = new TextField();
         companionNameTF = new TextField();
         sessionIDTF.setEditable(false);
         scoutIdTF.setEditable(false);
         companionHoursTF = new TextField();
+        startHourTF.setPromptText("HH");
+        startMinTF.setPromptText("MM");
+        endHourTF.setPromptText("HH");
+        endHourTF.setPromptText("MM");
 
 
 
@@ -161,6 +180,8 @@ public class OpenShift extends View
         Label companionName = new Label("Companion Name: ");
         Label endTime = new Label("End Time: ");
         Label scout = new Label("Scout");
+        Label semi = new Label(":");
+        Label semiEnd = new Label(":");
         Label companionHours = new Label("Companion Hours");
         grid.add(prompt, 0, 0);
         grid.add(sessionId, 0, 1);
@@ -170,13 +191,20 @@ public class OpenShift extends View
         grid.add(startDate, 0, 3);
         grid.add(startDateTF, 1, 3);
         grid.add(startTime, 0, 4);
-        grid.add(startTimeTF, 1, 4);
+        grid.add(startHourTF, 1, 4);
+        grid.add(semi, 2, 4);
+        grid.add(startMinTF, 3, 4);
+        grid.add(startAMPM, 4, 4);
+
         grid.add(companionName, 0, 5);
         grid.add(companionNameTF, 1, 5);
         grid.add(companionHours, 0, 6);
         grid.add(companionHoursTF, 1, 6);
         grid.add(endTime, 0, 7);
-        grid.add(endTimeTF, 1, 7);
+        grid.add(endHourTF, 1, 7);
+        grid.add(semiEnd, 2, 7);
+        grid.add(endMinTF, 3, 7);
+        grid.add(endAMPM, 4, 7);
 
 
         addScout = new Button("Add Another Scout");
@@ -237,7 +265,7 @@ public class OpenShift extends View
             displayMessage("Enter Companion Hours");
         }
 
-        else if(endTimeTF.getText().length() == 0){
+        else if(endHourTF.getText().length() == 0){
             displayErrorMessage("Enter End Time");
         }
         else{
@@ -262,13 +290,13 @@ public class OpenShift extends View
                 scouts.add(scoutList.get(i).getState("scoutId").toString());
 
             }
-
+            getMilitaryTime();
             shift.setProperty("sessionId", sessionIDTF.getText());
             shift.setProperty("startingCash", startingCash);
-            shift.setProperty("startTime", startTimeTF.getText());
+            shift.setProperty("startTime", militaryStartTime);
             shift.setProperty("companionName", companionNameTF.getText());
             shift.setProperty("companionHours", companionHoursTF.getText());
-            shift.setProperty("endTime", endTimeTF.getText());
+            shift.setProperty("endTime", militaryEndTime);
             shift.setProperty("scoutId",scouts.get(0));
             Shift shiftOpen = new Shift(shift);
             shiftOpen.save();
@@ -305,10 +333,11 @@ public class OpenShift extends View
             displayErrorMessage("Enter Companion Name");
         }
 
-        else if(endTimeTF.getText().length() == 0){
+        else if(endHourTF.getText().length() == 0){
             displayErrorMessage("Enter End Time");
         }
         else{
+            getMilitaryTime();
             ScoutCollection sc = new ScoutCollection();
             String[] name = new String[2];
             String names = scoutBox.getValue().toString();
@@ -329,20 +358,25 @@ public class OpenShift extends View
             }
 
             shift.setProperty("sessionId", sessionIDTF.getText());
-            shift.setProperty("startTime", startTimeTF.getText());
+           shift.setProperty("startTime", militaryStartTime);
             shift.setProperty("companionName", companionNameTF.getText());
             shift.setProperty("companionHours", companionHoursTF.getText());
             shift.setProperty("startingCash",startingCash);
-            shift.setProperty("endTime", endTimeTF.getText());
+            shift.setProperty("endTime", militaryEndTime);
             shift.setProperty("scoutId", scouts.get(0));
             Shift newShift = new Shift(shift);
             newShift.save();
             scoutBox.setValue("Choose Scout");
             scoutBox.setPromptText("Choose Scout");
-            startTimeTF.clear();
+           // startTimeTF.clear();
             companionNameTF.clear();
             companionHoursTF.clear();
-            endTimeTF.clear();
+            endHourTF.clear();
+            endMinTF.clear();
+            endAMPM.setValue("AM");
+            startHourTF.clear();
+            startMinTF.clear();
+            startAMPM.setValue("AM");
 
             displayMessage("Enter Additional Scout Info");
 
@@ -350,6 +384,45 @@ public class OpenShift extends View
 
 
         }
+    }
+    public void getMilitaryTime(){
+        int hours = Integer.parseInt(startHourTF.getText());
+        int minutes = Integer.parseInt(startMinTF.getText());
+        if(startAMPM.getValue().equals("PM")){
+            if(hours != 12) {
+                hours = hours + 12;
+                System.out.println(hours);
+            }
+            else{
+                hours = 12;
+
+            }
+        }
+        if(startAMPM.getValue().equals("AM") && startHourTF.getText().equals("12")){
+            militaryStartTime = "00:" + minutes;
+        }
+        else{
+            militaryStartTime = hours + ":" + minutes;
+        }
+        int endHours = Integer.parseInt(endHourTF.getText());
+        int endMins = Integer.parseInt(endMinTF.getText());
+        if(endAMPM.getValue().equals("PM")){
+            if(endHours != 12) {
+                endHours = endHours + 12;
+
+            }
+            else{
+                endHours = 12;
+
+            }
+        }
+        if(endAMPM.getValue().equals("AM") && endHourTF.getText().equals("12")){
+            militaryEndTime = "00:" + minutes;
+        }
+        else{
+            militaryEndTime = endHours + ":" + minutes;
+        }
+
     }
 
     /**
