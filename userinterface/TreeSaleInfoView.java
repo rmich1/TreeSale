@@ -60,6 +60,8 @@ public class TreeSaleInfoView extends View
     private TreeSale treeSale;
     private TextField statusTF;
     private TextField notesTF;
+    private String stat;
+    private String notes;
 
     // For showing error message
     private userinterface.MessageView statusLog;
@@ -83,7 +85,13 @@ public class TreeSaleInfoView extends View
         container.getChildren().add(createStatusLog("                          "));
 
         getChildren().add(container);
+        try {
+            Tree tree = new Tree(myModel.getState("barcode").toString());
+            stat = tree.getState("status").toString();
+            notes = tree.getState("Notes").toString();
+        }catch(InvalidPrimaryKeyException e){
 
+        }
         populateFields();
         myModel.subscribe("SellTreeResponse", this);
     }
@@ -127,7 +135,9 @@ public class TreeSaleInfoView extends View
         custEmailTF = new TextField();
         statusTF = new TextField();
         notesTF = new TextField();
-
+        barcodeTF.setEditable(false);
+        statusTF.setEditable(false);
+        notesTF.setEditable(false);
 
         //Labels
         Text prompt =new Text("Enter Customer Info");
@@ -137,25 +147,26 @@ public class TreeSaleInfoView extends View
         Label custName = new Label("Customer Name: ");
         Label custPhone = new Label("Customer Phone: ");
         Label custEmail = new Label("Customer Email: ");
-        Label status = new Label("Status");
-
+        Label status = new Label("Status:");
+        Label notesLabel = new Label("Notes:");
 
         grid.add(prompt, 0, 0);
         grid.add(barcode, 0, 1);
         grid.add(barcodeTF, 1, 1);
         grid.add(status, 0, 2);
         grid.add(statusTF, 1, 2);
-
-        grid.add(cost, 0, 3);
-        grid.add(costTF, 1, 3);
-        grid.add(paymentTypeLabel, 0, 4);
-        grid.add(paymentType, 1, 4);
-        grid.add(custName, 0, 5);
-        grid.add(custNameTF, 1, 5);
-        grid.add(custPhone, 0, 6);
-        grid.add(custPhoneTF, 1, 6);
-        grid.add(custEmail, 0, 7);
-        grid.add(custEmailTF, 1, 7);
+        grid.add(notesLabel, 0, 3);
+        grid.add(notesTF, 1, 3);
+        grid.add(cost, 0, 4);
+        grid.add(costTF, 1, 4);
+        grid.add(paymentTypeLabel, 0, 5);
+        grid.add(paymentType, 1, 5);
+        grid.add(custName, 0, 6);
+        grid.add(custNameTF, 1, 6);
+        grid.add(custPhone, 0, 7);
+        grid.add(custPhoneTF, 1, 7);
+        grid.add(custEmail, 0, 8);
+        grid.add(custEmailTF, 1, 8);
 
         submitButton = new Button("Submit");
         submitButton.setOnAction(e -> processAction(e));
@@ -187,8 +198,10 @@ public class TreeSaleInfoView extends View
     //-------------------------------------------------------------
     public void populateFields()
     {
-        barcodeTF.setText(myModel.getState("barcode").toString());
+       barcodeTF.setText(myModel.getState("barcode").toString());
         costTF.setText(myModel.getState("cost").toString());
+        statusTF.setText(stat);
+        notesTF.setText(notes);
 
 
 
