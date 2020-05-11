@@ -106,7 +106,7 @@ public class TreeSaleInfoView extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -141,6 +141,8 @@ public class TreeSaleInfoView extends View
 
         //Labels
         Text prompt =new Text("Enter Customer Info");
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        prompt.setFill(Color.RED);
         Label barcode = new Label("Barcode: ");
         Label cost = new Label("Cost: ");
         Label paymentTypeLabel = new Label("Payment Type: ");
@@ -210,33 +212,42 @@ public class TreeSaleInfoView extends View
 
     // process events generated from our GUI components
     //-------------------------------------------------------------
-    public void processAction(Event evt){
-        Alert alert;
-        alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setHeaderText(null);
-        alert.setContentText("Is the amount $" + costTF.getText() + " correct?" );
+    public void processAction(Event evt) {
+        System.out.println(paymentType.getValue());
+        if(paymentType.getValue()==null){
+            displayErrorMessage("Enter Payment Type");
+        }
+        else if ((custNameTF.getText().length() == 0) &&( custEmailTF.getText().length() == 0) &&
+        (custPhoneTF.getText().length() == 0)){
+            displayErrorMessage("Enter at least one customer info field");
 
-        ButtonType buttonTypeYes = new ButtonType("Yes");
-        ButtonType buttonTypeNo = new ButtonType("No");
-
-        alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == buttonTypeYes) {
-             makeTree();
-             updateTree();
-
-             TreeSale ts = new TreeSale();
-
-
-           myModel.stateChangeRequest("Return", null);
         } else {
-            alert.close();
-            displayErrorMessage("Confirm Cost");
-        }
+            Alert alert;
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("Is the amount $" + costTF.getText() + " correct?");
+
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == buttonTypeYes) {
+                makeTree();
+                updateTree();
+
+                TreeSale ts = new TreeSale();
+
+                displayMessage("Tree Sold Successfully!");
+
+            } else {
+                alert.close();
+                displayErrorMessage("Please Confirm Cost");
+            }
 
         }
 
-
+    }
 
     /**
      * Required by interface, but has no role here

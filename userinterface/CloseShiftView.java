@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -38,6 +39,7 @@ import javafx.util.Pair;
 import model.*;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
 
 /** The view to add a scout into the system*/
@@ -62,7 +64,7 @@ public class CloseShiftView extends View
     private TextField totalCheckTransactionAmountTF;
     private Button submitButton;
     private Button cancelButton;
-    DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
     Date dateobj = new Date();
     String today = df.format(dateobj);
     String startDt;
@@ -132,7 +134,7 @@ public class CloseShiftView extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -171,6 +173,8 @@ public class CloseShiftView extends View
 
         //Labels
         Text prompt =new Text("Close Shift");
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        prompt.setFill(Color.RED);
         Label sessionId = new Label("Session ID: ");
         Label startDate = new Label("Start Date: ");
         Label startTime = new Label("Start Time: ");
@@ -299,20 +303,24 @@ public class CloseShiftView extends View
             Session close = new Session(closeSes);
             close.save();
             alert.close();
-            myModel.stateChangeRequest("Return", null);
+            displayMessage("Shift Closed Successfully");
         } else {
             alert.close();
         }
     }
     public void getTextFieldInfo(){
+
         startPM = false;
         endPM = false;
         sessionId = openSession.get(0).getState("sessionId").toString();
         startDt = openSession.get(0).getState("startDate").toString();
+
+
+
         startTm = openSession.get(0).getState("startTime").toString();
         startHr = startTm.substring(0,2);
         startMin = startTm.substring(3,5);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+
         LocalDateTime now = LocalDateTime.now();
         endDt = now.toString().substring(0,10);
         endTm = openSession.get(0).getState("endTime").toString();

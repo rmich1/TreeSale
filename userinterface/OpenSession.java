@@ -106,7 +106,7 @@ public class OpenSession extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }

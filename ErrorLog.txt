@@ -37,3 +37,4 @@ The last packet successfully received from the server was 308,924 milliseconds a
 [5/1/20 11:05 AM]|Session|insertAutoIncrementalPersistentState|Error|NOTAG|null<SQL Exception: 1292: Data truncation: Incorrect time value: '' for column 'startTime' at row 1>
 [5/5/20 11:24 AM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: Bad format for Time '-02:30:00' in column 3>
 [5/5/20 11:43 AM]|SessionCollection|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 0: Bad format for Time '-02:30:00' in column 3>
+[5/11/20 11:19 AM]|Scout|updatePersistentState|Error|NOTAG|null<SQL Exception: 1406: Data truncation: Data too long for column 'troopId' at row 1>

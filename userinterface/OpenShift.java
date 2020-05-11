@@ -74,7 +74,8 @@ public class OpenShift extends View
     private Button addScout;
     private Button submitButton;
     private Button cancelButton;
-    DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+    DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+    DateFormat updatedFormat = new SimpleDateFormat("yyyy/MM/dd");
     Date dateobj = new Date();
     String today = df.format(dateobj);
 
@@ -116,7 +117,7 @@ public class OpenShift extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -173,6 +174,8 @@ public class OpenShift extends View
 
         //Labels
         Text prompt =new Text("Open Shift");
+        prompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        prompt.setFill(Color.RED);
         Label sessionId = new Label("Session ID: ");
         Label scoutId = new Label("Scout ID: ");
         Label startDate = new Label("Start Date: ");
@@ -256,6 +259,7 @@ public class OpenShift extends View
     // process events generated from our GUI components
     //-------------------------------------------------------------
     public void processAction(Event evt) {
+
         clearErrorMessage();
         if(scoutBox.getValue()==null){
             displayErrorMessage("Choose a scout");

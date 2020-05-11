@@ -99,7 +99,7 @@ public class TreeSaleView extends View
         titleText.setWrappingWidth(300);
         titleText.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titleText.setTextAlignment(TextAlignment.CENTER);
-        titleText.setFill(Color.BLACK);
+        titleText.setFill(Color.GREEN);
 
         return titleText;
     }
@@ -124,6 +124,8 @@ public class TreeSaleView extends View
 
         //Labels
         Text sellPrompt =new Text("Provide Tree Barcode");
+        sellPrompt.setFont(Font.font("Arial", FontWeight.BOLD,15));
+        sellPrompt.setFill(Color.RED);
         grid.add(sellPrompt, 0, 0);
         grid.add(barcode, 0, 1);
         grid.add(barcodeTf, 1, 1);
