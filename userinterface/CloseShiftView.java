@@ -89,7 +89,8 @@ public class CloseShiftView extends View
     String endDate;
     String militaryStartTime;
     String militaryEndTime;
-
+    DatePicker startPicker = new DatePicker();
+    DatePicker endPicker = new DatePicker();
 
 
     // For showing error message
@@ -187,18 +188,20 @@ public class CloseShiftView extends View
         Label startingCash = new Label("Starting Cash: ");
         Label endingCash = new Label("Ending Cash: ");
         Label totalCheckTrans = new Label("Total Check Transaction Amount: ");
+        startPicker.setValue(LocalDate.now());
+        endPicker.setValue(LocalDate.now());
         grid.add(prompt, 0, 0);
         grid.add(sessionId, 0, 1);
         grid.add(sessionIDTF, 1, 1);
         grid.add(startDate, 0, 2);
-        grid.add(startDateTF, 1, 2);
+        grid.add(startPicker, 1, 2);
         grid.add(startTime, 0, 3);
         grid.add(startTimeHourTF, 1, 3);
         grid.add(startSemi, 2, 3);
         grid.add(startTimeMinTF, 3, 3);
         grid.add(startAMPM, 4, 3);
         grid.add(endDate, 0, 4);
-        grid.add(endDateTF, 1, 4);
+        grid.add(endPicker, 1, 4);
         grid.add(endTime, 0, 5);
         grid.add(endTimeHourTF, 1, 5);
         grid.add(endSemi, 2, 5);
@@ -295,9 +298,9 @@ public class CloseShiftView extends View
             //String startTimeFinal = startTimeHourTF.getText() + ":" + startTimeMinTF.getText();
            // String endTimeFinal = endTimeHourTF.getText() + ":" + endTimeMinTF.getText();
             closeSes.setProperty("sessionId", sessionId);
-            closeSes.setProperty("startDate", startDateTF.getText());
+            closeSes.setProperty("startDate", startPicker.getValue().toString());
             closeSes.setProperty("startTime", militaryStartTime);
-            closeSes.setProperty("endDate", endDateTF.getText());
+            closeSes.setProperty("endDate", endPicker.getValue().toString());
             closeSes.setProperty("endTime", militaryEndTime);
             closeSes.setProperty("startingCash", startingCashTF.getText());
             closeSes.setProperty("totalCheckTransactionAmount", totalCheckTransactionAmountTF.getText());
@@ -338,7 +341,7 @@ public class CloseShiftView extends View
         startingCsh = openSession.get(0).getStartingCash();
         int startHour = Integer.parseInt(startHr);
         if(startHour > 12){
-            startHour = 12 - startHour;
+            startHour = startHour - 12;
             startHr = ""+startHour;
             startPM = true;
         }
