@@ -87,6 +87,8 @@ public class CloseShiftView extends View
     Boolean endPM;
     String startDate;
     String endDate;
+    String militaryStartTime;
+    String militaryEndTime;
 
 
 
@@ -289,13 +291,14 @@ public class CloseShiftView extends View
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeYes) {
             Properties closeSes = new Properties();
-            String startTimeFinal = startTimeHourTF.getText() + ":" + startTimeMinTF.getText();
-            String endTimeFinal = endTimeHourTF.getText() + ":" + endTimeMinTF.getText();
+            getMilitaryTime();
+            //String startTimeFinal = startTimeHourTF.getText() + ":" + startTimeMinTF.getText();
+           // String endTimeFinal = endTimeHourTF.getText() + ":" + endTimeMinTF.getText();
             closeSes.setProperty("sessionId", sessionId);
             closeSes.setProperty("startDate", startDateTF.getText());
-            closeSes.setProperty("startTime", startTimeFinal);
+            closeSes.setProperty("startTime", militaryStartTime);
             closeSes.setProperty("endDate", endDateTF.getText());
-            closeSes.setProperty("endTime", endTimeFinal);
+            closeSes.setProperty("endTime", militaryEndTime);
             closeSes.setProperty("startingCash", startingCashTF.getText());
             closeSes.setProperty("totalCheckTransactionAmount", totalCheckTransactionAmountTF.getText());
             closeSes.setProperty("endingCash", endingCashTF.getText());
@@ -377,6 +380,46 @@ public class CloseShiftView extends View
             }
         }
         return totalCheck;
+    }
+    public void getMilitaryTime(){
+        int hours = Integer.parseInt(startTimeHourTF.getText());
+        int minutes = Integer.parseInt(startTimeMinTF.getText());
+        if(startAMPM.getValue().equals("PM")){
+            if(hours != 12) {
+                hours = hours + 12;
+                System.out.println(hours);
+            }
+            else{
+                hours = 12;
+
+            }
+        }
+        if(startAMPM.getValue().equals("AM") && startTimeHourTF.getText().equals("12")){
+            militaryStartTime = "00:" + minutes;
+        }
+        else{
+            militaryStartTime = hours + ":" + minutes;
+        }
+        int endHours = Integer.parseInt(endTimeHourTF.getText());
+        int endMins = Integer.parseInt(endTimeMinTF.getText());
+        if(endAMPM.getValue().equals("PM")){
+            if(endHours != 12) {
+                endHours = endHours + 12;
+
+            }
+            else{
+                endHours = 12;
+
+            }
+        }
+        if(endAMPM.getValue().equals("AM") && endTimeHourTF.getText().equals("12")){
+            militaryEndTime = "00:" + endMins;
+        }
+        else{
+            militaryEndTime = endHours + ":" + minutes;
+        }
+
+
     }
     public void updateState (String key, Object value)
     {
