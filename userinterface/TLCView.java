@@ -136,7 +136,7 @@ public class TLCView extends View {
         updateTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
         deleteTreeType = new Button("Delete Tree Type");
         deleteTreeType.setOnAction(e -> myModel.stateChangeRequest("SearchTreeType", null));
-        openSession = new Button("Open Session");
+        openSession = new Button("Open Shift");
         openSession.setOnAction(e -> processOpenSession(e));
         sellTree = new Button("Sell Tree");
         sellTree.setOnAction(e -> processTreeSale(e));
