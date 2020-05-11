@@ -55,7 +55,7 @@ public class OpenShift extends View
     ScoutCollection activeScouts = new ScoutCollection();
     private ComboBox scoutBox;
     private TextField scoutIdTF;
-    private TextField startDateTF;
+    private DatePicker startPicker;
 
     private TextField startHourTF;
     private TextField startMinTF;
@@ -149,7 +149,8 @@ public class OpenShift extends View
        scoutBox = new ComboBox(FXCollections.observableArrayList(scouts));
 
         scoutIdTF = new TextField();
-        startDateTF = new TextField();
+        startPicker = new DatePicker();
+        startPicker.setValue(LocalDate.now());
         sessionIDTF = new TextField();
         startHourTF = new TextField();
         startMinTF = new TextField();
@@ -192,7 +193,7 @@ public class OpenShift extends View
         grid.add(scout, 0, 2);
         grid.add(scoutBox, 1, 2);
         grid.add(startDate, 0, 3);
-        grid.add(startDateTF, 1, 3);
+        grid.add(startPicker, 1, 3);
         grid.add(startTime, 0, 4);
         grid.add(startHourTF, 1, 4);
         grid.add(semi, 2, 4);
@@ -249,7 +250,6 @@ public class OpenShift extends View
 
         sessionIDTF.setText(myModel.getState("sessionId").toString());
 
-        startDateTF.setText(today);
         scoutBox.setPromptText("Choose a scout");
 
 
